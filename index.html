@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Spinvest</title>
+<meta name="description" content="Spinvest — in-site NFT access, daily tasks, and investment tools."/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --g0:#042f1a;--g1:#0b3d2e;--g2:#12b76a;--g3:#32d583;--g4:#a6f4c5;
+  --glass:rgba(255,255,255,.12);--glass2:rgba(255,255,255,.18);
+  --stroke:rgba(255,255,255,.28);--text:#f0fdf4;--muted:rgba(240,253,244,.72);
+  --danger:#fda29b;--shadow:0 12px 40px rgba(0,0,0,.35);
+}
+body{
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #1a6b4a 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, #0e4d38 0%, transparent 50%),
+    radial-gradient(800px 400px at 50% 100%, #065f46 0%, transparent 45%),
+    linear-gradient(165deg, #021a12 0%, #064e3b 40%, #022c22 100%);
+  background-attachment:fixed;
+}
+body::before{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.5;
+}
+.page{display:none;min-height:100vh;padding-bottom:96px;position:relative;z-index:1}
+.page.active{display:block;animation:rise .45s ease}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.container{max-width:480px;margin:0 auto;padding:16px}
+header{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  background:rgba(4,47,26,.55);
+  border-bottom:1px solid var(--stroke);
+}
+.back-btn,.icon-btn{
+  width:38px;height:38px;border-radius:12px;border:1px solid var(--stroke);
+  background:var(--glass);color:var(--text);font-size:16px;cursor:pointer;
+}
+.header-title{font-weight:700;font-size:16px;flex:1}
+.glass{
+  background:linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+  backdrop-filter:blur(20px) saturate(1.5);
+  -webkit-backdrop-filter:blur(20px) saturate(1.5);
+  border:1px solid var(--stroke);
+  border-radius:20px;
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.25);
+  padding:16px;
+  margin-bottom:12px;
+}
+.glass.glow{box-shadow:var(--shadow),0 0 40px rgba(18,183,106,.15), inset 0 1px 0 rgba(255,255,255,.25)}
+h1,h2,h3{letter-spacing:-.02em}
+.muted{color:var(--muted);font-size:13px;line-height:1.5}
+.btn{
+  display:block;width:100%;border:none;cursor:pointer;
+  border-radius:14px;padding:14px 16px;font-weight:700;font-size:15px;
+  background:linear-gradient(135deg,#12b76a,#059669);
+  color:#042f1a;box-shadow:0 8px 24px rgba(16,185,129,.35);
+}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.ghost{
+  background:var(--glass);color:var(--text);border:1px solid var(--stroke);box-shadow:none;
+}
+.btn.dark{background:rgba(0,0,0,.35);color:#fff;box-shadow:none}
+.btn.sm{width:auto;display:inline-block;padding:8px 14px;font-size:13px;border-radius:999px}
+input,select{
+  width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--stroke);
+  background:rgba(0,0,0,.25);color:var(--text);font-size:15px;margin-top:6px;margin-bottom:12px;
+  outline:none;
+}
+input::placeholder{color:rgba(240,253,244,.4)}
+label{font-size:12px;font-weight:600;color:var(--muted)}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:30;
+  display:flex;justify-content:space-around;
+  padding:10px 8px calc(10px + env(safe-area-inset-bottom));
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  background:rgba(2,26,18,.75);border-top:1px solid var(--stroke);
+}
+.nav button{
+  background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px;
+}
+.nav button.on{color:var(--g3)}
+.nav span{font-size:18px}
+.logo-row{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.logo{
+  width:48px;height:48px;border-radius:16px;
+  background:linear-gradient(145deg,#34d399,#059669);
+  display:flex;align-items:center;justify-content:center;font-weight:900;color:#042f1a;
+  box-shadow:0 0 30px rgba(52,211,153,.4);
+}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;
+  background:rgba(18,183,106,.2);border:1px solid rgba(52,211,153,.35);color:var(--g4);
+}
+.nft-grid{display:grid;gap:12px}
+.nft-card{
+  display:flex;gap:12px;align-items:center;
+  padding:14px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
+  border:1px solid var(--stroke);
+}
+.nft-emoji{
+  width:56px;height:56px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+  background:rgba(0,0,0,.25);border:1px solid var(--stroke);
+}
+.stat{font-size:22px;font-weight:800;color:var(--g3)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.task{
+  padding:14px;border-radius:16px;margin-bottom:10px;
+  background:rgba(255,255,255,.08);border:1px solid var(--stroke);
+}
+.task h4{font-size:14px;margin-bottom:4px}
+#toast{
+  position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);
+  background:rgba(4,47,26,.92);color:#fff;padding:12px 18px;border-radius:14px;
+  font-size:13px;font-weight:600;opacity:0;pointer-events:none;z-index:99;
+  border:1px solid var(--stroke);transition:.25s;max-width:90%;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.err{background:rgba(127,29,29,.92)}
+.liquid-orb{
+  width:120px;height:120px;border-radius:50%;margin:0 auto 16px;
+  background:radial-gradient(circle at 30% 30%, #a7f3d0, #059669 45%, #064e3b 80%);
+  box-shadow:0 0 60px rgba(16,185,129,.45), inset -10px -10px 30px rgba(0,0,0,.25);
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.legal p,.legal li{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px}
+.legal h3{margin:16px 0 8px;font-size:15px}
+a{color:var(--g3)}
+.empty{text-align:center;padding:24px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="container" style="padding-top:28px">
+    <div class="logo-row">
+      <div class="logo">S</div>
+      <div>
+        <div style="font-weight:800;font-size:20px">Spinvest</div>
+        <div class="muted" style="font-size:12px">Liquid growth · Green glass</div>
+      </div>
+    </div>
+    <div class="liquid-orb"></div>
+    <div class="glass glow" style="text-align:center">
+      <span class="pill">In-site NFTs · Tasks · Invest</span>
+      <h2 style="margin:14px 0 8px;font-size:22px">Grow with clarity</h2>
+      <p class="muted">Unlock themed NFT access, complete daily tasks, or use the investment vault. Weekly limits apply so progress is paced.</p>
+      <button class="btn" style="margin-top:14px" onclick="go('register')">Create account</button>
+      <button class="btn ghost" style="margin-top:8px" onclick="go('login')">Sign in</button>
+    </div>
+    <div class="glass">
+      <div class="row"><strong>Silver · VIP 1–5</strong><span class="muted">₦5k–₦100k</span></div>
+      <p class="muted" style="margin-top:8px">Start with Silver Bar (₦1,000). Upgrade VIP 1 (₦5,000) → VIP 5 BTC (₦100,000). VIP 1+ required to earn referrals. Min withdraw ₦40,000 / week.</p>
+    </div>
+    <div class="glass">
+      <div class="row"><strong>December promo</strong><span class="pill">+5%</span></div>
+      <p class="muted" style="margin-top:8px">Investment deposits in December get +5% instantly, then 0.40% daily credit on investment balance.</p>
+    </div>
+    <p class="muted" style="text-align:center;margin-top:8px;font-size:11px">
+      <a href="#" onclick="go('terms');return false">Terms</a> ·
+      <a href="#" onclick="go('privacy');return false">Privacy</a> ·
+      <a href="#" onclick="go('risk');return false">Risk</a>
+    </p>
+  </div>
+</div>
+
+<div class="page" id="page-login">
+  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Sign in</div></header>
+  <div class="container">
+    <div class="glass">
+      <label>Email</label><input id="loginEmail" type="email" placeholder="you@email.com"/>
+      <label>Password</label><input id="loginPass" type="password" placeholder="••••••"/>
+      <button class="btn" onclick="doLogin()">Sign in</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-register">
+  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Register</div></header>
+  <div class="container">
+    <div class="glass">
+      <label>Full name</label><input id="regName" placeholder="Your name"/>
+      <label>Email</label><input id="regEmail" type="email" placeholder="you@email.com"/>
+      <label>Phone</label><input id="regPhone" placeholder="080…"/>
+      <label>Password</label><input id="regPass" type="password" placeholder="Min 4 characters"/>
+      <label>Referral code (optional)</label><input id="regRef" placeholder="SPxxxxxx"/>
+      <button class="btn" onclick="doRegister()">Create account</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-dash">
+  <div class="container" style="padding-top:18px">
+    <div class="row" style="margin-bottom:14px">
+      <div>
+        <div class="muted" style="font-size:12px">Welcome</div>
+        <div style="font-weight:800;font-size:18px" id="dashName">—</div>
+      </div>
+      <span class="pill" id="dashNft">No NFT</span>
+    </div>
+    <div class="glass glow">
+      <div class="muted">Main balance</div>
+      <div class="stat" id="dashBal">₦0</div>
+      <div class="muted" style="margin-top:10px">Investment vault</div>
+      <div style="font-size:18px;font-weight:700;color:#a7f3d0" id="dashInv">₦0</div>
+    </div>
+    <div class="row" style="gap:8px;margin-bottom:12px">
+      <button class="btn" style="flex:1" onclick="go('nfts')">NFTs</button>
+      <button class="btn ghost" style="flex:1" onclick="go('invest')">Invest</button>
+    </div>
+    <div class="glass" onclick="go('tasks')" style="cursor:pointer">
+      <strong>Daily tasks</strong>
+      <p class="muted">Earn into main balance with your NFT</p>
+    </div>
+    <div class="glass" onclick="go('withdraw')" style="cursor:pointer">
+      <strong>Weekly withdraw</strong>
+      <p class="muted">Limits pace full exit over multiple weeks</p>
+    </div>
+    <div class="glass" onclick="go('invite')" style="cursor:pointer">
+      <strong>Invite · 10% to main balance</strong>
+      <p class="muted">When a referral’s deposit is approved</p>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-nfts">
+  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">NFT vaults</div></header>
+  <div class="container">
+    <p class="muted" style="margin-bottom:12px">Silver Bar (₦1k) is the entry pass. <b>VIP 1 starts at ₦5,000</b> and unlocks referrals. Highest is <b>VIP 5 · BTC at ₦100,000</b>. Minimum withdrawal is <b>₦40,000 per week</b>.</p>
+    <div class="nft-grid" id="nftList"></div>
+  </div>
+</div>
+
+<div class="page" id="page-invest">
+  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Investment</div></header>
+  <div class="container">
+    <div class="glass glow" id="decBanner" style="display:none">
+      <strong>🎄 December promo</strong>
+      <p class="muted" style="margin-top:6px">+5% credited as soon as your deposit is approved, then 0.40% of investment balance daily.</p>
+    </div>
+    <div class="glass">
+      <div class="muted">Investment balance</div>
+      <div class="stat" id="invBal">₦0</div>
+      <p class="muted" style="margin-top:8px">Daily credit applies once per Lagos day when you open the app. Not a bank product — see Risk disclosure.</p>
+    </div>
+    <div class="glass">
+      <label>Amount (min ₦5,000)</label>
+      <input type="number" id="invAmount" placeholder="5000"/>
+      <button class="btn" onclick="startInvest()">Deposit to invest</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-deposit">
+  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Transfer</div></header>
+  <div class="container">
+    <div class="glass glow">
+      <p class="muted">Send exactly</p>
+      <div class="stat" id="depAmount">₦0</div>
+      <p class="muted" style="margin-top:12px">Bank</p>
+      <div style="font-weight:700" id="depBank">—</div>
+      <p class="muted" style="margin-top:8px">Account number</p>
+      <div style="font-weight:700;font-size:18px" id="depAcc">—</div>
+      <p class="muted" style="margin-top:8px">Name</p>
+      <div style="font-weight:700" id="depName">—</div>
+      <button class="btn" id="btnPaystack" style="margin-top:16px;display:none" onclick="payWithPaystack()">Pay with Paystack</button>
+      <button class="btn ghost" style="margin-top:8px" onclick="toast('After bank transfer, wait for admin approval','ok')">I paid by bank transfer</button>
+      <button class="btn dark" style="margin-top:8px;display:none" id="btnVerifyPay" onclick="verifyPaystack()">I have completed Paystack</button>
+      <p class="muted" style="margin-top:10px;text-align:center">Paystack confirms automatically after verify. Bank transfer needs admin approval.</p>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-tasks">
+  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Tasks</div></header>
+  <div class="container">
+    <div class="glass" id="taskMeta"></div>
+    <div id="taskList"></div>
+  </div>
+</div>
+
+<div class="page" id="page-withdraw">
+  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Withdraw</div></header>
+  <div class="container">
+    <div class="glass">
+      <p class="muted">Weekly cap (Lagos week)</p>
+      <div class="stat" id="wdCap">₦0</div>
+      <p class="muted" style="margin-top:8px">Minimum <b>₦40,000</b> per withdrawal · weekly caps by VIP tier · VIP 1+ to refer.</p>
+    </div>
+    <div class="glass">
+      <label>Bank name</label><input id="wdBank" placeholder="UBA"/>
+      <label>Account number</label><input id="wdAcc" placeholder="0123456789"/>
+      <label>Account name</label><input id="wdName" placeholder="Your name"/>
+      <button class="btn ghost" onclick="saveBank()">Save bank</button>
+      <label style="margin-top:12px;display:block">Amount</label>
+      <input type="number" id="wdAmount" placeholder="2000"/>
+      <label>From</label>
+      <select id="wdSource"><option value="main">Main balance</option><option value="invest">Investment vault</option></select>
+      <button class="btn" onclick="doWithdraw()">Request withdrawal</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-invite">
+  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Invite</div></header>
+  <div class="container">
+    <div class="glass glow" style="text-align:center">
+      <p class="muted" id="refVipNote">VIP 1+ required to earn from referrals</p>
+      <p class="muted">Your code</p>
+      <div style="font-size:24px;font-weight:800;letter-spacing:.08em" id="refCode">—</div>
+      <p class="muted" style="margin-top:8px">Share link</p>
+      <div style="font-size:12px;word-break:break-all" id="refLink">—</div>
+      <button class="btn" style="margin-top:12px" onclick="copyRef()">Copy link</button>
+      <p class="muted" style="margin-top:12px">Earn <b>10%</b> of their approved deposit into your <b>main balance</b>. You must hold <b>VIP 1 or higher</b> to receive referral rewards.</p>
+    </div>
+    <div class="glass"><strong>Your referrals</strong><div id="refList" class="muted" style="margin-top:8px">Loading…</div></div>
+  </div>
+</div>
+
+<div class="page" id="page-history">
+  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">History</div></header>
+  <div class="container"><div id="histList"></div></div>
+</div>
+
+<div class="page" id="page-terms">
+  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Terms</div></header>
+  <div class="container legal glass">
+    <h3>1. Service</h3>
+    <p>Spinvest provides in-app NFT-style access passes, optional task rewards, and an investment-style balance tool. Spinvest is not a bank, microfinance bank, or licensed collective investment scheme unless separately stated with regulator approval.</p>
+    <h3>2. NFTs</h3>
+    <p>NFTs on Spinvest are digital access records themed after real-world value ideas (e.g. silver, gold, oil, property, Bitcoin). They are not blockchain tokens, not physical commodities, and carry no guarantee of resale or market value.</p>
+    <h3>3. Rewards & credits</h3>
+    <p>Task rewards, referral bonuses, promotional credits, and daily percentage credits are discretionary platform features. Rates may change. Past display of a rate is not a promise of future performance.</p>
+    <h3>4. Withdrawals</h3>
+    <p>Withdrawals are subject to minimum amounts, weekly caps, identity/bank checks, and processing times. Weekly caps are designed so large balances may take several weeks to fully withdraw.</p>
+    <h3>5. User duties</h3>
+    <p>You must provide accurate information, not abuse referrals or tasks, and not use the service for unlawful activity.</p>
+    <h3>6. Liability</h3>
+    <p>To the fullest extent permitted by law, Spinvest is not liable for indirect losses, lost profits, or delays caused by banks, networks, or third parties.</p>
+  </div>
+</div>
+
+<div class="page" id="page-privacy">
+  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Privacy</div></header>
+  <div class="container legal glass">
+    <h3>Data we collect</h3>
+    <p>Account data (name, email, phone), authentication data, transaction and balance records, device/log data needed to secure the service, and support messages you send.</p>
+    <h3>How we use data</h3>
+    <p>To operate accounts, process deposits/withdrawals, prevent fraud, comply with law, and improve the product. We do not sell your personal data.</p>
+    <h3>Sharing</h3>
+    <p>We may share data with infrastructure providers (e.g. hosting, database), and when required by law or to process payments via banks.</p>
+    <h3>Retention & security</h3>
+    <p>We retain records as needed for operations and legal obligations. No method of transmission is 100% secure; we apply reasonable safeguards.</p>
+    <h3>Your choices</h3>
+    <p>Contact support to request access or correction of your account data where applicable.</p>
+  </div>
+</div>
+
+<div class="page" id="page-risk">
+  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Risk disclosure</div></header>
+  <div class="container legal glass">
+    <p><strong>High risk.</strong> Digital rewards and high displayed daily rates are risky. You may lose funds. Only use money you can afford to lose.</p>
+    <p>Daily percentage credits (including 0.40%/day) are platform features, not guaranteed investment returns from regulated securities.</p>
+    <p>December promotional bonuses are limited-time features and may end without notice.</p>
+    <p>Spinvest does not provide personalized financial advice. If required under Nigerian law for your activities, obtain appropriate licences and advice.</p>
+  </div>
+</div>
+
+<div class="page" id="page-admin">
+  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Admin</div></header>
+  <div class="container">
+    <div class="glass" id="adminLoginBox">
+      <label>Admin password</label>
+      <input type="password" id="adminPass" placeholder="Password"/>
+      <button class="btn" onclick="adminLogin()">Enter</button>
+    </div>
+    <div id="adminPanel" style="display:none">
+      <div class="glass"><div id="adminStats" class="muted"></div></div>
+      <div class="glass"><strong>Pending deposits</strong><div id="adminDeps"></div></div>
+      <div class="glass"><strong>Pending withdrawals</strong><div id="adminWds"></div></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" id="mainNav" style="display:none">
+  <button type="button" data-go="dash"><span>🏠</span>Home</button>
+  <button type="button" data-go="tasks"><span>✅</span>Tasks</button>
+  <button type="button" data-go="nfts"><span>✨</span>NFTs</button>
+  <button type="button" data-go="invite"><span>👥</span>Invite</button>
+  <button type="button" data-go="withdraw"><span>💸</span>Wallet</button>
+</nav>
+
+<script>
+const API = window.location.origin;
+let token = localStorage.getItem('sp_token') || '';
+let adminToken = sessionStorage.getItem('sp_admin') || '';
+let user = null;
+let promo = null;
+let pendingDep = null;
+
+const $ = (id) => document.getElementById(id);
+function toast(msg, type) {
+  const el = $('toast');
+  el.textContent = msg;
+  el.className = 'show' + (type === 'err' ? ' err' : '');
+  setTimeout(() => { el.className = ''; }, 2800);
+}
+
+async function api(path, opts = {}) {
+  const headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
+  if (token) headers.Authorization = 'Bearer ' + token;
+  if (opts.admin && adminToken) headers.Authorization = 'Bearer ' + adminToken;
+  const res = await fetch(API + path, Object.assign({}, opts, { headers }));
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+function go(page) {
+  document.querySelectorAll('.page').forEach((p) => p.classList.remove('active'));
+  const el = $('page-' + page);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+  const nav = $('mainNav');
+  const authed = ['dash','nfts','invest','tasks','withdraw','invite','history','deposit'].includes(page);
+  nav.style.display = (token && authed) ? 'flex' : 'none';
+  nav.querySelectorAll('button').forEach((b) => {
+    b.classList.toggle('on', b.getAttribute('data-go') === page);
+  });
+  if (page === 'dash') loadDash();
+  if (page === 'nfts') loadNfts();
+  if (page === 'invest') loadInvest();
+  if (page === 'tasks') loadTasks();
+  if (page === 'withdraw') loadWithdraw();
+  if (page === 'invite') loadInvite();
+  if (page === 'history') loadHistory();
+  if (page === 'admin') {};
+}
+
+document.getElementById('mainNav').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-go]');
+  if (btn) go(btn.getAttribute('data-go'));
+});
+
+async function doRegister() {
+  try {
+    const body = {
+      name: $('regName').value.trim(),
+      email: $('regEmail').value.trim(),
+      phone: $('regPhone').value.trim(),
+      password: $('regPass').value,
+      referral_code: $('regRef').value.trim() || localStorage.getItem('sp_ref') || ''
+    };
+    const data = await api('/api/register', { method: 'POST', body: JSON.stringify(body) });
+    token = data.token; localStorage.setItem('sp_token', token); user = data.user;
+    toast('Welcome to Spinvest'); go('dash');
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+async function doLogin() {
+  try {
+    const data = await api('/api/login', { method: 'POST', body: JSON.stringify({
+      email: $('loginEmail').value.trim(),
+      password: $('loginPass').value
+    })});
+    token = data.token; localStorage.setItem('sp_token', token); user = data.user;
+    toast('Signed in'); go('dash');
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+async function loadDash() {
+  try {
+    user = await api('/api/me');
+    promo = await api('/api/promo');
+    $('dashName').textContent = user.name;
+    $('dashBal').textContent = '₦' + Number(user.balance || 0).toLocaleString();
+    $('dashInv').textContent = '₦' + Number(user.invest_balance || 0).toLocaleString();
+    $('dashNft').textContent = user.nft ? (user.nft.emoji + ' ' + user.nft.name) : 'Silver/VIP not set';
+  } catch (e) {
+    token = ''; localStorage.removeItem('sp_token'); go('login');
+  }
+}
+
+async function loadNfts() {
+  const list = await api('/api/nfts');
+  if (!promo) promo = await api('/api/promo');
+  $('nftList').innerHTML = list.map((n) => `
+    <div class="nft-card">
+      <div class="nft-emoji">${n.emoji}</div>
+      <div style="flex:1">
+        <div style="font-weight:800">${n.name}</div>
+        <div class="muted">${n.blurb}</div>
+        <div class="muted">Weekly cap ₦${n.weeklyCap.toLocaleString()} · Tasks ₦${n.taskMin}–${n.taskMax}</div>
+        <div style="margin-top:8px;font-weight:800;color:var(--g3)">₦${n.price.toLocaleString()}</div>
+      </div>
+      <button class="btn sm" onclick="buyNft('${n.id}')">Buy</button>
+    </div>
+  `).join('');
+}
+
+async function buyNft(id) {
+  try {
+    pendingDep = { kind: 'nft', item_id: id };
+    if (promo && promo.paystack) {
+      const init = await api('/api/paystack/init', { method: 'POST', body: JSON.stringify({ kind: 'nft', item_id: id }) });
+      pendingDep = Object.assign({ amount: null }, init);
+      // fetch amount from nfts list via init is enough
+      showDeposit(null, init);
+      return;
+    }
+    const dep = await api('/api/deposits', { method: 'POST', body: JSON.stringify({ kind: 'nft', item_id: id }) });
+    pendingDep = dep;
+    showDeposit(dep.amount);
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+async function loadInvest() {
+  user = await api('/api/me');
+  promo = await api('/api/promo');
+  $('invBal').textContent = '₦' + Number(user.invest_balance || 0).toLocaleString();
+  $('decBanner').style.display = promo.december ? 'block' : 'none';
+}
+
+async function startInvest() {
+  try {
+    const amount = Number($('invAmount').value);
+    pendingDep = { kind: 'invest', amount };
+    if (promo && promo.paystack) {
+      const init = await api('/api/paystack/init', { method: 'POST', body: JSON.stringify({ kind: 'invest', amount }) });
+      pendingDep = Object.assign({ amount }, init);
+      showDeposit(amount, init);
+      return;
+    }
+    const dep = await api('/api/deposits', { method: 'POST', body: JSON.stringify({ kind: 'invest', amount }) });
+    pendingDep = dep;
+    showDeposit(dep.amount);
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+function showDeposit(amount, payInit) {
+  if (!promo) return;
+  if (amount != null) $('depAmount').textContent = '₦' + Number(amount).toLocaleString();
+  else if (payInit && payInit.authorization_url) $('depAmount').textContent = 'Paystack checkout';
+  $('depBank').textContent = promo.bank.name;
+  $('depAcc').textContent = promo.bank.account_number;
+  $('depName').textContent = promo.bank.account_name;
+  const hasPs = !!(promo.paystack && payInit && payInit.authorization_url);
+  if ($('btnPaystack')) {
+    $('btnPaystack').style.display = hasPs ? 'block' : 'none';
+    $('btnPaystack').dataset.url = hasPs ? payInit.authorization_url : '';
+    $('btnPaystack').dataset.ref = hasPs ? (payInit.reference || '') : '';
+  }
+  if ($('btnVerifyPay')) {
+    $('btnVerifyPay').style.display = hasPs ? 'block' : 'none';
+    $('btnVerifyPay').dataset.ref = hasPs ? (payInit.reference || '') : '';
+  }
+  window._payRef = hasPs ? payInit.reference : '';
+  go('deposit');
+}
+
+function payWithPaystack() {
+  const url = $('btnPaystack') && $('btnPaystack').dataset.url;
+  if (url) window.open(url, '_blank');
+  else toast('Paystack link missing', 'err');
+}
+
+async function verifyPaystack() {
+  const ref = window._payRef || ($('btnVerifyPay') && $('btnVerifyPay').dataset.ref) || '';
+  if (!ref) return toast('No payment reference', 'err');
+  try {
+    await api('/api/paystack/verify?reference=' + encodeURIComponent(ref));
+    toast('Payment confirmed');
+    go('dash');
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+async function loadTasks() {
+  try {
+    const data = await api('/api/tasks');
+    if (data.locked) {
+      $('taskMeta').innerHTML = '<strong>Locked</strong><p class="muted">' + data.message + '</p><button class="btn" style="margin-top:10px" onclick="go(\'nfts\')">View NFTs</button>';
+      $('taskList').innerHTML = '';
+      return;
+    }
+    $('taskMeta').innerHTML = `<strong>${data.nft.emoji} ${data.nft.name}</strong><p class="muted">Up to ${data.nft.dailyTasks} tasks today · ${data.doneCount} done</p>`;
+    $('taskList').innerHTML = data.tasks.map((t) => `
+      <div class="task">
+        <div class="row">
+          <div><h4>${t.title}</h4><p class="muted">${t.desc}</p></div>
+          <span class="pill">${t.done ? 'Done' : t.rewardLabel}</span>
+        </div>
+        <button class="btn ${t.done ? 'dark' : ''}" style="margin-top:10px" ${t.done ? 'disabled' : ''} onclick="completeTask(${t.id})">${t.done ? 'Completed' : 'Complete'}</button>
+      </div>
+    `).join('');
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+async function completeTask(id) {
+  try {
+    const data = await api('/api/tasks/complete', { method: 'POST', body: JSON.stringify({ task_id: id }) });
+    toast('₦' + data.reward + ' earned');
+    loadTasks();
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+async function loadWithdraw() {
+  user = await api('/api/me');
+  $('wdBank').value = user.bank || '';
+  $('wdAcc').value = user.account_number || '';
+  $('wdName').value = user.account_name || '';
+  const nftCap = user.nft ? user.nft.weeklyCap : 0;
+  const invCap = user.invest_balance > 0 ? Math.max(40000, Math.floor(user.invest_balance * 0.1)) : 0;
+  const cap = Math.max(nftCap, invCap);
+  $('wdCap').textContent = '₦' + Number(cap).toLocaleString();
+}
+
+async function saveBank() {
+  try {
+    user = await api('/api/profile/bank', { method: 'POST', body: JSON.stringify({
+      bank: $('wdBank').value, account_number: $('wdAcc').value, account_name: $('wdName').value
+    })});
+    toast('Bank saved');
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+async function doWithdraw() {
+  try {
+    await api('/api/withdrawals', { method: 'POST', body: JSON.stringify({
+      amount: Number($('wdAmount').value),
+      source: $('wdSource').value
+    })});
+    toast('Withdrawal requested');
+    $('wdAmount').value = '';
+    loadDash();
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+async function loadInvite() {
+  user = await api('/api/me');
+  $('refCode').textContent = user.referral_code || '—';
+  const link = location.origin + '/?ref=' + encodeURIComponent(user.referral_code || '');
+  $('refLink').textContent = link;
+  const vip = (user.nft && user.nft.vip) || user.vip || 0;
+  if ($('refVipNote')) $('refVipNote').textContent = vip >= 1 ? 'VIP ' + vip + ' — referrals active' : 'Upgrade to VIP 1 (₦5,000) to earn referral rewards';
+  const list = await api('/api/referrals');
+  $('refList').innerHTML = list.length ? list.map((r) =>
+    `<div style="padding:8px 0;border-bottom:1px solid var(--stroke)">${r.name} · ${r.has_nft ? 'NFT' : '—'} · ${r.has_invest ? 'Invest' : '—'}</div>`
+  ).join('') : 'No referrals yet';
+}
+
+function copyRef() {
+  const t = $('refLink').textContent;
+  navigator.clipboard.writeText(t).then(() => toast('Copied')).catch(() => toast('Copy failed', 'err'));
+}
+
+async function loadHistory() {
+  const list = await api('/api/history');
+  $('histList').innerHTML = list.length ? list.map((h) =>
+    `<div class="glass row"><div><strong style="font-size:13px">${h.title}</strong><div class="muted">${h.status || ''}</div></div><div style="font-weight:700">₦${Number(h.amount||0).toLocaleString()}</div></div>`
+  ).join('') : '<div class="empty">No history</div>';
+}
+
+async function adminLogin() {
+  try {
+    const data = await api('/api/admin/login', { method: 'POST', body: JSON.stringify({ password: $('adminPass').value }) });
+    adminToken = data.token; sessionStorage.setItem('sp_admin', adminToken);
+    $('adminLoginBox').style.display = 'none';
+    $('adminPanel').style.display = 'block';
+    loadAdmin();
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+async function loadAdmin() {
+  const stats = await api('/api/admin/stats', { admin: true });
+  $('adminStats').textContent = `Users ${stats.users} · Pending deposits ${stats.pendingDep} · Pending withdrawals ${stats.pendingWd}`;
+  const deps = await api('/api/admin/deposits', { admin: true });
+  $('adminDeps').innerHTML = deps.length ? deps.map((d) =>
+    `<div class="row" style="margin-top:10px"><div class="muted">${d.user_name}<br>₦${Number(d.amount).toLocaleString()} · ${d.kind}</div>
+     <div><button class="btn sm" onclick="admDep('${d.id}',true)">OK</button>
+     <button class="btn sm dark" onclick="admDep('${d.id}',false)">X</button></div></div>`
+  ).join('') : '<p class="muted">None</p>';
+  const wds = await api('/api/admin/withdrawals', { admin: true });
+  $('adminWds').innerHTML = wds.length ? wds.map((w) =>
+    `<div class="row" style="margin-top:10px"><div class="muted">${w.user_name}<br>₦${Number(w.amount).toLocaleString()} · ${w.source}<br>${w.bank} ${w.account_number}</div>
+     <div><button class="btn sm" onclick="admWd('${w.id}',true)">Pay</button>
+     <button class="btn sm dark" onclick="admWd('${w.id}',false)">X</button></div></div>`
+  ).join('') : '<p class="muted">None</p>';
+}
+
+async function admDep(id, ok) {
+  await api('/api/admin/deposits/' + id + (ok ? '/approve' : '/reject'), { method: 'POST', admin: true, body: '{}' });
+  loadAdmin();
+}
+async function admWd(id, ok) {
+  await api('/api/admin/withdrawals/' + id + (ok ? '/approve' : '/reject'), { method: 'POST', admin: true, body: '{}' });
+  loadAdmin();
+}
+
+// ref from URL
+try {
+  const q = new URLSearchParams(location.search);
+  const r = q.get('ref');
+  if (r) localStorage.setItem('sp_ref', r.trim().toUpperCase());
+} catch (e) {}
+
+// secret admin
+function checkAdminHash() {
+  if (location.hash === '#sp-admin-x7') go('admin');
+}
+window.addEventListener('hashchange', checkAdminHash);
+
+(async function boot() {
+  try { promo = await api('/api/promo'); } catch (e) {}
+  if (token) {
+    try {
+      user = await api('/api/me');
+      const paid = new URLSearchParams(location.search).get('paid');
+      if (paid) {
+        try {
+          await api('/api/paystack/verify?reference=' + encodeURIComponent(paid));
+          toast('Payment confirmed');
+          history.replaceState({}, '', location.pathname);
+        } catch (e) { toast(e.message || 'Verify pending', 'err'); }
+      }
+      go('dash');
+      return;
+    } catch (e) {
+      token = ''; localStorage.removeItem('sp_token');
+    }
+  }
+  checkAdminHash();
+})();
+</script>
+</body>
+</html>
