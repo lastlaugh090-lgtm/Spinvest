@@ -160,19 +160,19 @@ a{color:var(--g3)}
     </div>
     <div class="liquid-orb"></div>
     <div class="glass glow" style="text-align:center">
-      <span class="pill">In-site NFTs · Tasks · Invest</span>
-      <h2 style="margin:14px 0 8px;font-size:22px">Grow with clarity</h2>
-      <p class="muted">Unlock themed NFT access, complete daily tasks, or use the investment vault. Weekly limits apply so progress is paced.</p>
+      <span class="pill">Secure · Simple · Structured</span>
+      <h2 style="margin:14px 0 8px;font-size:22px">Build with Spinvest</h2>
+      <p class="muted">A calm space for VIP access, daily activity, and long-term vault planning. Full details appear after you join.</p>
       <button class="btn" style="margin-top:14px" onclick="go('register')">Create account</button>
       <button class="btn ghost" style="margin-top:8px" onclick="go('login')">Sign in</button>
     </div>
     <div class="glass">
-      <div class="row"><strong>Silver · VIP 1–5</strong><span class="muted">₦5k–₦100k</span></div>
-      <p class="muted" style="margin-top:8px">Start with Silver Bar (₦1,000). Upgrade VIP 1 (₦5,000) → VIP 5 BTC (₦100,000). VIP 1+ required to earn referrals. Min withdraw ₦40,000 / week.</p>
+      <strong>Why Spinvest</strong>
+      <p class="muted" style="margin-top:8px">Verified bank accounts · clear VIP tiers · paced withdrawals · invite friends when eligible.</p>
     </div>
     <div class="glass">
-      <div class="row"><strong>December promo</strong><span class="pill">+5%</span></div>
-      <p class="muted" style="margin-top:8px">Investment deposits in December get +5% instantly, then 0.40% daily credit on investment balance.</p>
+      <strong>Getting started</strong>
+      <p class="muted" style="margin-top:8px">1. Create an account and verify your bank<br>2. Choose a VIP access pass<br>3. Use tasks or the investment vault</p>
     </div>
     <p class="muted" style="text-align:center;margin-top:8px;font-size:11px">
       <a href="#" onclick="go('terms');return false">Terms</a> ·
@@ -197,13 +197,25 @@ a{color:var(--g3)}
   <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Register</div></header>
   <div class="container">
     <div class="glass">
-      <label>Full name</label><input id="regName" placeholder="Your name"/>
-      <label>Email</label><input id="regEmail" type="email" placeholder="you@email.com"/>
-      <label>Phone</label><input id="regPhone" placeholder="080…"/>
-      <label>Password</label><input id="regPass" type="password" placeholder="Min 4 characters"/>
+      <label>Full name</label><input id="regName" placeholder="Your name" autocomplete="name"/>
+      <label>Email</label><input id="regEmail" type="email" placeholder="you@email.com" autocomplete="email"/>
+      <label>Phone</label><input id="regPhone" placeholder="080…" inputmode="tel"/>
+      <label>Password</label><input id="regPass" type="password" placeholder="Min 4 characters" autocomplete="new-password"/>
       <label>Referral code (optional)</label><input id="regRef" placeholder="SPxxxxxx"/>
-      <button class="btn" onclick="doRegister()">Create account</button>
     </div>
+    <div class="glass glow">
+      <strong style="font-size:14px">Bank verification</strong>
+      <p class="muted" style="margin:8px 0 12px">Select your bank and account number. Your <b>account name</b> is filled from the bank.</p>
+      <label>Bank</label>
+      <select id="regBank"></select>
+      <label>Account number</label>
+      <input id="regAcc" placeholder="10-digit account number" inputmode="numeric" maxlength="10"/>
+      <button type="button" class="btn ghost" onclick="verifyRegAccount()">Verify account</button>
+      <label style="margin-top:8px;display:block">Account name (from bank)</label>
+      <input id="regAccName" placeholder="Tap Verify account first" readonly style="opacity:.9"/>
+      <p class="muted" id="regVerifyStatus" style="margin-top:4px"></p>
+    </div>
+    <button class="btn" id="regBtn" onclick="doRegister()">Create account</button>
   </div>
 </div>
 
@@ -244,7 +256,7 @@ a{color:var(--g3)}
 <div class="page" id="page-nfts">
   <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">NFT vaults</div></header>
   <div class="container">
-    <p class="muted" style="margin-bottom:12px">Silver Bar (₦1k) is the entry pass. <b>VIP 1 starts at ₦5,000</b> and unlocks referrals. Highest is <b>VIP 5 · BTC at ₦100,000</b>. Minimum withdrawal is <b>₦40,000 per week</b>.</p>
+    <p class="muted" style="margin-bottom:12px">Choose an access tier that fits you. Higher VIP unlocks stronger task rewards and referral eligibility. Withdrawal rules apply after you join.</p>
     <div class="nft-grid" id="nftList"></div>
   </div>
 </div>
@@ -452,6 +464,7 @@ function go(page) {
   if (page === 'withdraw') loadWithdraw();
   if (page === 'invite') loadInvite();
   if (page === 'history') loadHistory();
+  if (page === 'register') loadBanks();
   if (page === 'admin') {};
 }
 
@@ -460,19 +473,74 @@ document.getElementById('mainNav').addEventListener('click', (e) => {
   if (btn) go(btn.getAttribute('data-go'));
 });
 
+let banksCache = [];
+async function loadBanks() {
+  try {
+    banksCache = await api('/api/banks');
+    const sel = $('regBank');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">Select bank</option>' + banksCache.map(function(b){
+      return '<option value="'+b.code+'" data-name="'+b.name.replace(/"/g,'')+'">'+b.name+'</option>';
+    }).join('');
+  } catch (e) {
+    if ($('regBank')) $('regBank').innerHTML = '<option value="">Banks unavailable</option>';
+  }
+}
+
+async function verifyRegAccount() {
+  const sel = $('regBank');
+  const code = sel && sel.value;
+  const acc = ($('regAcc').value || '').trim();
+  const st = $('regVerifyStatus');
+  if (!code) { toast('Select your bank', 'err'); return; }
+  if (!/^\d{10}$/.test(acc)) { toast('Enter 10-digit account number', 'err'); return; }
+  st.textContent = 'Checking with bank…';
+  try {
+    const data = await api('/api/resolve-account?account_number=' + encodeURIComponent(acc) + '&bank_code=' + encodeURIComponent(code));
+    $('regAccName').value = data.account_name || '';
+    st.textContent = 'Verified ✓';
+    st.style.color = '#32d583';
+    toast('Account verified');
+  } catch (e) {
+    $('regAccName').value = '';
+    st.textContent = e.message || 'Failed';
+    st.style.color = '#fda29b';
+    toast(e.message || 'Verify failed', 'err');
+  }
+}
+
 async function doRegister() {
   try {
+    const sel = $('regBank');
+    const bankName = sel && sel.selectedOptions[0] ? (sel.selectedOptions[0].getAttribute('data-name') || sel.selectedOptions[0].textContent) : '';
     const body = {
       name: $('regName').value.trim(),
       email: $('regEmail').value.trim(),
       phone: $('regPhone').value.trim(),
       password: $('regPass').value,
-      referral_code: $('regRef').value.trim() || localStorage.getItem('sp_ref') || ''
+      referral_code: $('regRef').value.trim() || localStorage.getItem('sp_ref') || '',
+      bank: bankName,
+      bank_code: sel ? sel.value : '',
+      account_number: ($('regAcc').value || '').trim(),
+      account_name: ($('regAccName').value || '').trim()
     };
+    if (!body.name || !body.email || !body.password) {
+      toast('Fill name, email and password', 'err'); return;
+    }
+    if (!body.bank || !body.account_number || !body.account_name) {
+      toast('Verify your bank account first', 'err'); return;
+    }
+    const btn = $('regBtn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Creating…'; }
     const data = await api('/api/register', { method: 'POST', body: JSON.stringify(body) });
     token = data.token; localStorage.setItem('sp_token', token); user = data.user;
     toast('Welcome to Spinvest'); go('dash');
-  } catch (e) { toast(e.message, 'err'); }
+  } catch (e) {
+    toast(e.message || 'Register failed', 'err');
+  } finally {
+    const btn = $('regBtn');
+    if (btn) { btn.disabled = false; btn.textContent = 'Create account'; }
+  }
 }
 
 async function doLogin() {

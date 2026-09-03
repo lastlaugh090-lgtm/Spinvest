@@ -33,6 +33,35 @@ const NFTS = [
   { id: 'vip5', name: 'VIP 5 · BTC', emoji: '₿', price: 100000, weeklyCap: 60000, taskMin: 700, taskMax: 1000, dailyTasks: 8, blurb: 'Highest VIP — Bitcoin vault', vip: 5 }
 ];
 
+
+const NG_BANKS = [
+  { name: 'Access Bank', code: '044' },
+  { name: 'Citibank Nigeria', code: '023' },
+  { name: 'Ecobank Nigeria', code: '050' },
+  { name: 'Fidelity Bank', code: '070' },
+  { name: 'First Bank of Nigeria', code: '011' },
+  { name: 'First City Monument Bank', code: '214' },
+  { name: 'Globus Bank', code: '00103' },
+  { name: 'Guaranty Trust Bank', code: '058' },
+  { name: 'Heritage Bank', code: '030' },
+  { name: 'Jaiz Bank', code: '301' },
+  { name: 'Keystone Bank', code: '082' },
+  { name: 'Kuda Bank', code: '50211' },
+  { name: 'Opay', code: '100004' },
+  { name: 'PalmPay', code: '100033' },
+  { name: 'Polaris Bank', code: '076' },
+  { name: 'Providus Bank', code: '101' },
+  { name: 'Stanbic IBTC Bank', code: '221' },
+  { name: 'Standard Chartered Bank', code: '068' },
+  { name: 'Sterling Bank', code: '232' },
+  { name: 'Union Bank of Nigeria', code: '032' },
+  { name: 'United Bank For Africa', code: '033' },
+  { name: 'Unity Bank', code: '215' },
+  { name: 'VFD Microfinance Bank', code: '566' },
+  { name: 'Wema Bank', code: '035' },
+  { name: 'Zenith Bank', code: '057' }
+];
+
 const INVEST_MIN = 5000;
 const REF_PERCENT = 0.10; // 10% of referral deposit → main balance
 const DAILY_RATE = 0.004; // 0.40% per day on investment balance
@@ -132,6 +161,8 @@ function sign(user) {
   return jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '90d' });
 }
 
+function authOptional(req, res, next) { next(); }
+
 function auth(req, res, next) {
   const h = req.headers.authorization || '';
   const token = h.startsWith('Bearer ') ? h.slice(7) : '';
@@ -223,10 +254,16 @@ function userVipLevel(user) {
 // —— Auth ——
 app.post('/api/register', async (req, res) => {
   try {
-    const { name, email, phone, password, referral_code } = req.body;
+    const { name, email, phone, password, referral_code, bank, account_number, account_name, bank_code } = req.body;
     if (!name || !email || !password) return res.status(400).json({ error: 'Name, email and password required' });
-    if (password.length < 4) return res.status(400).json({ error: 'Password too short' });
-    const exists = await User.findOne({ email: String(email).toLowerCase() });
+    if (String(password).length < 4) return res.status(400).json({ error: 'Password too short' });
+    if (!bank || !account_number || !account_name) {
+      return res.status(400).json({ error: 'Verify your bank account to continue' });
+    }
+    if (!/^\d{10}$/.test(String(account_number).trim())) {
+      return res.status(400).json({ error: 'Account number must be 10 digits' });
+    }
+    const exists = await User.findOne({ email: String(email).toLowerCase().trim() });
     if (exists) return res.status(400).json({ error: 'Email already registered' });
     let referredBy = null;
     if (referral_code) {
@@ -238,14 +275,18 @@ app.post('/api/register', async (req, res) => {
       name: String(name).trim(),
       email: String(email).toLowerCase().trim(),
       phone: (phone || '').trim(),
-      password: bcrypt.hashSync(password, 10),
+      password: bcrypt.hashSync(String(password), 10),
+      bank: String(bank).trim(),
+      account_number: String(account_number).trim(),
+      account_name: String(account_name).trim(),
       referral_code: myCode,
       referred_by: referredBy
     });
     const token = sign(user);
     res.json({ token, user: publicUser(user) });
   } catch (e) {
-    console.error(e);
+    console.error('register', e);
+    if (e && e.code === 11000) return res.status(400).json({ error: 'Email or referral code already exists' });
     res.status(500).json({ error: e.message || 'Register failed' });
   }
 });
@@ -282,6 +323,36 @@ app.post('/api/profile/bank', auth, async (req, res) => {
   await user.save();
   res.json(publicUser(user));
 });
+
+
+app.get('/api/banks', (req, res) => res.json(NG_BANKS));
+
+app.get('/api/resolve-account', authOptional, async (req, res) => {
+  try {
+    const secret = process.env.PAYSTACK_SECRET_KEY;
+    if (!secret) return res.status(400).json({ error: 'Account verify unavailable' });
+    const account_number = String(req.query.account_number || '').trim();
+    const bank_code = String(req.query.bank_code || '').trim();
+    if (!/^\d{10}$/.test(account_number)) return res.status(400).json({ error: 'Enter a valid 10-digit account number' });
+    if (!bank_code) return res.status(400).json({ error: 'Select your bank' });
+    const r = await fetch(
+      'https://api.paystack.co/bank/resolve?account_number=' + encodeURIComponent(account_number) + '&bank_code=' + encodeURIComponent(bank_code),
+      { headers: { Authorization: 'Bearer ' + secret } }
+    );
+    const data = await r.json();
+    if (!data.status || !data.data) {
+      return res.status(400).json({ error: data.message || 'Could not verify account' });
+    }
+    res.json({
+      account_number: data.data.account_number,
+      account_name: data.data.account_name,
+      bank_id: data.data.bank_id
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message || 'Verify failed' });
+  }
+});
+
 
 // —— Catalogue ——
 app.get('/api/nfts', (req, res) => res.json(NFTS));
