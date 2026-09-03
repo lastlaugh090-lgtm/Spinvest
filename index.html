@@ -212,48 +212,51 @@ a{color:var(--accent2);text-decoration:none}
   background:linear-gradient(90deg, transparent, rgba(61,214,198,.35), transparent);
 }
 
-.brand-sp{color:#2dd4bf;font-weight:900}
+.brand-sp{color:#2dd4bf;font-weight:900;font-size:1.35em;letter-spacing:-.02em}
 .brand-rest{color:var(--text);font-weight:700}
-/* coin → piggy animation */
+/* full piggy bank + coin through slot */
 .piggy-scene{
-  position:relative;width:140px;height:120px;margin:4px auto 22px;
+  position:relative;width:160px;height:150px;margin:6px auto 24px;
 }
-.piggy{
-  position:absolute;left:50%;bottom:8px;transform:translateX(-50%);
-  font-size:64px;line-height:1;
-  filter:drop-shadow(0 12px 24px rgba(0,0,0,.45));
-  z-index:1;
+.piggy-glow{
+  position:absolute;left:50%;bottom:4px;transform:translateX(-50%);
+  width:110px;height:22px;border-radius:50%;
+  background:radial-gradient(ellipse, rgba(45,212,191,.22), transparent 70%);
+  z-index:0;
 }
+.piggy-bank{
+  position:absolute;left:50%;bottom:12px;transform:translateX(-50%);
+  width:120px;height:88px;z-index:1;
+  filter:drop-shadow(0 14px 22px rgba(0,0,0,.45));
+}
+.piggy-bank svg{width:100%;height:100%;display:block}
 .coin{
-  position:absolute;left:50%;top:0;
-  width:28px;height:28px;margin-left:-14px;
+  position:absolute;left:50%;top:2px;
+  width:26px;height:26px;margin-left:-13px;
   border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, #fde68a, #d4af37 45%, #a16207 80%);
-  border:2px solid rgba(253,230,138,.8);
-  box-shadow:0 4px 12px rgba(212,175,55,.45), inset 0 -2px 4px rgba(0,0,0,.25);
-  z-index:2;
-  animation:coinDrop 2.4s ease-in-out infinite;
+  background:radial-gradient(circle at 30% 30%, #fde68a, #d4af37 50%, #a16207 85%);
+  border:2px solid rgba(253,230,138,.85);
+  box-shadow:0 4px 14px rgba(212,175,55,.5), inset 0 -2px 4px rgba(0,0,0,.25);
+  z-index:3;
+  animation:coinIntoSlot 2.6s ease-in infinite;
 }
 .coin::after{
   content:"₦";
   position:absolute;inset:0;
   display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:900;color:#78350f;
+  font-size:11px;font-weight:900;color:#78350f;
 }
-@keyframes coinDrop{
+@keyframes coinIntoSlot{
   0%{ transform:translateY(0) scale(1); opacity:1; }
-  55%{ transform:translateY(58px) scale(.9); opacity:1; }
-  70%{ transform:translateY(70px) scale(.55); opacity:.35; }
-  85%{ transform:translateY(70px) scale(.2); opacity:0; }
-  86%{ transform:translateY(0) scale(1); opacity:0; }
+  45%{ transform:translateY(42px) scale(1); opacity:1; }
+  58%{ transform:translateY(52px) scale(.85); opacity:.9; }
+  72%{ transform:translateY(58px) scale(.4); opacity:.25; }
+  80%{ transform:translateY(62px) scale(.15); opacity:0; }
+  81%{ transform:translateY(0) scale(1); opacity:0; }
   100%{ transform:translateY(0) scale(1); opacity:1; }
 }
-.piggy-glow{
-  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
-  width:90px;height:20px;border-radius:50%;
-  background:radial-gradient(ellipse, rgba(45,212,191,.25), transparent 70%);
-  z-index:0;
-}
+.brand-sp{color:#2dd4bf;font-weight:900;font-size:1.35em;letter-spacing:-.02em}
+
 
 </style>
 </head>
@@ -266,14 +269,44 @@ a{color:var(--accent2);text-decoration:none}
     <div class="logo-row">
       <div class="logo">S</div>
       <div>
-        <div style="font-weight:800;font-size:20px"><span class="brand-sp">Sp</span><span class="brand-rest">invest</span></div>
+        <div style="font-weight:800;font-size:22px"><span class="brand-sp">Sp</span><span class="brand-rest">invest</span></div>
         <div class="muted" style="font-size:12px">Cinematic finance · Private vault</div>
       </div>
     </div>
     <div class="piggy-scene" aria-hidden="true">
       <div class="piggy-glow"></div>
       <div class="coin"></div>
-      <div class="piggy">🐷</div>
+      <div class="piggy-bank">
+        <svg viewBox="0 0 120 88" xmlns="http://www.w3.org/2000/svg">
+          <!-- body -->
+          <ellipse cx="58" cy="52" rx="48" ry="32" fill="#f9a8d4"/>
+          <ellipse cx="58" cy="52" rx="48" ry="32" fill="url(#pg)" opacity=".9"/>
+          <!-- snout -->
+          <ellipse cx="98" cy="54" rx="14" ry="12" fill="#fbcfe8"/>
+          <circle cx="93" cy="54" r="2.2" fill="#9d174d"/>
+          <circle cx="102" cy="54" r="2.2" fill="#9d174d"/>
+          <!-- ear -->
+          <path d="M28 28 Q22 12 38 22 Z" fill="#f9a8d4" stroke="#f472b6" stroke-width="1"/>
+          <path d="M42 24 Q40 10 54 20 Z" fill="#fbcfe8"/>
+          <!-- eye -->
+          <circle cx="72" cy="40" r="4.5" fill="#fff"/>
+          <circle cx="73" cy="41" r="2.2" fill="#111827"/>
+          <!-- legs -->
+          <rect x="30" y="72" width="10" height="12" rx="3" fill="#f472b6"/>
+          <rect x="72" y="72" width="10" height="12" rx="3" fill="#f472b6"/>
+          <!-- tail -->
+          <path d="M12 50 Q2 42 8 36" fill="none" stroke="#f472b6" stroke-width="3" stroke-linecap="round"/>
+          <!-- coin slot on top -->
+          <rect x="48" y="22" width="22" height="5" rx="2.5" fill="#4c0519"/>
+          <rect x="50" y="23" width="18" height="3" rx="1.5" fill="#1f0208"/>
+          <defs>
+            <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#fbcfe8"/>
+              <stop offset="100%" stop-color="#f472b6"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
     </div>
     <div class="glass glow" style="text-align:center">
       <span class="pill">Secure · Simple · Structured</span>
