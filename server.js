@@ -325,12 +325,42 @@ app.post('/api/profile/bank', auth, async (req, res) => {
 });
 
 
-app.get('/api/banks', (req, res) => res.json(NG_BANKS));
+let banksCache = null;
+let banksCacheAt = 0;
+
+async function fetchPaystackBanks() {
+  const secret = process.env.PAYSTACK_SECRET_KEY;
+  if (!secret) return NG_BANKS.map((b) => ({ name: b.name, code: b.code }));
+  const now = Date.now();
+  if (banksCache && now - banksCacheAt < 6 * 60 * 60 * 1000) return banksCache;
+  const r = await fetch('https://api.paystack.co/bank?country=nigeria&perPage=100', {
+    headers: { Authorization: 'Bearer ' + secret }
+  });
+  const data = await r.json();
+  if (!data.status || !Array.isArray(data.data)) {
+    return NG_BANKS.map((b) => ({ name: b.name, code: b.code }));
+  }
+  banksCache = data.data
+    .filter((b) => b.active !== false && b.code)
+    .map((b) => ({ name: b.name, code: String(b.code) }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  banksCacheAt = now;
+  return banksCache;
+}
+
+app.get('/api/banks', async (req, res) => {
+  try {
+    const list = await fetchPaystackBanks();
+    res.json(list);
+  } catch (e) {
+    res.json(NG_BANKS.map((b) => ({ name: b.name, code: b.code })));
+  }
+});
 
 app.get('/api/resolve-account', authOptional, async (req, res) => {
   try {
     const secret = process.env.PAYSTACK_SECRET_KEY;
-    if (!secret) return res.status(400).json({ error: 'Account verify unavailable' });
+    if (!secret) return res.status(400).json({ error: 'Paystack key missing on server' });
     const account_number = String(req.query.account_number || '').trim();
     const bank_code = String(req.query.bank_code || '').trim();
     if (!/^\d{10}$/.test(account_number)) return res.status(400).json({ error: 'Enter a valid 10-digit account number' });
@@ -341,7 +371,12 @@ app.get('/api/resolve-account', authOptional, async (req, res) => {
     );
     const data = await r.json();
     if (!data.status || !data.data) {
-      return res.status(400).json({ error: data.message || 'Could not verify account' });
+      const msg = data.message || 'Could not verify account';
+      // friendlier tip
+      if (/bank code|not found/i.test(msg)) {
+        return res.status(400).json({ error: 'Bank code not accepted. Pick the exact bank from the list (refresh page). Fintech apps may use a different listing name.' });
+      }
+      return res.status(400).json({ error: msg });
     }
     res.json({
       account_number: data.data.account_number,
