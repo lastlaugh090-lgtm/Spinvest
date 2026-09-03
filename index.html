@@ -8,347 +8,170 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet"/>
 <meta name="description" content="Spinvest — in-site NFT access, daily tasks, and investment tools."/>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg0:#07090f;
-  --bg1:#0c1220;
-  --bg2:#111827;
-  --accent:#3dd6c6;
-  --accent2:#5eead4;
-  --accent-dim:rgba(61,214,198,.15);
-  --gold:#d4af37;
-  --text:#e8eef7;
-  --muted:rgba(232,238,247,.62);
-  --stroke:rgba(255,255,255,.10);
-  --glass:rgba(255,255,255,.06);
-  --glass2:rgba(255,255,255,.09);
-  --danger:#f87171;
-  --shadow:0 20px 50px rgba(0,0,0,.55);
-  --radius:18px;
+  --bg:#0a0c12;
+  --card:#141824;
+  --card2:#1a1f2e;
+  --blue:#3b82f6;
+  --blue2:#60a5fa;
+  --green:#22c55e;
+  --green2:#4ade80;
+  --gold:#fbbf24;
+  --purple:#a78bfa;
+  --pink:#f472b6;
+  --red:#f87171;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --stroke:rgba(255,255,255,.08);
 }
-html,body{min-height:100%}
-body{
-  font-family:"Segoe UI",Inter,system-ui,-apple-system,sans-serif;
-  color:var(--text);
-  background:var(--bg0);
-  line-height:1.45;
-  -webkit-font-smoothing:antialiased;
-}
-/* cinematic layered background */
-body::before{
-  content:"";
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(61,214,198,.18), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(15,60,90,.35), transparent 50%),
-    radial-gradient(ellipse 50% 40% at 0% 80%, rgba(80,50,120,.2), transparent 45%),
-    linear-gradient(180deg, #07090f 0%, #0a101c 40%, #07090f 100%);
-}
-body::after{
-  content:"";
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,.03) 2px,
-    rgba(0,0,0,.03) 4px
-  );
-  opacity:.4;
-}
-.page{display:none;min-height:100vh;padding-bottom:96px;position:relative;z-index:1}
-.page.active{display:block;animation:fadeUp .5s cubic-bezier(.22,1,.36,1)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.container{max-width:440px;margin:0 auto;padding:18px}
-header{
-  position:sticky;top:0;z-index:20;
-  display:flex;align-items:center;gap:10px;
-  padding:14px 16px;
-  background:rgba(7,9,15,.75);
-  backdrop-filter:blur(24px) saturate(1.2);
-  -webkit-backdrop-filter:blur(24px) saturate(1.2);
-  border-bottom:1px solid var(--stroke);
-}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:
+  radial-gradient(ellipse 80% 50% at 20% -10%,rgba(59,130,246,.18),transparent),
+  radial-gradient(ellipse 60% 40% at 90% 10%,rgba(34,197,94,.12),transparent),
+  radial-gradient(ellipse 50% 30% at 50% 100%,rgba(167,139,250,.1),transparent),
+  var(--bg)}
+a{color:var(--blue2);text-decoration:none}
+.page{display:none;min-height:100vh;padding-bottom:88px}
+.page.on{display:block}
+.container{max-width:480px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;gap:12px;padding:14px 16px;max-width:480px;margin:0 auto}
+.header-title{font-weight:800;font-size:17px;letter-spacing:-.02em}
 .back-btn,.icon-btn{
   width:40px;height:40px;border-radius:12px;border:1px solid var(--stroke);
-  background:var(--glass);color:var(--text);font-size:16px;cursor:pointer;
-  transition:background .2s;
+  background:var(--card);color:var(--text);display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer
 }
-.back-btn:active{background:var(--glass2)}
-.header-title{font-weight:650;font-size:15px;letter-spacing:.02em;flex:1}
-.glass{
-  background:linear-gradient(155deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-  backdrop-filter:blur(24px) saturate(1.3);
-  -webkit-backdrop-filter:blur(24px) saturate(1.3);
-  border:1px solid var(--stroke);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.08);
-  padding:18px;
-  margin-bottom:14px;
+.glass,.card{
+  background:var(--card);border:1px solid var(--stroke);border-radius:18px;
+  padding:16px;margin-bottom:12px
 }
-.glass.glow{
-  border-color:rgba(61,214,198,.22);
-  box-shadow:var(--shadow), 0 0 60px rgba(61,214,198,.08), inset 0 1px 0 rgba(255,255,255,.1);
-}
-h1,h2,h3{letter-spacing:-.03em;font-weight:700}
-.muted{color:var(--muted);font-size:13px;line-height:1.55}
+.glass.glow{box-shadow:0 0 0 1px rgba(59,130,246,.2),0 12px 40px rgba(0,0,0,.35)}
+.muted{color:var(--muted);font-size:13px;line-height:1.45}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .btn{
-  display:block;width:100%;border:none;cursor:pointer;
-  border-radius:14px;padding:15px 18px;font-weight:700;font-size:15px;
-  letter-spacing:.01em;
-  background:linear-gradient(135deg, #2dd4bf, #14b8a6 40%, #0d9488);
-  color:#041016;
-  box-shadow:0 10px 28px rgba(20,184,166,.28);
-  transition:transform .15s, filter .15s;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:14px 18px;border:none;border-radius:14px;
+  font-weight:700;font-size:15px;cursor:pointer;color:#fff;
+  background:linear-gradient(135deg,#3b82f6,#2563eb);
+  box-shadow:0 10px 28px rgba(59,130,246,.35);margin-top:8px
 }
 .btn:active{transform:scale(.98)}
-.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.btn.ghost{
-  background:rgba(255,255,255,.06);
-  color:var(--text);
-  border:1px solid var(--stroke);
-  box-shadow:none;
-}
-.btn.dark{
-  background:rgba(0,0,0,.4);
-  color:#fff;
-  box-shadow:none;
-  border:1px solid var(--stroke);
-}
-.btn.sm{
-  width:auto;display:inline-block;padding:9px 14px;font-size:12px;
-  border-radius:999px;letter-spacing:.02em;
-}
+.btn.sm{width:auto;padding:10px 16px;font-size:13px;margin:0;border-radius:12px}
+.btn.ghost{background:rgba(255,255,255,.06);box-shadow:none;border:1px solid var(--stroke);color:var(--text)}
+.btn-green{background:linear-gradient(135deg,#22c55e,#16a34a)!important;box-shadow:0 10px 28px rgba(34,197,94,.35)!important}
+.btn-gold{background:linear-gradient(135deg,#fbbf24,#d97706)!important;color:#1c1917!important;box-shadow:0 10px 28px rgba(251,191,36,.3)!important}
+.btn-purple{background:linear-gradient(135deg,#a78bfa,#7c3aed)!important;box-shadow:0 10px 28px rgba(167,139,250,.35)!important}
+label{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:10px 0 6px}
 input,select{
-  width:100%;padding:13px 14px;border-radius:12px;
-  border:1px solid var(--stroke);
-  background:rgba(0,0,0,.35);
-  color:var(--text);font-size:15px;
-  margin-top:6px;margin-bottom:12px;outline:none;
-  transition:border-color .2s;
+  width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--stroke);
+  background:#0d111a;color:var(--text);font-size:15px;outline:none
 }
-input:focus,select:focus{border-color:rgba(61,214,198,.45)}
-input::placeholder{color:rgba(232,238,247,.35)}
-label{font-size:11px;font-weight:650;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+input:focus,select:focus{border-color:rgba(59,130,246,.5)}
+.pill{
+  display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;
+  font-size:11px;font-weight:700;background:rgba(59,130,246,.15);color:var(--blue2);
+  border:1px solid rgba(59,130,246,.25)
+}
+.stat{font-size:28px;font-weight:800;letter-spacing:-.03em;color:var(--green2)}
+.film-line{height:1px;background:linear-gradient(90deg,transparent,var(--stroke),transparent);margin:14px 0}
 .nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:30;
-  display:flex;justify-content:space-around;
-  padding:10px 6px calc(10px + env(safe-area-inset-bottom));
-  background:rgba(7,9,15,.88);
-  backdrop-filter:blur(28px);
-  -webkit-backdrop-filter:blur(28px);
-  border-top:1px solid var(--stroke);
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  display:flex;justify-content:space-around;align-items:center;
+  padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(10,12,18,.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--stroke)
 }
 .nav button{
-  background:none;border:none;color:var(--muted);font-size:10px;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;gap:3px;min-width:58px;
-  letter-spacing:.04em;text-transform:uppercase;font-weight:600;
+  flex:1;background:none;border:none;color:var(--muted);font-size:10px;font-weight:700;
+  display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:6px 2px
 }
-.nav button.on{color:var(--accent2)}
-.nav span{font-size:18px}
-.nav-ic{display:flex;align-items:center;justify-content:center;width:22px;height:22px;margin-bottom:2px}
-.nav-ic svg{width:22px;height:22px;stroke-linecap:round;stroke-linejoin:round}
-.nav button.on .nav-ic{color:var(--accent2)}
-.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-.logo{
-  width:46px;height:46px;border-radius:14px;
-  background:linear-gradient(145deg, #5eead4, #0f766e);
-  display:flex;align-items:center;justify-content:center;
-  font-weight:900;color:#041016;font-size:18px;
-  box-shadow:0 0 40px rgba(45,212,191,.25);
+.nav button.on{color:var(--blue2)}
+.nav-ic{width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.nav-ic svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.toast{
+  position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);
+  background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;
+  opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:90%;text-align:center;
+  border:1px solid var(--stroke)
 }
-.pill{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:6px 12px;border-radius:999px;font-size:11px;font-weight:700;
-  letter-spacing:.04em;text-transform:uppercase;
-  background:var(--accent-dim);
-  border:1px solid rgba(61,214,198,.25);
-  color:var(--accent2);
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.brand-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.logo-mark{
+  width:44px;height:44px;border-radius:14px;
+  background:linear-gradient(135deg,#3b82f6,#22c55e,#fbbf24,#f472b6);
+  display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#fff
 }
-.nft-grid{display:grid;gap:12px}
-.nft-card{
-  display:flex;gap:12px;align-items:center;
-  padding:14px;border-radius:16px;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--stroke);
-  transition:border-color .2s;
+.brand-sp{color:#60a5fa;font-weight:800}
+.brand-rest{color:#fff;font-weight:700}
+.brand-title{font-size:22px;display:flex;align-items:baseline}
+.piggy-scene{width:120px;margin:8px auto 16px;position:relative}
+.piggy-photo{width:100%;height:auto;display:block;filter:drop-shadow(0 12px 24px rgba(0,0,0,.45));animation:floaty 3.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.greet{font-size:13px;color:var(--muted)}
+.greet-name{font-size:24px;font-weight:800;letter-spacing:-.03em;margin:2px 0 14px}
+.balance-card{
+  background:linear-gradient(160deg,#1a2236 0%,#121826 100%);
+  border:1px solid rgba(59,130,246,.3);border-radius:22px;padding:20px;margin-bottom:14px;
+  box-shadow:0 20px 50px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06)
 }
-.nft-card:active{border-color:rgba(61,214,198,.3)}
-.nft-emoji{
-  width:54px;height:54px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;font-size:26px;
-  background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(0,0,0,.25));
-  border:1px solid var(--stroke);
+.balance-card .label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.balance-card .amt{font-size:36px;font-weight:800;color:#fff;margin:8px 0 14px;letter-spacing:-.04em}
+.quick-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 14px}
+.quick-btn{
+  display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px;
+  border-radius:16px;border:1px solid var(--stroke);background:var(--card);cursor:pointer;
+  color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em
 }
-.stat{font-size:26px;font-weight:800;color:var(--accent2);letter-spacing:-.03em}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.task{
-  padding:14px;border-radius:16px;margin-bottom:10px;
-  background:rgba(255,255,255,.04);border:1px solid var(--stroke);
+.qico{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+.qico.earn{background:rgba(59,130,246,.2);color:#60a5fa}
+.qico.wd{background:rgba(34,197,94,.2);color:#4ade80}
+.qico.ref{background:rgba(251,191,36,.2);color:#fbbf24}
+.qico.up{background:rgba(244,114,182,.2);color:#f472b6}
+.trust-strip{
+  background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);
+  border-radius:16px;padding:12px 14px;margin-bottom:14px
 }
-.task h4{font-size:14px;margin-bottom:4px;font-weight:650}
-#toast{
-  position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(16px);
-  background:rgba(12,18,32,.95);color:#fff;padding:12px 18px;border-radius:14px;
-  font-size:13px;font-weight:600;opacity:0;pointer-events:none;z-index:99;
-  border:1px solid var(--stroke);transition:.25s;max-width:90%;
-  box-shadow:0 12px 40px rgba(0,0,0,.4);
-}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#toast.err{border-color:rgba(248,113,113,.4);background:rgba(40,12,12,.95)}
-.liquid-orb{
-  width:100px;height:100px;border-radius:50%;margin:8px auto 20px;
-  background:
-    radial-gradient(circle at 32% 28%, rgba(255,255,255,.35), transparent 40%),
-    radial-gradient(circle at 50% 50%, #2dd4bf 0%, #0f766e 45%, #042f2e 75%);
-  box-shadow:
-    0 0 80px rgba(45,212,191,.3),
-    0 20px 40px rgba(0,0,0,.4),
-    inset -8px -12px 24px rgba(0,0,0,.35);
-  animation:float 5s ease-in-out infinite;
-}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.legal p,.legal li{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:10px}
-.legal h3{margin:16px 0 8px;font-size:14px;color:var(--text);letter-spacing:.02em}
-a{color:var(--accent2);text-decoration:none}
-.empty{text-align:center;padding:28px;color:var(--muted);font-size:13px}
-
-.piggy-scene{
-  position:relative;
-  width:140px;
-  height:170px;
-  margin:4px auto 16px;
-}
-.piggy-photo{
-  position:absolute;
-  left:0;right:0;bottom:0;
-  width:140px;
-  height:auto;
-  display:block;
-  animation:piggyFloat 3.5s ease-in-out infinite;
-  filter:drop-shadow(0 12px 24px rgba(0,0,0,.4));
-  z-index:1;
-}
-@keyframes piggyFloat{
-  0%,100%{ transform:translateY(0); }
-  50%{ transform:translateY(-5px); }
-}
-.piggy-scene .coin{display:none !important;
-  position:absolute;
-  left:50%;
-  top:0;
-  width:22px;height:22px;
-  margin-left:-11px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 28%, #fef9c3, #fbbf24 45%, #b45309 85%);
-  border:2px solid #fde68a;
-  box-shadow:0 3px 10px rgba(251,191,36,.5);
-  z-index:2;
-  animation:coinIntoSlot 2.6s ease-in-out infinite;
-}
-.piggy-scene .coin::after{
-  content:"₿";
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:900;color:#78350f;
-}
-@keyframes coinIntoSlot{
-  0%{ transform:translateY(0) scale(1); opacity:1; }
-  50%{ transform:translateY(28px) scale(1); opacity:1; }
-  65%{ transform:translateY(38px) scale(.75); opacity:.85; }
-  80%{ transform:translateY(46px) scale(.25); opacity:0; }
-  81%{ transform:translateY(0) scale(1); opacity:0; }
-  100%{ transform:translateY(0) scale(1); opacity:1; }
-}
-
-
+.trust-item{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--muted);margin:6px 0}
+.trust-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(34,197,94,.6)}
 .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.dash-tile{margin-bottom:0;min-height:110px}
-.dash-tile .tile-label{
-  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--accent2);opacity:.85;margin-bottom:6px;
-}
+.dash-tile{margin:0;min-height:108px;cursor:pointer}
+.tile-label{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue2);margin-bottom:6px}
 .dash-tile strong{display:block;font-size:14px;margin-bottom:4px}
-.dash-hero{padding:20px}
-
-.film-line{
-  height:1px;margin:16px 0;
-  background:linear-gradient(90deg, transparent, rgba(61,214,198,.35), transparent);
+.support-link{
+  display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;
+  background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);cursor:pointer
 }
-
-.brand-sp{font-family:"Outfit",system-ui,sans-serif;color:#2dd4bf;font-weight:800;font-size:1.25em;letter-spacing:-.03em}
-.brand-title{font-size:24px;line-height:1.15;display:flex;align-items:baseline;gap:0}
-.brand-rest{font-family:"Outfit",system-ui,sans-serif;color:#e8eef7;font-weight:600;letter-spacing:-.02em}
-/* full piggy bank + coin through slot */
-.piggy-scene{
-  position:relative;width:160px;height:150px;margin:6px auto 24px;
+/* VIP cards — colourful */
+.nft-card{
+  display:flex;align-items:center;gap:14px;padding:16px;margin-bottom:12px;
+  border-radius:18px;background:var(--card);border:1px solid var(--stroke);position:relative;overflow:hidden
 }
-.piggy-glow{
-  position:absolute;left:50%;bottom:4px;transform:translateX(-50%);
-  width:110px;height:22px;border-radius:50%;
-  background:radial-gradient(ellipse, rgba(45,212,191,.22), transparent 70%);
-  z-index:0;
+.nft-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent-line,#3b82f6)}
+.nft-emoji{
+  width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:18px;flex-shrink:0;background:rgba(59,130,246,.15);color:var(--blue2)
 }
-.piggy-bank{
-  position:absolute;left:50%;bottom:12px;transform:translateX(-50%);
-  width:120px;height:88px;z-index:1;
-  filter:drop-shadow(0 14px 22px rgba(0,0,0,.45));
-}
-.piggy-bank svg{width:100%;height:100%;display:block}
-.coin{
-  position:absolute;left:50%;top:2px;
-  width:26px;height:26px;margin-left:-13px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, #fde68a, #d4af37 50%, #a16207 85%);
-  border:2px solid rgba(253,230,138,.85);
-  box-shadow:0 4px 14px rgba(212,175,55,.5), inset 0 -2px 4px rgba(0,0,0,.25);
-  z-index:3;
-  animation:coinIntoSlot 2.6s ease-in infinite;
-}
-.coin::after{
-  content:"₦";
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:900;color:#78350f;
-}
-.piggy-scene{position:relative;width:180px;height:160px;margin:4px auto 20px}
-.piggy-bank{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:160px;height:112px;z-index:1}
-.piggy-bank svg{width:100%;height:100%;display:block}
-.coin{
-  position:absolute;left:50%;top:0;
-  width:24px;height:24px;margin-left:-12px;
-  border-radius:50%;
-  background:radial-gradient(circle at 32% 28%, #fef3c7, #fbbf24 42%, #b45309 85%);
-  border:2px solid #fde68a;
-  box-shadow:0 4px 16px rgba(251,191,36,.55), inset 0 -2px 3px rgba(0,0,0,.2);
-  z-index:3;
-  animation:coinIntoSlot 2.8s cubic-bezier(.4,0,.2,1) infinite;
-}
-.coin::after{
-  content:"₦";
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:900;color:#78350f;
-}
-@keyframes coinIntoSlot{
-  0%{ transform:translateY(0) scale(1) rotate(0deg); opacity:1; }
-  40%{ transform:translateY(36px) scale(1) rotate(25deg); opacity:1; }
-  55%{ transform:translateY(48px) scale(.9) rotate(40deg); opacity:1; }
-  68%{ transform:translateY(54px) scale(.55) rotate(90deg); opacity:.5; }
-  78%{ transform:translateY(58px) scale(.2) rotate(120deg); opacity:0; }
-  79%{ transform:translateY(0) scale(1) rotate(0deg); opacity:0; }
-  100%{ transform:translateY(0) scale(1) rotate(0deg); opacity:1; }
-}
-.piggy-glow{
-  position:absolute;left:50%;bottom:6px;transform:translateX(-50%);
-  width:120px;height:24px;border-radius:50%;
-  background:radial-gradient(ellipse, rgba(45,212,191,.2), transparent 70%);
-  z-index:0;
-}
-
-
+.nft-card[data-tier="0"]{--accent-line:#94a3b8}.nft-card[data-tier="0"] .nft-emoji{background:rgba(148,163,184,.2);color:#cbd5e1}
+.nft-card[data-tier="1"]{--accent-line:#22c55e}.nft-card[data-tier="1"] .nft-emoji{background:rgba(34,197,94,.2);color:#4ade80}
+.nft-card[data-tier="2"]{--accent-line:#fbbf24}.nft-card[data-tier="2"] .nft-emoji{background:rgba(251,191,36,.2);color:#fbbf24}
+.nft-card[data-tier="3"]{--accent-line:#3b82f6}.nft-card[data-tier="3"] .nft-emoji{background:rgba(59,130,246,.2);color:#60a5fa}
+.nft-card[data-tier="4"]{--accent-line:#a78bfa}.nft-card[data-tier="4"] .nft-emoji{background:rgba(167,139,250,.2);color:#c4b5fd}
+.nft-card[data-tier="5"]{--accent-line:#f472b6}.nft-card[data-tier="5"] .nft-emoji{background:rgba(244,114,182,.2);color:#f9a8d4}
+.price-tag{font-size:18px;font-weight:800;color:var(--green2);margin-top:8px}
+.task-card{border-left:3px solid var(--blue)}
+.home-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.home-stat{background:var(--card);border:1px solid var(--stroke);border-radius:14px;padding:12px 8px;text-align:center}
+.home-stat b{display:block;font-size:16px;font-weight:800;margin-bottom:2px}
+.home-stat span{font-size:10px;color:var(--muted);font-weight:600}
+.home-stat:nth-child(1) b{color:var(--blue2)}
+.home-stat:nth-child(2) b{color:var(--green2)}
+.home-stat:nth-child(3) b{color:var(--pink)}
 </style>
+
 </head>
 <body>
 <div id="toast"></div>
@@ -374,8 +197,9 @@ a{color:var(--accent2);text-decoration:none}
       <button class="btn ghost" style="margin-top:8px" onclick="go('login')">Sign in</button>
     </div>
     <div class="glass">
-      <strong>Why Spinvest</strong>
-      <p class="muted" style="margin-top:8px">Verified bank accounts · clear VIP tiers · paced withdrawals · invite friends when eligible.</p>
+      <strong>Built for clarity</strong>
+      <p class="muted" style="margin-top:8px">Bank verification at signup · Paystack-secured payments · published withdrawal rules · optional invites.</p>
+      <div class="pulse-bar"></div>
     </div>
     <div class="glass">
       <strong>Getting started</strong>
@@ -434,101 +258,74 @@ a{color:var(--accent2);text-decoration:none}
 
 <div class="page" id="page-dash">
   <div class="container" style="padding-top:18px">
-    <div class="row" style="margin-bottom:14px">
+    <div class="row" style="margin-bottom:4px">
       <div>
-        <div class="muted" style="font-size:12px">Welcome</div>
-        <div style="font-weight:800;font-size:18px" id="dashName">—</div>
+        <div class="greet" id="dashGreet">Welcome back</div>
+        <div class="greet-name" id="dashName">—</div>
       </div>
-      <span class="pill" id="dashNft">No NFT</span>
+      <span class="pill" id="dashNft">No VIP</span>
     </div>
-    <div class="glass glow dash-hero">
-      <div class="row">
-        <div>
-          <div class="muted" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase">Portfolio</div>
-          <div class="stat" id="dashBal">₦0</div>
-          <div class="muted" style="margin-top:2px">Main balance</div>
-        </div>
-        <div style="text-align:right">
-          <div class="muted" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase">Vault</div>
-          <div style="font-size:20px;font-weight:700;color:var(--accent2)" id="dashInv">₦0</div>
-          <div class="muted" style="margin-top:2px">Investment</div>
-        </div>
+
+    <div class="balance-card">
+      <div class="label">Available balance</div>
+      <div class="amt" id="dashBal">₦0</div>
+      <div class="row" style="gap:8px;margin-bottom:4px">
+        <button class="btn btn-green" style="flex:1;margin:0" onclick="go('withdraw')">Withdraw</button>
+        <button class="btn btn-gold" style="flex:1;margin:0" onclick="go('tasks')">Earn</button>
       </div>
       <div class="film-line"></div>
-      <div class="row" style="gap:8px">
-        <button class="btn" style="flex:1;margin:0" onclick="go('nfts')">Get VIP</button>
-        <button class="btn ghost" style="flex:1;margin:0" onclick="go('invest')">Invest</button>
+      <div class="row">
+        <div>
+          <div class="muted" style="font-size:11px">Investment vault</div>
+          <div style="font-weight:800;color:var(--accent2);font-size:18px" id="dashInv">₦0</div>
+        </div>
+        <button class="btn ghost sm" onclick="go('invest')">Manage</button>
       </div>
     </div>
+
+    <div class="quick-row">
+      <button type="button" class="quick-btn" onclick="go('tasks')"><span class="qico earn">⚡</span>Earn</button>
+      <button type="button" class="quick-btn" onclick="go('withdraw')"><span class="qico wd">₦</span>Wallet</button>
+      <button type="button" class="quick-btn" onclick="go('invite')"><span class="qico ref">＋</span>Refer</button>
+      <button type="button" class="quick-btn" onclick="go('nfts')"><span class="qico up">↑</span>VIP</button>
+    </div>
+
+    <div class="trust-strip">
+      <div class="trust-item"><span class="trust-dot"></span>Bank verified on signup</div>
+      <div class="trust-item"><span class="trust-dot"></span>Paystack-secured checkout</div>
+      <div class="trust-item"><span class="trust-dot"></span>Published weekly withdraw rules</div>
+    </div>
+
     <div class="dash-grid">
       <div class="glass dash-tile" onclick="go('tasks')" style="cursor:pointer">
         <div class="tile-label">Activity</div>
         <strong>Daily tasks</strong>
-        <p class="muted">Complete actions tied to your VIP tier</p>
+        <p class="muted">Finish tasks · credit hits main balance</p>
       </div>
-      <div class="glass dash-tile" onclick="go('withdraw')" style="cursor:pointer">
-        <div class="tile-label">Liquidity</div>
-        <strong>Withdraw</strong>
-        <p class="muted">Weekly window · structured limits</p>
+      <div class="glass dash-tile" onclick="go('nfts')" style="cursor:pointer">
+        <div class="tile-label">Upgrade</div>
+        <strong>VIP access</strong>
+        <p class="muted">Higher tiers · more task slots</p>
       </div>
       <div class="glass dash-tile" onclick="go('invite')" style="cursor:pointer">
         <div class="tile-label">Network</div>
         <strong>Invite</strong>
-        <p class="muted">Share your code · earn when they fund</p>
+        <p class="muted">Share code · earn on funded joins</p>
       </div>
-      <div class="glass dash-tile" onclick="go('history')" style="cursor:pointer">
-        <div class="tile-label">Ledger</div>
-        <strong>History</strong>
-        <p class="muted">Credits, deposits & payouts</p>
+      <div class="glass dash-tile" onclick="go('support')" style="cursor:pointer">
+        <div class="tile-label">Help</div>
+        <strong>Support</strong>
+        <p class="muted">Telegram & contact options</p>
       </div>
     </div>
-  </div>
-</div>
 
-<div class="page" id="page-nfts">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">VIP access</div></header>
-  <div class="container">
-    <p class="muted" style="margin-bottom:12px">Choose an access tier that fits you. Higher VIP unlocks stronger task rewards and referral eligibility. Withdrawal rules apply after you join.</p>
-    <div class="nft-grid" id="nftList"></div>
-  </div>
-</div>
-
-<div class="page" id="page-invest">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Investment</div></header>
-  <div class="container">
-    <div class="glass glow" id="decBanner" style="display:none">
-      <strong>🎄 December promo</strong>
-      <p class="muted" style="margin-top:6px">+5% credited as soon as your deposit is approved, then 0.40% of investment balance daily.</p>
-    </div>
-    <div class="glass">
-      <div class="muted">Investment balance</div>
-      <div class="stat" id="invBal">₦0</div>
-      <p class="muted" style="margin-top:8px">Daily credit applies once per Lagos day when you open the app. Not a bank product — see Risk disclosure.</p>
-    </div>
-    <div class="glass">
-      <label>Amount (min ₦5,000)</label>
-      <input type="number" id="invAmount" placeholder="5000"/>
-      <button class="btn" onclick="startInvest()">Deposit to invest</button>
-    </div>
-  </div>
-</div>
-
-<div class="page" id="page-deposit">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Transfer</div></header>
-  <div class="container">
-    <div class="glass glow">
-      <p class="muted">Send exactly</p>
-      <div class="stat" id="depAmount">₦0</div>
-      <p class="muted" style="margin-top:12px">Bank</p>
-      <div style="font-weight:700" id="depBank">—</div>
-      <p class="muted" style="margin-top:8px">Account number</p>
-      <div style="font-weight:700;font-size:18px" id="depAcc">—</div>
-      <p class="muted" style="margin-top:8px">Name</p>
-      <div style="font-weight:700" id="depName">—</div>
-      <button class="btn" id="btnPaystack" style="margin-top:16px;display:none" onclick="payWithPaystack()">Pay with Paystack</button>
-      <button class="btn ghost" style="margin-top:8px" onclick="toast('After bank transfer, wait for admin approval','ok')">I paid by bank transfer</button>
-      <button class="btn dark" style="margin-top:8px;display:none" id="btnVerifyPay" onclick="verifyPaystack()">I have completed Paystack</button>
-      <p class="muted" style="margin-top:10px;text-align:center">Paystack confirms automatically after verify. Bank transfer needs admin approval.</p>
+    <div class="support-link" onclick="go('support')">
+      <div style="width:40px;height:40px;border-radius:12px;background:rgba(59,130,246,.25);display:flex;align-items:center;justify-content:center;font-size:18px">💬</div>
+      <div style="flex:1">
+        <strong style="font-size:13px">Need help?</strong>
+        <div class="muted" style="font-size:12px">Open support — change links anytime</div>
+      </div>
+      <span style="color:var(--muted)">›</span>
     </div>
   </div>
 </div>
@@ -640,6 +437,39 @@ a{color:var(--accent2);text-decoration:none}
       <div class="glass"><div id="adminStats" class="muted"></div></div>
       <div class="glass"><strong>Pending deposits</strong><div id="adminDeps"></div></div>
       <div class="glass"><strong>Pending withdrawals</strong><div id="adminWds"></div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SUPPORT -->
+<div class="page" id="page-support">
+  <header>
+    <button class="back-btn" onclick="go('dash')">←</button>
+    <div class="header-title">Support</div>
+  </header>
+  <div class="container">
+    <div class="glass glow">
+      <strong style="font-size:16px">We're here to help</strong>
+      <p class="muted" style="margin-top:8px">Reach the Spinvest team for account, deposit, or withdrawal questions. Response times may vary.</p>
+    </div>
+    <div class="glass">
+      <strong>Telegram</strong>
+      <p class="muted" style="margin:8px 0 12px">Primary support channel</p>
+      <a class="btn btn-blue" href="https://t.me/LASTTECHNIGERIA" target="_blank" rel="noopener">Open Telegram</a>
+    </div>
+    <div class="glass">
+      <strong>Email</strong>
+      <p class="muted" style="margin:8px 0">support@spinvest.app</p>
+      <p class="muted" style="font-size:12px">Replace this address when your inbox is ready.</p>
+    </div>
+    <div class="glass">
+      <strong>Before you message</strong>
+      <ul class="muted" style="margin:10px 0 0 18px;line-height:1.7;font-size:13px">
+        <li>Your registered email</li>
+        <li>Screenshot of the issue</li>
+        <li>Deposit or withdraw reference if any</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -796,7 +626,12 @@ async function loadDash() {
   try {
     user = await api('/api/me');
     promo = await api('/api/promo');
-    $('dashName').textContent = user.name;
+    $('dashName').textContent = user.name || 'Member';
+    try {
+      const h = new Date().getHours();
+      const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+      if ($('dashGreet')) $('dashGreet').textContent = g + ',';
+    } catch (e) {}
     $('dashBal').textContent = '₦' + Number(user.balance || 0).toLocaleString();
     $('dashInv').textContent = '₦' + Number(user.invest_balance || 0).toLocaleString();
     $('dashNft').textContent = user.nft ? (user.nft.emoji + ' ' + user.nft.name) : 'Silver/VIP not set';
@@ -809,15 +644,15 @@ async function loadNfts() {
   const list = await api('/api/nfts');
   if (!promo) promo = await api('/api/promo');
   $('nftList').innerHTML = list.map((n) => `
-    <div class="nft-card">
+    <div class="nft-card" data-tier="${n.vip}">
       <div class="nft-emoji">${n.emoji}</div>
       <div style="flex:1">
         <div style="font-weight:800">${n.name}</div>
         <div class="muted">${n.blurb}</div>
-        <div class="muted">Weekly cap ₦${n.weeklyCap.toLocaleString()} · Tasks ₦${n.taskMin}–${n.taskMax}</div>
-        <div style="margin-top:8px;font-weight:800;color:var(--g3)">₦${n.price.toLocaleString()}</div>
+        <div class="muted" style="margin-top:4px">${n.dailyTasks}/day · ₦${n.taskMin}–${n.taskMax} per task</div>
+        <div class="price-tag">₦${n.price.toLocaleString()}</div>
       </div>
-      <button class="btn sm" onclick="buyNft('${n.id}')">Buy</button>
+      <button class="btn sm btn-green" onclick="buyNft('${n.id}')">Buy</button>
     </div>
   `).join('');
 }

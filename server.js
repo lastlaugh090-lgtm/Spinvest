@@ -25,12 +25,12 @@ app.use(express.static(__dirname));
 // —— NFT catalogue (in-site only) ——
 // weeklyCap kept LOW so full exit takes many weeks
 const NFTS = [
-  { id: 'silver', name: 'Silver Bar', emoji: '🥈', price: 1000, weeklyCap: 40000, taskMin: 20, taskMax: 40, dailyTasks: 3, blurb: 'Starter access — not VIP (cannot refer yet)', vip: 0 },
-  { id: 'vip1', name: 'VIP 1', emoji: '1️⃣', price: 5000, weeklyCap: 40000, taskMin: 80, taskMax: 120, dailyTasks: 4, blurb: 'First VIP — referrals unlocked', vip: 1 },
-  { id: 'vip2', name: 'VIP 2', emoji: '2️⃣', price: 20000, weeklyCap: 40000, taskMin: 150, taskMax: 220, dailyTasks: 5, blurb: 'Gold-tier VIP access', vip: 2 },
-  { id: 'vip3', name: 'VIP 3', emoji: '3️⃣', price: 45000, weeklyCap: 45000, taskMin: 250, taskMax: 380, dailyTasks: 6, blurb: 'Energy-tier VIP access', vip: 3 },
-  { id: 'vip4', name: 'VIP 4', emoji: '4️⃣', price: 70000, weeklyCap: 50000, taskMin: 400, taskMax: 600, dailyTasks: 7, blurb: 'Estate-tier VIP access', vip: 4 },
-  { id: 'vip5', name: 'VIP 5 · BTC', emoji: '₿', price: 100000, weeklyCap: 60000, taskMin: 700, taskMax: 1000, dailyTasks: 8, blurb: 'Highest VIP — Bitcoin vault', vip: 5 }
+  { id: 'silver', name: 'Silver Bar', emoji: 'S', price: 1000, weeklyCap: 40000, taskMin: 25, taskMax: 45, dailyTasks: 3, blurb: 'Entry access · referrals locked until VIP 1', vip: 0 },
+  { id: 'vip1', name: 'VIP 1', emoji: '1', price: 5000, weeklyCap: 40000, taskMin: 60, taskMax: 90, dailyTasks: 4, blurb: 'Referrals unlocked · core member tier', vip: 1 },
+  { id: 'vip2', name: 'VIP 2', emoji: '2', price: 20000, weeklyCap: 40000, taskMin: 100, taskMax: 150, dailyTasks: 5, blurb: 'Higher task band · stronger weekly room', vip: 2 },
+  { id: 'vip3', name: 'VIP 3', emoji: '3', price: 45000, weeklyCap: 45000, taskMin: 150, taskMax: 220, dailyTasks: 6, blurb: 'Priority activity tier', vip: 3 },
+  { id: 'vip4', name: 'VIP 4', emoji: '4', price: 70000, weeklyCap: 50000, taskMin: 200, taskMax: 300, dailyTasks: 7, blurb: 'Advanced member access', vip: 4 },
+  { id: 'vip5', name: 'VIP 5', emoji: '5', price: 100000, weeklyCap: 60000, taskMin: 250, taskMax: 400, dailyTasks: 8, blurb: 'Top tier · maximum daily slots', vip: 5 }
 ];
 
 
