@@ -210,14 +210,37 @@ label{font-size:11px;font-weight:650;color:var(--muted);text-transform:uppercase
 .legal h3{margin:16px 0 8px;font-size:14px;color:var(--text);letter-spacing:.02em}
 a{color:var(--accent2);text-decoration:none}
 .empty{text-align:center;padding:28px;color:var(--muted);font-size:13px}
+
+.piggy-scene{
+  position:relative;
+  width:min(220px,70vw);
+  height:auto;
+  margin:8px auto 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.piggy-photo{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:16px;
+  animation:piggyFloat 3.2s ease-in-out infinite;
+  filter:drop-shadow(0 16px 32px rgba(0,0,0,.5));
+}
+@keyframes piggyFloat{
+  0%,100%{ transform:translateY(0) scale(1); }
+  50%{ transform:translateY(-8px) scale(1.02); }
+}
+
 .film-line{
   height:1px;margin:16px 0;
   background:linear-gradient(90deg, transparent, rgba(61,214,198,.35), transparent);
 }
 
-.brand-sp{font-family:"Outfit",system-ui,sans-serif;color:#2dd4bf;font-weight:800;font-size:1.45em;letter-spacing:-.04em;background:linear-gradient(135deg,#5eead4,#14b8a6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(45,212,191,.35))}
-.brand-title{font-size:26px;line-height:1.1;display:flex;align-items:baseline}
-.brand-rest{font-family:"Outfit",system-ui,sans-serif;color:var(--text);font-weight:600;letter-spacing:-.02em}
+.brand-sp{font-family:"Outfit",system-ui,sans-serif;color:#2dd4bf;font-weight:800;font-size:1.25em;letter-spacing:-.03em}
+.brand-title{font-size:24px;line-height:1.15;display:flex;align-items:baseline;gap:0}
+.brand-rest{font-family:"Outfit",system-ui,sans-serif;color:#e8eef7;font-weight:600;letter-spacing:-.02em}
 /* full piggy bank + coin through slot */
 .piggy-scene{
   position:relative;width:160px;height:150px;margin:6px auto 24px;
@@ -284,7 +307,6 @@ a{color:var(--accent2);text-decoration:none}
   background:radial-gradient(ellipse, rgba(45,212,191,.2), transparent 70%);
   z-index:0;
 }
-.brand-sp{color:#2dd4bf;font-weight:900;font-size:1.35em;letter-spacing:-.02em}
 
 
 </style>
@@ -303,54 +325,7 @@ a{color:var(--accent2);text-decoration:none}
       </div>
     </div>
     <div class="piggy-scene" aria-hidden="true">
-      <div class="piggy-glow"></div>
-      <div class="coin"></div>
-      <div class="piggy-bank">
-        <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#fecdd3"/>
-              <stop offset="55%" stop-color="#fda4af"/>
-              <stop offset="100%" stop-color="#fb7185"/>
-            </linearGradient>
-            <linearGradient id="snoutG" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#ffe4e6"/>
-              <stop offset="100%" stop-color="#fda4af"/>
-            </linearGradient>
-            <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity=".35"/>
-            </filter>
-          </defs>
-          <!-- shadow under -->
-          <ellipse cx="100" cy="128" rx="52" ry="8" fill="rgba(0,0,0,.25)"/>
-          <!-- back leg -->
-          <rect x="58" y="100" width="16" height="22" rx="6" fill="#f43f5e"/>
-          <!-- body -->
-          <ellipse cx="95" cy="78" rx="62" ry="42" fill="url(#bodyG)" filter="url(#soft)"/>
-          <!-- belly highlight -->
-          <ellipse cx="90" cy="88" rx="36" ry="22" fill="#fff" opacity=".12"/>
-          <!-- front leg -->
-          <rect x="112" y="100" width="16" height="22" rx="6" fill="#f43f5e"/>
-          <!-- ear -->
-          <path d="M48 48 C40 28 62 30 58 48" fill="#fda4af" stroke="#fb7185" stroke-width="1.5"/>
-          <path d="M52 46 C48 34 60 34 58 46" fill="#fecdd3"/>
-          <!-- eye white + pupil -->
-          <circle cx="118" cy="68" r="7" fill="#fff"/>
-          <circle cx="120" cy="69" r="3.5" fill="#1e293b"/>
-          <circle cx="121.5" cy="67.5" r="1.2" fill="#fff"/>
-          <!-- snout -->
-          <ellipse cx="148" cy="82" rx="20" ry="16" fill="url(#snoutG)"/>
-          <ellipse cx="142" cy="82" rx="3.5" ry="4.5" fill="#be123c" opacity=".75"/>
-          <ellipse cx="154" cy="82" rx="3.5" ry="4.5" fill="#be123c" opacity=".75"/>
-          <!-- tail curl -->
-          <path d="M36 78 C18 70 22 52 34 58 C42 62 28 72 36 78" fill="none" stroke="#fb7185" stroke-width="4" stroke-linecap="round"/>
-          <!-- coin slot (saving hole) -->
-          <rect x="78" y="38" width="36" height="8" rx="4" fill="#4c0519"/>
-          <rect x="81" y="40" width="30" height="4" rx="2" fill="#0f172a"/>
-          <!-- slot rim highlight -->
-          <rect x="81" y="39" width="30" height="1.5" rx="1" fill="#fda4af" opacity=".35"/>
-        </svg>
-      </div>
+      <img class="piggy-photo" src="/piggy.jpg" alt=""/>
     </div>
     <div class="glass glow" style="text-align:center">
       <span class="pill">Secure · Simple · Structured</span>
