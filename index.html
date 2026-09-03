@@ -36,7 +36,7 @@ body{background:
   var(--bg)}
 a{color:var(--blue2);text-decoration:none}
 .page{display:none;min-height:100vh;padding-bottom:88px}
-.page.on{display:block}
+.page.active{display:block}
 .container{max-width:480px;margin:0 auto;padding:16px}
 header{display:flex;align-items:center;gap:12px;padding:14px 16px;max-width:480px;margin:0 auto}
 .header-title{font-weight:800;font-size:17px;letter-spacing:-.02em}
@@ -170,6 +170,11 @@ input:focus,select:focus{border-color:rgba(59,130,246,.5)}
 .home-stat:nth-child(1) b{color:var(--blue2)}
 .home-stat:nth-child(2) b{color:var(--green2)}
 .home-stat:nth-child(3) b{color:var(--pink)}
+
+.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#3b82f6,#22c55e);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff}
+.pulse-bar{height:3px;border-radius:99px;margin-top:12px;background:linear-gradient(90deg,transparent,rgba(59,130,246,.5),transparent);background-size:200% 100%;animation:shimmer 2.8s linear infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 </style>
 
 </head>
