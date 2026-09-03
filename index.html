@@ -147,6 +147,9 @@ label{font-size:11px;font-weight:650;color:var(--muted);text-transform:uppercase
 }
 .nav button.on{color:var(--accent2)}
 .nav span{font-size:18px}
+.nav-ic{display:flex;align-items:center;justify-content:center;width:22px;height:22px;margin-bottom:2px}
+.nav-ic svg{width:22px;height:22px;stroke-linecap:round;stroke-linejoin:round}
+.nav button.on .nav-ic{color:var(--accent2)}
 .logo-row{display:flex;align-items:center;gap:12px;margin-bottom:22px}
 .logo{
   width:46px;height:46px;border-radius:14px;
@@ -258,6 +261,16 @@ a{color:var(--accent2);text-decoration:none}
   81%{ transform:translateY(0) scale(1); opacity:0; }
   100%{ transform:translateY(0) scale(1); opacity:1; }
 }
+
+
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.dash-tile{margin-bottom:0;min-height:110px}
+.dash-tile .tile-label{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent2);opacity:.85;margin-bottom:6px;
+}
+.dash-tile strong{display:block;font-size:14px;margin-bottom:4px}
+.dash-hero{padding:20px}
 
 .film-line{
   height:1px;margin:16px 0;
@@ -428,33 +441,52 @@ a{color:var(--accent2);text-decoration:none}
       </div>
       <span class="pill" id="dashNft">No NFT</span>
     </div>
-    <div class="glass glow">
-      <div class="muted">Main balance</div>
-      <div class="stat" id="dashBal">₦0</div>
-      <div class="muted" style="margin-top:10px">Investment vault</div>
-      <div style="font-size:18px;font-weight:700;color:#a7f3d0" id="dashInv">₦0</div>
+    <div class="glass glow dash-hero">
+      <div class="row">
+        <div>
+          <div class="muted" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase">Portfolio</div>
+          <div class="stat" id="dashBal">₦0</div>
+          <div class="muted" style="margin-top:2px">Main balance</div>
+        </div>
+        <div style="text-align:right">
+          <div class="muted" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase">Vault</div>
+          <div style="font-size:20px;font-weight:700;color:var(--accent2)" id="dashInv">₦0</div>
+          <div class="muted" style="margin-top:2px">Investment</div>
+        </div>
+      </div>
+      <div class="film-line"></div>
+      <div class="row" style="gap:8px">
+        <button class="btn" style="flex:1;margin:0" onclick="go('nfts')">Get VIP</button>
+        <button class="btn ghost" style="flex:1;margin:0" onclick="go('invest')">Invest</button>
+      </div>
     </div>
-    <div class="row" style="gap:8px;margin-bottom:12px">
-      <button class="btn" style="flex:1" onclick="go('nfts')">NFTs</button>
-      <button class="btn ghost" style="flex:1" onclick="go('invest')">Invest</button>
-    </div>
-    <div class="glass" onclick="go('tasks')" style="cursor:pointer">
-      <strong>Daily tasks</strong>
-      <p class="muted">Earn into main balance with your NFT</p>
-    </div>
-    <div class="glass" onclick="go('withdraw')" style="cursor:pointer">
-      <strong>Weekly withdraw</strong>
-      <p class="muted">Limits pace full exit over multiple weeks</p>
-    </div>
-    <div class="glass" onclick="go('invite')" style="cursor:pointer">
-      <strong>Invite · 10% to main balance</strong>
-      <p class="muted">When a referral’s deposit is approved</p>
+    <div class="dash-grid">
+      <div class="glass dash-tile" onclick="go('tasks')" style="cursor:pointer">
+        <div class="tile-label">Activity</div>
+        <strong>Daily tasks</strong>
+        <p class="muted">Complete actions tied to your VIP tier</p>
+      </div>
+      <div class="glass dash-tile" onclick="go('withdraw')" style="cursor:pointer">
+        <div class="tile-label">Liquidity</div>
+        <strong>Withdraw</strong>
+        <p class="muted">Weekly window · structured limits</p>
+      </div>
+      <div class="glass dash-tile" onclick="go('invite')" style="cursor:pointer">
+        <div class="tile-label">Network</div>
+        <strong>Invite</strong>
+        <p class="muted">Share your code · earn when they fund</p>
+      </div>
+      <div class="glass dash-tile" onclick="go('history')" style="cursor:pointer">
+        <div class="tile-label">Ledger</div>
+        <strong>History</strong>
+        <p class="muted">Credits, deposits & payouts</p>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="page" id="page-nfts">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">NFT vaults</div></header>
+  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">VIP access</div></header>
   <div class="container">
     <p class="muted" style="margin-bottom:12px">Choose an access tier that fits you. Higher VIP unlocks stronger task rewards and referral eligibility. Withdrawal rules apply after you join.</p>
     <div class="nft-grid" id="nftList"></div>
@@ -613,11 +645,11 @@ a{color:var(--accent2);text-decoration:none}
 </div>
 
 <nav class="nav" id="mainNav" style="display:none">
-  <button type="button" data-go="dash"><span>🏠</span>Home</button>
-  <button type="button" data-go="tasks"><span>✅</span>Tasks</button>
-  <button type="button" data-go="nfts"><span>✨</span>NFTs</button>
-  <button type="button" data-go="invite"><span>👥</span>Invite</button>
-  <button type="button" data-go="withdraw"><span>💸</span>Wallet</button>
+  <button type="button" data-go="dash"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z"/></svg></span>Home</button>
+  <button type="button" data-go="tasks"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>Tasks</button>
+  <button type="button" data-go="nfts"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></span>VIP</button>
+  <button type="button" data-go="invite"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span>Invite</button>
+  <button type="button" data-go="withdraw"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="14" r="1.5"/></svg></span>Wallet</button>
 </nav>
 
 <script>
