@@ -213,24 +213,50 @@ a{color:var(--accent2);text-decoration:none}
 
 .piggy-scene{
   position:relative;
-  width:min(220px,70vw);
-  height:auto;
-  margin:8px auto 20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  width:140px;
+  height:170px;
+  margin:4px auto 16px;
 }
 .piggy-photo{
-  width:100%;
+  position:absolute;
+  left:0;right:0;bottom:0;
+  width:140px;
   height:auto;
   display:block;
-  border-radius:16px;
-  animation:piggyFloat 3.2s ease-in-out infinite;
-  filter:drop-shadow(0 16px 32px rgba(0,0,0,.5));
+  animation:piggyFloat 3.5s ease-in-out infinite;
+  filter:drop-shadow(0 12px 24px rgba(0,0,0,.4));
+  z-index:1;
 }
 @keyframes piggyFloat{
-  0%,100%{ transform:translateY(0) scale(1); }
-  50%{ transform:translateY(-8px) scale(1.02); }
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-5px); }
+}
+.piggy-scene .coin{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:22px;height:22px;
+  margin-left:-11px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 28%, #fef9c3, #fbbf24 45%, #b45309 85%);
+  border:2px solid #fde68a;
+  box-shadow:0 3px 10px rgba(251,191,36,.5);
+  z-index:2;
+  animation:coinIntoSlot 2.6s ease-in-out infinite;
+}
+.piggy-scene .coin::after{
+  content:"₿";
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;color:#78350f;
+}
+@keyframes coinIntoSlot{
+  0%{ transform:translateY(0) scale(1); opacity:1; }
+  50%{ transform:translateY(28px) scale(1); opacity:1; }
+  65%{ transform:translateY(38px) scale(.75); opacity:.85; }
+  80%{ transform:translateY(46px) scale(.25); opacity:0; }
+  81%{ transform:translateY(0) scale(1); opacity:0; }
+  100%{ transform:translateY(0) scale(1); opacity:1; }
 }
 
 .film-line{
@@ -325,7 +351,8 @@ a{color:var(--accent2);text-decoration:none}
       </div>
     </div>
     <div class="piggy-scene" aria-hidden="true">
-      <img class="piggy-photo" src="/piggy.jpg" alt=""/>
+      <div class="coin"></div>
+      <img class="piggy-photo" src="/piggy.png" alt=""/>
     </div>
     <div class="glass glow" style="text-align:center">
       <span class="pill">Secure · Simple · Structured</span>
