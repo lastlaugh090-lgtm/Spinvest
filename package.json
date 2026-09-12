@@ -1,7 +1,7 @@
 {
-  "name": "spinvest",
+  "name": "lasttech-backend",
   "version": "1.0.0",
-  "description": "Spinvest – NFT access, tasks & investment platform",
+  "description": "Last Tech API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -11,6 +11,7 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "cloudinary": "^2.5.1",
     "mongoose": "^8.5.0",
     "uuid": "^9.0.1"
   },

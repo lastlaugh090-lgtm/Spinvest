@@ -3,944 +3,2105 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Spinvest</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet"/>
-<meta name="description" content="Spinvest — in-site NFT access, daily tasks, and investment tools."/>
-
+<title>Last Tech</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --accent2:#4ade80;
-  --bg:#0a0c12;
-  --card:#141824;
-  --card2:#1a1f2e;
-  --blue:#3b82f6;
-  --blue2:#60a5fa;
-  --green:#22c55e;
-  --green2:#4ade80;
-  --gold:#fbbf24;
-  --purple:#a78bfa;
-  --pink:#f472b6;
-  --red:#f87171;
-  --text:#f8fafc;
-  --muted:#94a3b8;
-  --stroke:rgba(255,255,255,.08);
-}
-html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-body{background:
-  radial-gradient(ellipse 80% 50% at 20% -10%,rgba(59,130,246,.18),transparent),
-  radial-gradient(ellipse 60% 40% at 90% 10%,rgba(34,197,94,.12),transparent),
-  radial-gradient(ellipse 50% 30% at 50% 100%,rgba(167,139,250,.1),transparent),
-  var(--bg)}
-a{color:var(--blue2);text-decoration:none}
-.page{display:none;min-height:100vh;padding-bottom:88px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(165deg,#fff5f7 0%,#f8fafc 40%,#eef2ff 100%);background-attachment:fixed;color:#1a1a2e;min-height:100vh}
+.page{display:none;min-height:100vh;padding-bottom:90px;background:transparent}
 .page.active{display:block}
-.container{max-width:480px;margin:0 auto;padding:16px}
-header{display:flex;align-items:center;gap:12px;padding:14px 16px;max-width:480px;margin:0 auto}
-.header-title{font-weight:800;font-size:17px;letter-spacing:-.02em}
-.back-btn,.icon-btn{
-  width:40px;height:40px;border-radius:12px;border:1px solid var(--stroke);
-  background:var(--card);color:var(--text);display:flex;align-items:center;justify-content:center;
-  font-size:18px;cursor:pointer
-}
-.glass,.card{
-  background:var(--card);border:1px solid var(--stroke);border-radius:18px;
-  padding:16px;margin-bottom:12px
-}
-.glass.glow{box-shadow:0 0 0 1px rgba(59,130,246,.2),0 12px 40px rgba(0,0,0,.35)}
-.muted{color:var(--muted);font-size:13px;line-height:1.45}
-.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  width:100%;padding:14px 18px;border:none;border-radius:14px;
-  font-weight:700;font-size:15px;cursor:pointer;color:#fff;
-  background:linear-gradient(135deg,#3b82f6,#2563eb);
-  box-shadow:0 10px 28px rgba(59,130,246,.35);margin-top:8px
-}
-.btn:active{transform:scale(.98)}
-.btn.sm{width:auto;padding:10px 16px;font-size:13px;margin:0;border-radius:12px}
-.btn.ghost{background:rgba(255,255,255,.06);box-shadow:none;border:1px solid var(--stroke);color:var(--text)}
-.btn-green{background:linear-gradient(135deg,#22c55e,#16a34a)!important;box-shadow:0 10px 28px rgba(34,197,94,.35)!important}
-.btn-gold{background:linear-gradient(135deg,#fbbf24,#d97706)!important;color:#1c1917!important;box-shadow:0 10px 28px rgba(251,191,36,.3)!important}
-.btn-purple{background:linear-gradient(135deg,#a78bfa,#7c3aed)!important;box-shadow:0 10px 28px rgba(167,139,250,.35)!important}
-label{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:10px 0 6px}
-input,select{
-  width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--stroke);
-  background:#0d111a;color:var(--text);font-size:15px;outline:none
-}
-input:focus,select:focus{border-color:rgba(59,130,246,.5)}
-.pill{
-  display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;
-  font-size:11px;font-weight:700;background:rgba(59,130,246,.15);color:var(--blue2);
-  border:1px solid rgba(59,130,246,.25)
-}
-.stat{font-size:28px;font-weight:800;letter-spacing:-.03em;color:var(--green2)}
-.film-line{height:1px;background:linear-gradient(90deg,transparent,var(--stroke),transparent);margin:14px 0}
-.nav{
-  position:fixed;left:0;right:0;bottom:0;z-index:50;
-  display:flex;justify-content:space-around;align-items:center;
-  padding:8px 6px calc(8px + env(safe-area-inset-bottom));
-  background:rgba(10,12,18,.92);backdrop-filter:blur(16px);
-  border-top:1px solid var(--stroke)
-}
-.nav button{
-  flex:1;background:none;border:none;color:var(--muted);font-size:10px;font-weight:700;
-  display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:6px 2px
-}
-.nav button.on{color:var(--blue2)}
-.nav-ic{width:24px;height:24px;display:flex;align-items:center;justify-content:center}
-.nav-ic svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.toast{
-  position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);
-  background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;
-  opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:90%;text-align:center;
-  border:1px solid var(--stroke)
-}
-.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-.brand-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
-.logo-mark{
-  width:44px;height:44px;border-radius:14px;
-  background:linear-gradient(135deg,#3b82f6,#22c55e,#fbbf24,#f472b6);
-  display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#fff
-}
-.brand-sp{color:#60a5fa;font-weight:800}
-.brand-rest{color:#fff;font-weight:700}
-.brand-title{font-size:22px;display:flex;align-items:baseline}
-.piggy-scene{width:120px;margin:8px auto 16px;position:relative}
-.piggy-photo{width:100%;height:auto;display:block;filter:drop-shadow(0 12px 24px rgba(0,0,0,.45));animation:floaty 3.5s ease-in-out infinite}
-@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.greet{font-size:13px;color:var(--muted)}
-.greet-name{font-size:24px;font-weight:800;letter-spacing:-.03em;margin:2px 0 14px}
-.balance-card{
-  background:linear-gradient(160deg,#1a2236 0%,#121826 100%);
-  border:1px solid rgba(59,130,246,.3);border-radius:22px;padding:20px;margin-bottom:14px;
-  box-shadow:0 20px 50px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06)
-}
-.balance-card .label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.balance-card .amt{font-size:36px;font-weight:800;color:#fff;margin:8px 0 14px;letter-spacing:-.04em}
-.quick-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 14px}
-.quick-btn{
-  display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px;
-  border-radius:16px;border:1px solid var(--stroke);background:var(--card);cursor:pointer;
-  color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em
-}
-.qico{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
-.qico.earn{background:rgba(59,130,246,.2);color:#60a5fa}
-.qico.wd{background:rgba(34,197,94,.2);color:#4ade80}
-.qico.ref{background:rgba(251,191,36,.2);color:#fbbf24}
-.qico.up{background:rgba(244,114,182,.2);color:#f472b6}
-.trust-strip{
-  background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);
-  border-radius:16px;padding:12px 14px;margin-bottom:14px
-}
-.trust-item{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--muted);margin:6px 0}
-.trust-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(34,197,94,.6)}
-.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.dash-tile{margin:0;min-height:108px;cursor:pointer}
-.tile-label{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue2);margin-bottom:6px}
-.dash-tile strong{display:block;font-size:14px;margin-bottom:4px}
-.support-link{
-  display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;
-  background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);cursor:pointer
-}
-/* VIP cards — colourful */
-.nft-card{
-  display:flex;align-items:center;gap:14px;padding:16px;margin-bottom:12px;
-  border-radius:18px;background:var(--card);border:1px solid var(--stroke);position:relative;overflow:hidden
-}
-.nft-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent-line,#3b82f6)}
-.nft-emoji{
-  width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;
-  font-weight:900;font-size:18px;flex-shrink:0;background:rgba(59,130,246,.15);color:var(--blue2)
-}
-.nft-card[data-tier="0"]{--accent-line:#94a3b8}.nft-card[data-tier="0"] .nft-emoji{background:rgba(148,163,184,.2);color:#cbd5e1}
-.nft-card[data-tier="1"]{--accent-line:#22c55e}.nft-card[data-tier="1"] .nft-emoji{background:rgba(34,197,94,.2);color:#4ade80}
-.nft-card[data-tier="2"]{--accent-line:#fbbf24}.nft-card[data-tier="2"] .nft-emoji{background:rgba(251,191,36,.2);color:#fbbf24}
-.nft-card[data-tier="3"]{--accent-line:#3b82f6}.nft-card[data-tier="3"] .nft-emoji{background:rgba(59,130,246,.2);color:#60a5fa}
-.nft-card[data-tier="4"]{--accent-line:#a78bfa}.nft-card[data-tier="4"] .nft-emoji{background:rgba(167,139,250,.2);color:#c4b5fd}
-.nft-card[data-tier="5"]{--accent-line:#f472b6}.nft-card[data-tier="5"] .nft-emoji{background:rgba(244,114,182,.2);color:#f9a8d4}
-.price-tag{font-size:18px;font-weight:800;color:var(--green2);margin-top:8px}
-.task-card{border-left:3px solid var(--blue)}
-.home-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
-.home-stat{background:var(--card);border:1px solid var(--stroke);border-radius:14px;padding:12px 8px;text-align:center}
-.home-stat b{display:block;font-size:16px;font-weight:800;margin-bottom:2px}
-.home-stat span{font-size:10px;color:var(--muted);font-weight:600}
-.home-stat:nth-child(1) b{color:var(--blue2)}
-.home-stat:nth-child(2) b{color:var(--green2)}
-.home-stat:nth-child(3) b{color:var(--pink)}
 
-.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#3b82f6,#22c55e);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff}
-.pulse-bar{height:3px;border-radius:99px;margin-top:12px;background:linear-gradient(90deg,transparent,rgba(59,130,246,.5),transparent);background-size:200% 100%;animation:shimmer 2.8s linear infinite}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulseSoft {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.6); }
+  70% { transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.page.active { animation: fadeIn .35s ease; }
+.hero h1 { animation: fadeInUp .5s ease; }
+.hero p { animation: fadeInUp .55s ease .08s both; }
+.stats-row .stat { animation: scaleIn .45s ease both; }
+.stats-row .stat:nth-child(1) { animation-delay: .1s; }
+.stats-row .stat:nth-child(2) { animation-delay: .18s; }
+.stats-row .stat:nth-child(3) { animation-delay: .26s; }
+.step { animation: slideInRight .4s ease both; }
+.step:nth-child(1) { animation-delay: .05s; }
+.step:nth-child(2) { animation-delay: .12s; }
+.step:nth-child(3) { animation-delay: .19s; }
+.step:nth-child(4) { animation-delay: .26s; }
+
+.balance-card { animation: scaleIn .4s ease; }
+.card { animation: fadeInUp .35s ease both; }
+.quick-item { animation: popIn .4s ease both; }
+.quick-grid .quick-item:nth-child(1) { animation-delay: .05s; }
+.quick-grid .quick-item:nth-child(2) { animation-delay: .1s; }
+.quick-grid .quick-item:nth-child(3) { animation-delay: .15s; }
+.quick-grid .quick-item:nth-child(4) { animation-delay: .2s; }
+
+.task { animation: fadeInUp .35s ease both; }
+.plan-card { animation: fadeInUp .4s ease both; }
+.plan-card:nth-child(2) { animation-delay: .05s; }
+.plan-card:nth-child(3) { animation-delay: .1s; }
+.plan-card:nth-child(4) { animation-delay: .15s; }
+.plan-card:nth-child(5) { animation-delay: .2s; }
+
+.btn { transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(225,29,72,.35); }
+.btn:active { transform: scale(.97); }
+.btn.dark:hover { box-shadow: 0 6px 16px rgba(0,0,0,.2); }
+.btn.green:hover { box-shadow: 0 6px 16px rgba(22,163,74,.35); }
+.btn.link:hover { box-shadow: 0 6px 16px rgba(37,99,235,.35); }
+
+.quick-item { transition: transform .18s ease, box-shadow .18s ease; }
+.quick-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+.quick-item:active { transform: scale(.96); }
+
+.task { transition: transform .15s ease, box-shadow .15s ease; }
+.task:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.06); }
+
+.logo-icon { animation: pulseSoft 2.5s ease-in-out infinite; }
+.stat strong { transition: transform .2s ease; }
+.stat:hover strong { transform: scale(1.08); }
+
+.name-box.show { animation: fadeInUp .3s ease; }
+.nav-item { transition: color .2s ease, transform .15s ease; }
+.nav-item:active { transform: scale(.9); }
+.nav-item.active .icon { animation: popIn .3s ease; }
+
+.amount-card { animation: scaleIn .4s ease; }
+.item { animation: fadeInUp .3s ease both; }
+
+#tdTimer { transition: color .2s ease; }
+.open-link-box { animation: fadeInUp .35s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+header{background:rgba(255,255,255,.88);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.6);position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(225,29,72,.05);backdrop-filter:blur(12px)}
+.logo{display:flex;align-items:center;gap:9px;cursor:pointer}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#e11d48,#f43f5e);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:17px;box-shadow:0 3px 12px rgba(225,29,72,.3)}
+.logo-text{font-size:19px;font-weight:800;letter-spacing:-.3px}.logo-text span{color:#e11d48}
+.btn{background:linear-gradient(135deg,#e11d48,#f43f5e);color:#fff;border:none;padding:15px;border-radius:14px;font-weight:700;font-size:15px;cursor:pointer;width:100%;text-align:center;box-shadow:0 4px 16px rgba(225,29,72,.25);transition:transform .12s,opacity .12s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{background:#d1d5db;box-shadow:none;opacity:.7}
+.btn.dark{background:linear-gradient(135deg,#1f2937,#374151);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.btn.outline{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:#fff;box-shadow:none}
+.btn.sm{padding:10px 18px;width:auto;font-size:13px}
+.btn.green{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 4px 12px rgba(22,163,74,.25)}
+.btn.link{background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 4px 12px rgba(37,99,235,.25);margin-bottom:10px}
+input,select,textarea{width:100%;padding:14px 16px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:15px;background:#fff;outline:none;font-family:inherit;transition:border .15s}
+input:focus,select:focus,textarea:focus{border-color:#e11d48;box-shadow:0 0 0 3px rgba(225,29,72,.1)}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#374151}
+.form-group{margin-bottom:14px}
+.container{max-width:480px;margin:0 auto;padding:20px}
+.card{background:rgba(255,255,255,.92);border-radius:18px;padding:18px;border:1px solid rgba(255,255,255,.8);margin-bottom:14px;box-shadow:0 4px 20px rgba(225,29,72,.06),0 2px 8px rgba(0,0,0,.03);backdrop-filter:blur(8px)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);border-top:1px solid rgba(241,245,249,.9);display:flex;justify-content:space-around;padding:10px 0 16px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.06);backdrop-filter:blur(12px)}
+.nav-item{text-align:center;color:#9ca3af;font-size:11px;font-weight:600;background:none;border:none;cursor:pointer}
+.nav-item.active{color:#e11d48}
+.nav-item .icon{font-size:22px;display:block;margin-bottom:2px}
+.user-chip{background:linear-gradient(135deg,#fef2f2,#ffe4e6);color:#e11d48;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:700;border:1px solid #fecdd3}
+.balance-card{background:linear-gradient(135deg,#e11d48 0%,#be123c 50%,#9f1239 100%);color:#fff;border-radius:22px;padding:26px 22px;margin-bottom:18px;box-shadow:0 8px 28px rgba(225,29,72,.3);position:relative;overflow:hidden}
+.balance-card::after{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;background:rgba(255,255,255,.08);border-radius:50%}
+.balance-label{font-size:13px;opacity:.85;margin-bottom:4px}
+.balance-amount{font-size:34px;font-weight:800;margin-bottom:16px;letter-spacing:-1px}
+.balance-actions{display:flex;gap:10px}
+.balance-actions .btn{flex:1}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.quick-item{background:rgba(255,255,255,.95);border-radius:18px;padding:20px 14px;text-align:center;border:1px solid rgba(255,255,255,.9);cursor:pointer;box-shadow:0 4px 16px rgba(225,29,72,.07);transition:transform .12s}
+.quick-item:active{transform:scale(.96)}
+.quick-item .qicon{font-size:28px;margin-bottom:8px}
+.quick-item .qlabel{font-size:13px;font-weight:700;color:#374151}
+.section-title{font-size:17px;font-weight:800;margin-bottom:14px;color:#1a1a2e}
+.task{background:rgba(255,255,255,.95);border-radius:16px;padding:16px;margin-bottom:12px;border:1px solid rgba(255,255,255,.9);box-shadow:0 4px 14px rgba(0,0,0,.04)}
+.task-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.task-info h4{font-size:14px;font-weight:700;margin-bottom:3px}
+.task-info p{font-size:12px;color:#6b7280}
+.task-reward{background:linear-gradient(135deg,#fef2f2,#ffe4e6);color:#e11d48;font-weight:700;font-size:13px;padding:6px 12px;border-radius:10px;border:1px solid #fecdd3;white-space:nowrap}
+.plan-card{background:rgba(255,255,255,.96);border-radius:20px;padding:22px;margin-bottom:14px;border:2px solid rgba(254,226,226,.8);position:relative;box-shadow:0 6px 20px rgba(225,29,72,.08)}
+.plan-card .badge{position:absolute;top:-11px;right:16px;background:linear-gradient(135deg,#e11d48,#f97316);color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;box-shadow:0 2px 10px rgba(225,29,72,.3)}
+.plan-card h3{font-size:18px;font-weight:800}
+.plan-card .price{font-size:26px;font-weight:800;color:#e11d48;margin:6px 0}
+.plan-card .earn{background:#fef2f2;color:#be123c;display:inline-block;padding:5px 12px;border-radius:10px;font-size:13px;font-weight:700;margin-bottom:14px}
+.back-btn{font-size:22px;background:none;border:none;cursor:pointer;margin-right:8px;color:#1a1a2e}
+.header-title{font-size:17px;font-weight:700}
+.status-box{border-radius:12px;padding:14px;font-size:13px;margin-bottom:14px;font-weight:600}
+.status-box.open{background:#dcfce7;color:#166534}
+.status-box.closed{background:#fef2f2;color:#be123c}
+.hero{text-align:center;padding:48px 20px 28px;background:linear-gradient(180deg,rgba(255,255,255,.9) 0%,rgba(254,242,242,.85) 50%,transparent 100%)}
+.hero h1{font-size:30px;font-weight:900;margin-bottom:10px;letter-spacing:-.5px}
+.hero h1 span{color:#e11d48}
+.hero p{color:#6b7280;font-size:15px;max-width:300px;margin:0 auto 8px;line-height:1.5}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 20px 28px;max-width:480px;margin:0 auto}
+.stat{background:#fff;border-radius:16px;padding:16px 6px;text-align:center;border:1px solid #f0f0f0;box-shadow:0 2px 10px rgba(0,0,0,.03)}
+.stat strong{display:block;font-size:22px;font-weight:800;color:#e11d48}
+.stat span{font-size:11px;color:#6b7280}
+.step{display:flex;gap:14px;background:#fff;border-radius:16px;padding:16px;margin-bottom:10px;border:1px solid #f0f0f0;box-shadow:0 2px 8px rgba(0,0,0,.02)}
+.step-num{width:34px;height:34px;background:linear-gradient(135deg,#e11d48,#f43f5e);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;box-shadow:0 3px 10px rgba(225,29,72,.3)}
+.name-box{margin-top:12px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:14px;display:none}
+.name-box.show{display:block}
+.name-box .name{font-size:17px;font-weight:700;color:#15803d}
+.bank-details{background:#f9fafb;border-radius:14px;padding:14px}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;font-size:14px}
+.detail-row:last-child{border-bottom:none}
+.copy-btn{background:#e11d48;color:#fff;border:none;padding:5px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer}
+.amount-card{background:linear-gradient(135deg,#1f2937,#374151);color:#fff;border-radius:20px;padding:28px 20px;text-align:center;margin-bottom:18px;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.amount-card .amount{font-size:40px;font-weight:900;letter-spacing:-1px}
+.item{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 6px rgba(0,0,0,.02)}
+.item-left h4{font-size:14px;font-weight:700}
+.item-left p{font-size:12px;color:#9ca3af}
+.item-right .amount.plus{color:#16a34a;font-weight:800}
+.item-right .amount.minus{color:#e11d48;font-weight:800}
+.empty{text-align:center;padding:40px;color:#9ca3af}
+.admin-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:transparent}
+.admin-box{background:#fff;padding:32px 28px;border-radius:20px;width:100%;max-width:360px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.admin-header{background:linear-gradient(135deg,#1f2937,#374151);color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+.admin-tabs{display:flex;background:#fff;border-bottom:1px solid #eee;overflow-x:auto}
+.admin-tab{flex:1;min-width:70px;text-align:center;padding:12px 4px;font-size:12px;font-weight:600;color:#9ca3af;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent}
+.admin-tab.active{color:#e11d48;border-bottom-color:#e11d48}
+.admin-card{background:#fff;border:1px solid #f0f0f0;border-radius:14px;margin-bottom:12px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,.02)}
+.admin-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.admin-row .l{color:#9ca3af}
+.error{background:#fef2f2;color:#be123c;padding:12px;border-radius:12px;font-size:13px;margin-bottom:14px;display:none;border:1px solid #fecdd3}
+.open-link-box{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-radius:14px;padding:16px;margin-bottom:14px;text-align:center}
+.open-link-box p{font-size:13px;color:#1e40af;margin-bottom:12px;font-weight:600}
+
+/* ===== SPLASH / LOADING SCREEN ===== */
+#splash {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0a0a0a;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity .5s ease, visibility .5s ease;
+}
+#splash.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+.splash-logo {
+  width: 110px; height: 110px;
+  border-radius: 28px;
+  background: radial-gradient(circle at 30% 30%, #3a0a12, #0a0a0a);
+  border: 2px solid #e11d48;
+  box-shadow: 0 0 40px rgba(225,29,72,.45), inset 0 0 30px rgba(225,29,72,.15);
+  display: flex; align-items: center; justify-content: center;
+  animation: splashPulse 1.8s ease-in-out infinite;
+  position: relative;
+}
+.splash-logo::before {
+  content: '';
+  position: absolute; inset: -6px;
+  border-radius: 32px;
+  border: 1px solid rgba(225,29,72,.35);
+  animation: splashRing 1.8s ease-in-out infinite;
+}
+.splash-l {
+  font-size: 56px; font-weight: 900; color: #fff;
+  text-shadow: 0 0 20px rgba(225,29,72,.8);
+  font-family: system-ui, sans-serif;
+  letter-spacing: -2px;
+}
+.splash-name {
+  margin-top: 22px;
+  font-size: 22px; font-weight: 800; letter-spacing: 1px;
+  color: #fff;
+}
+.splash-name span { color: #e11d48; }
+.splash-tag {
+  margin-top: 6px;
+  font-size: 11px; letter-spacing: 3px;
+  color: #888; text-transform: uppercase;
+}
+.splash-status {
+  margin-top: 28px;
+  font-size: 13px; color: #a1a1aa;
+  animation: fadeIn .4s ease;
+}
+.splash-bar {
+  margin-top: 14px;
+  width: 140px; height: 3px;
+  background: #1f1f1f; border-radius: 99px; overflow: hidden;
+}
+.splash-bar i {
+  display: block; height: 100%; width: 40%;
+  background: linear-gradient(90deg, #e11d48, #f97316);
+  border-radius: 99px;
+  animation: splashLoad 1.2s ease-in-out infinite;
+}
+@keyframes splashPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(225,29,72,.4); }
+  50% { transform: scale(1.04); box-shadow: 0 0 50px rgba(225,29,72,.65); }
+}
+@keyframes splashRing {
+  0%, 100% { opacity: .5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+@keyframes splashLoad {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+
+/* Toast notification */
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: 100px;
+  transform: translateX(-50%) translateY(20px);
+  background: #111;
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  max-width: 90%;
+  text-align: center;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+#toast.success { background: #166534; }
+#toast.error { background: #be123c; }
+
+
+/* Legal / footer */
+.site-footer{background:#0f172a;color:#94a3b8;padding:36px 20px 100px;margin-top:20px}
+.site-footer a{color:#e2e8f0;text-decoration:none;font-size:13px}
+.site-footer a:hover{color:#e11d48}
+.footer-grid{max-width:480px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.footer-brand{grid-column:1/-1;margin-bottom:8px}
+.footer-brand .logo-text{color:#fff;font-size:18px}
+.footer-brand p{font-size:12px;margin-top:8px;line-height:1.5;color:#94a3b8}
+.footer-col h4{color:#fff;font-size:13px;margin-bottom:10px;font-weight:700}
+.footer-col a{display:block;margin-bottom:8px}
+.footer-bottom{max-width:480px;margin:24px auto 0;padding-top:16px;border-top:1px solid #1e293b;font-size:11px;text-align:center;line-height:1.6}
+.legal-wrap{max-width:480px;margin:0 auto;padding:20px 20px 40px}
+.legal-wrap h1{font-size:24px;font-weight:800;margin-bottom:8px}
+.legal-wrap .updated{font-size:12px;color:#6b7280;margin-bottom:20px}
+.legal-wrap h2{font-size:16px;font-weight:700;margin:22px 0 10px;color:#1a1a2e}
+.legal-wrap p,.legal-wrap li{font-size:13px;color:#374151;line-height:1.7;margin-bottom:10px}
+.legal-wrap ul{padding-left:18px;margin-bottom:12px}
+.legal-card{background:#fff;border-radius:16px;padding:18px;border:1px solid #f0f0f0;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.03)}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.legal-badge{background:#f8fafc;border:1px solid #e2e8f0;border-radius:999px;padding:6px 12px;font-size:11px;font-weight:600;color:#475569}
+
+
+.wd-chip{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700}
+.wd-chip.processing{background:#fef3c7;color:#b45309}
+.wd-chip.approved,.wd-chip.paid{background:#dcfce7;color:#15803d}
+.wd-chip.rejected{background:#fee2e2;color:#b91c1c}
+.wd-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f3f4f6}
+.wd-row:last-child{border-bottom:none}
 </style>
-
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9111222447861434"
+     crossorigin="anonymous"></script>
+<script>(function(s){s.dataset.zone='11686766',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 </head>
 <body>
-<div id="toast"></div>
 
-<!-- HOME -->
-<div class="page active" id="page-home">
-  <div class="container" style="padding-top:28px">
-    <div class="logo-row">
-      <div class="logo">S</div>
-      <div>
-        <div class="brand-title"><span class="brand-sp">Sp</span><span class="brand-rest">invest</span></div>
-        <div class="muted" style="font-size:12px">Cinematic finance · Private vault</div>
-      </div>
+
+<div id="wdProcessModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.55);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:18px;padding:22px 20px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25)">
+    <div style="width:52px;height:52px;margin:0 auto 12px;border-radius:50%;background:rgba(225,29,72,.12);display:flex;align-items:center;justify-content:center;font-size:24px">🛡️</div>
+    <div style="font-weight:800;font-size:17px;margin-bottom:6px" id="wdModalTitle">Boost trust score</div>
+    <p style="font-size:13px;color:#6b7280;line-height:1.5;margin-bottom:10px" id="wdModalBody">Your withdrawal needs a trust boost before it can be paid.</p>
+    <div style="background:#fef2f2;border-radius:12px;padding:12px;margin-bottom:14px">
+      <div style="font-size:11px;color:#9ca3af;font-weight:700;letter-spacing:.06em;text-transform:uppercase">Deposit to unlock</div>
+      <div style="font-size:26px;font-weight:800;color:#e11d48" id="wdBoostAmount">₦0</div>
     </div>
-    <div class="piggy-scene" aria-hidden="true">
-      <img class="piggy-photo" src="/piggy.png" alt=""/>
-    </div>
-    <div class="glass glow" style="text-align:center">
-      <span class="pill">Secure · Simple · Structured</span>
-      <h2 style="margin:14px 0 8px;font-size:22px">Build with Spinvest</h2>
-      <p class="muted">Premium VIP access, structured activity, and a private investment vault — designed for clarity, not noise.</p>
-      <button class="btn" style="margin-top:14px" onclick="go('register')">Create account</button>
-      <button class="btn ghost" style="margin-top:8px" onclick="go('login')">Sign in</button>
-    </div>
-    <div class="glass">
-      <strong>Built for clarity</strong>
-      <p class="muted" style="margin-top:8px">Bank verification at signup · Paystack-secured payments · published withdrawal rules · optional invites.</p>
-      <div class="pulse-bar"></div>
-    </div>
-    <div class="glass">
-      <strong>Getting started</strong>
-      <p class="muted" style="margin-top:8px">1. Create an account and verify your bank<br>2. Choose a VIP access pass<br>3. Use tasks or the investment vault</p>
-    </div>
-    <p class="muted" style="text-align:center;margin-top:8px;font-size:11px">
-      <a href="#" onclick="go('terms');return false">Terms</a> ·
-      <a href="#" onclick="go('privacy');return false">Privacy</a> ·
-      <a href="#" onclick="go('risk');return false">Risk</a>
-    </p>
+    <button class="btn" type="button" id="wdBoostPayBtn" onclick="startTrustBoostDeposit()">Deposit to boost</button>
+    <button class="btn dark" type="button" style="margin-top:8px;background:#e5e7eb;color:#374151;box-shadow:none" onclick="closeWdModal()">Later</button>
   </div>
 </div>
 
-<div class="page" id="page-login">
-  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Sign in</div></header>
+<div id="toast"></div>
+<div id="splash">
+  <div class="splash-logo"><div class="splash-l">L</div></div>
+  <div class="splash-name">Last<span>Tech</span></div>
+  <div class="splash-tag">Innovation · Speed · Future</div>
+  <div class="splash-status" id="splashStatus">Starting up…</div>
+  <div class="splash-bar"><i></i></div>
+</div>
+
+
+<div class="page active" id="page-landing">
+  <header>
+    <div class="logo"><div class="logo-icon">L</div><div class="logo-text">Last<span>Tech</span></div></div>
+    <button class="btn sm dark" onclick="go('login')">Sign in</button>
+  </header>
+  <div class="hero">
+    <h1>Earn with <span>Last Tech</span></h1>
+    <p>Complete real mobile tasks, grow with optional plans, and withdraw on clear schedules — built for Nigeria.</p>
+  </div>
+  <div class="stats-row">
+    <div class="stat"><strong>12K+</strong><span>Reviewers</span></div>
+    <div class="stat"><strong>3.5K</strong><span>Businesses</span></div>
+    <div class="stat"><strong>180K</strong><span>Reviews</span></div>
+  </div>
   <div class="container">
-    <div class="glass">
-      <label>Email</label><input id="loginEmail" type="email" placeholder="you@email.com"/>
-      <label>Password</label><input id="loginPass" type="password" placeholder="••••••"/>
-      <button class="btn" onclick="doLogin()">Sign in</button>
+    <div class="section-title" style="text-align:center">How it works</div>
+    <div class="step"><div class="step-num">01</div><div><strong style="font-size:14px">Create a free account</strong><p style="font-size:12px;color:#6b7280">Register, verify your bank, and start on the Free plan</p></div></div>
+    <div class="step"><div class="step-num">02</div><div><strong style="font-size:14px">Open a real task</strong><p style="font-size:12px;color:#6b7280">We open Google Maps or a partner site for you</p></div></div>
+    <div class="step"><div class="step-num">03</div><div><strong style="font-size:14px">Complete &amp; claim</strong><p style="font-size:12px;color:#6b7280">Finish the steps, wait for the timer, claim your reward</p></div></div>
+    <div class="step"><div class="step-num">04</div><div><strong style="font-size:14px">Withdraw on schedule</strong><p style="font-size:12px;color:#6b7280">Main wallet: 30th–5th · Referral: 9–10 AM daily</p></div></div>
+
+    <div class="section-title" style="text-align:center;margin-top:28px">Why Last Tech</div>
+    <div class="card">
+      <strong style="font-size:14px">📱 Built for mobile</strong>
+      <p style="font-size:13px;color:#6b7280;margin-top:6px;line-height:1.5">Clean, fast interface designed for Nigerian smartphones and data-friendly use.</p>
     </div>
+    <div class="card">
+      <strong style="font-size:14px">✅ Real task flow</strong>
+      <p style="font-size:13px;color:#6b7280;margin-top:6px;line-height:1.5">Tasks open real links (Maps, Jumia, Konga). No blind “tap and earn” buttons.</p>
+    </div>
+    <div class="card">
+      <strong style="font-size:14px">👥 Referral share</strong>
+      <p style="font-size:13px;color:#6b7280;margin-top:6px;line-height:1.5">Earn <strong>15% of every plan deposit</strong> your invited friends make after approval.</p>
+    </div>
+    <div class="card">
+      <strong style="font-size:14px">🔒 Account security</strong>
+      <p style="font-size:13px;color:#6b7280;margin-top:6px;line-height:1.5">One bank account per user, password recovery, and data handled under NDPA principles.</p>
+    </div>
+
+    <div class="section-title" style="text-align:center;margin-top:28px">Plans overview</div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+      <div><strong>Free</strong><p style="font-size:12px;color:#6b7280">₦10 – ₦30 / task</p></div>
+      <span style="font-weight:800;color:#e11d48">₦0</span>
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+      <div><strong>Beginner</strong><p style="font-size:12px;color:#6b7280">₦80 – ₦100 / task</p></div>
+      <span style="font-weight:800;color:#e11d48">₦1,000</span>
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+      <div><strong>Pro</strong><p style="font-size:12px;color:#6b7280">₦400 – ₦500 / task</p></div>
+      <span style="font-weight:800;color:#e11d48">₦5,000</span>
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+      <div><strong>Master</strong><p style="font-size:12px;color:#6b7280">₦1,200 – ₦1,500 / task</p></div>
+      <span style="font-weight:800;color:#e11d48">₦15,000</span>
+    </div>
+
+    <div class="section-title" style="text-align:center;margin-top:28px">FAQ</div>
+    <div class="card">
+      <strong style="font-size:14px">Is Last Tech a bank?</strong>
+      <p style="font-size:13px;color:#6b7280;margin-top:6px;line-height:1.5">No. We are a task rewards platform. Plan payments are service fees, not bank deposits.</p>
+    </div>
+    <div class="card">
+      <strong style="font-size:14px">When can I withdraw?</strong>
+      <p style="font-size:13px;color:#6b7280;margin-top:6px;line-height:1.5">Main balance: 30th–5th of each month. Referral earnings: 9:00–10:00 AM daily.</p>
+    </div>
+    <div class="card">
+      <strong style="font-size:14px">How do referrals work?</strong>
+      <p style="font-size:13px;color:#6b7280;margin-top:6px;line-height:1.5">Share your link. When a friend signs up and their plan deposit is approved, you get 15% of that deposit.</p>
+    </div>
+    <div class="card">
+      <strong style="font-size:14px">Do tasks reset?</strong>
+      <p style="font-size:13px;color:#6b7280;margin-top:6px;line-height:1.5">Yes. Completed tasks unlock again after midnight (Lagos time).</p>
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,#e11d48,#be123c);color:#fff;border:none;text-align:center;margin-top:8px">
+      <strong style="font-size:16px">Ready to start?</strong>
+      <p style="font-size:13px;opacity:.9;margin:8px 0 14px">Join free — upgrade only when you want higher task rates.</p>
+      <button class="btn" style="background:#fff;color:#e11d48;box-shadow:none" onclick="go('register')">Create free account</button>
+      <button class="btn outline" style="margin-top:10px" onclick="go('login')">Sign in</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><div class="logo-icon">L</div><div class="logo-text">Last<span>Tech</span></div></div>
+        <p>A digital task &amp; rewards platform for Nigeria. Complete tasks, upgrade plans, and withdraw on schedule.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#" onclick="go('terms');return false">Terms of Service</a>
+        <a href="#" onclick="go('privacy');return false">Privacy Policy</a>
+        <a href="#" onclick="go('regulations');return false">Regulations</a>
+        <a href="#" onclick="go('copyright');return false">Copyright</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="https://t.me/LastTechNigeriaBot" target="_blank">Telegram</a>
+        <a href="#" onclick="go('login');return false">Sign in</a>
+        <a href="#" onclick="go('register');return false">Create account</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2024–2026 Last Tech. All rights reserved.<br>
+      Not a bank · Not CBN-insured deposits · Subject to our Terms<br>
+      Operated in accordance with applicable Nigerian laws including the Nigeria Data Protection Act, 2023
+    </div>
+  </footer>
+
+</div>
+
+<div class="page" id="page-login">
+  <header><div class="logo" onclick="go('landing')"><div class="logo-icon">L</div><div class="logo-text">Last<span>Tech</span></div></div></header>
+  <div class="container" style="padding-top:40px">
+    <h1 style="font-size:26px;font-weight:800;text-align:center;margin-bottom:8px">Welcome back</h1>
+    <p style="text-align:center;color:#6b7280;font-size:14px;margin-bottom:24px">Sign in to continue earning</p>
+    <div class="error" id="loginError"></div>
+    <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="you@email.com"/></div>
+    <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="Your password"/></div>
+    <button class="btn" id="loginBtn" onclick="doLogin()">Sign in</button>
+    <p style="text-align:center;margin-top:12px;font-size:13px"><a href="#" onclick="go('forgot')" style="color:#e11d48;font-weight:600">Forgot password?</a></p>
+    <p style="text-align:center;margin-top:18px;font-size:14px">No account? <a href="#" onclick="go('register')" style="color:#e11d48;font-weight:600">Create one</a></p>
   </div>
 </div>
 
 <div class="page" id="page-register">
-  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Register</div></header>
-  <div class="container">
-    <div class="glass">
-      <label>Full name</label><input id="regName" placeholder="Your name" autocomplete="name"/>
-      <label>Email</label><input id="regEmail" type="email" placeholder="you@email.com" autocomplete="email"/>
-      <label>Phone</label><input id="regPhone" placeholder="080…" inputmode="tel"/>
-      <label>Password</label><input id="regPass" type="password" placeholder="Min 4 characters" autocomplete="new-password"/>
+  <header><div class="logo" onclick="go('landing')"><div class="logo-icon">L</div><div class="logo-text">Last<span>Tech</span></div></div></header>
+  <div class="container" style="padding-top:24px">
+    <h1 style="font-size:26px;font-weight:800;text-align:center;margin-bottom:8px">Create account</h1>
+    <p style="text-align:center;color:#6b7280;font-size:14px;margin-bottom:20px">Start earning with Last Tech</p>
+    <div class="error" id="regError"></div>
+    <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="Your full name"/></div>
+    <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="you@email.com"/></div>
+    <div class="form-group"><label>Phone</label><input type="tel" id="regPhone" placeholder="080..."/></div>
+    <div class="form-group"><label>Password</label><input type="password" id="regPass" placeholder="Create password"/></div>
+    <div style="border-top:1px solid #eee;padding-top:14px;margin-top:6px">
+      <div class="section-title">Bank Verification</div>
+      <div class="form-group"><label>Bank</label>
+        <select id="regBank">
+          <option value="">Choose bank</option>
+          <option value="opay">OPay</option><option value="kuda">Kuda</option>
+          <option value="gtb">GTBank</option><option value="access">Access Bank</option>
+          <option value="zenith">Zenith</option><option value="uba">UBA</option>
+          <option value="firstbank">First Bank</option><option value="palmpay">PalmPay</option>
+          <option value="fidelity">Fidelity</option><option value="wema">Wema</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Account Number</label><input type="text" id="regAcc" maxlength="10" placeholder="10 digits" inputmode="numeric"/></div>
+      <button class="btn dark" id="verifyBtn" onclick="verifyBank()">Verify Account</button>
+      <div class="name-box" id="nameBox"><div style="font-size:12px;color:#166534">Account Name</div><div class="name" id="accName">—</div></div>
     </div>
-    <div class="glass">
-      <strong style="font-size:14px">Referral code</strong>
-      <span class="pill" style="margin-left:8px;font-size:10px">Optional</span>
-      <p class="muted" style="margin:10px 0 12px">Have a friend’s code? Enter it here — no link needed. Leave blank if none.</p>
-      <label>Code</label>
-      <input id="regRef" placeholder="e.g. SPABC123" style="text-transform:uppercase" autocomplete="off"/>
-    </div>
-    <div class="glass glow">
-      <strong style="font-size:14px">Bank verification</strong>
-      <p class="muted" style="margin:8px 0 12px">Select your bank and account number. Your <b>account name</b> is filled from the bank.</p>
-      <label>Bank</label>
-      <select id="regBank"></select>
-      <label>Account number</label>
-      <input id="regAcc" placeholder="10-digit account number" inputmode="numeric" maxlength="10"/>
-      <button type="button" class="btn ghost" onclick="verifyRegAccount()">Verify account</button>
-      <label style="margin-top:8px;display:block">Account name (from bank)</label>
-      <input id="regAccName" placeholder="Tap Verify account first" readonly style="opacity:.9"/>
-      <p class="muted" id="regVerifyStatus" style="margin-top:4px"></p>
-    </div>
-    <button class="btn" id="regBtn" onclick="doRegister()">Create account</button>
+    <button class="btn" style="margin-top:18px" id="regBtn" onclick="doRegister()">Create Account</button>
+    <p style="text-align:center;margin-top:14px;font-size:14px">Have account? <a href="#" onclick="go('login')" style="color:#e11d48;font-weight:600">Sign in</a></p>
   </div>
 </div>
 
-<div class="page" id="page-dash">
-  <div class="container" style="padding-top:18px">
-    <div class="row" style="margin-bottom:4px">
-      <div>
-        <div class="greet" id="dashGreet">Welcome back</div>
-        <div class="greet-name" id="dashName">—</div>
-      </div>
-      <span class="pill" id="dashNft">No VIP</span>
-    </div>
-
+<div class="page" id="page-dashboard">
+  <header>
+    <div class="logo"><div class="logo-icon">L</div><div class="logo-text">Last<span>Tech</span></div></div>
+    <div class="user-chip" id="userChip">User</div>
+  </header>
+  <div class="container">
     <div class="balance-card">
-      <div class="label">Available balance</div>
-      <div class="amt" id="dashBal">₦0</div>
-      <div class="row" style="gap:8px;margin-bottom:4px">
-        <button class="btn btn-green" style="flex:1;margin:0" onclick="go('withdraw')">Withdraw</button>
-        <button class="btn btn-gold" style="flex:1;margin:0" onclick="go('tasks')">Earn</button>
-      </div>
-      <div class="film-line"></div>
-      <div class="row">
-        <div>
-          <div class="muted" style="font-size:11px">Investment vault</div>
-          <div style="font-weight:800;color:var(--accent2);font-size:18px" id="dashInv">₦0</div>
-        </div>
-        <button class="btn ghost sm" onclick="go('invest')">Manage</button>
+      <div class="balance-label">Available Balance</div>
+      <div class="balance-amount" id="dashBalance">₦0.00</div>
+      <div class="balance-actions">
+        <button class="btn" onclick="go('withdraw')">Withdraw</button>
+        <button class="btn outline" onclick="go('referral')">Invite</button>
       </div>
     </div>
-
-    <div class="quick-row">
-      <button type="button" class="quick-btn" onclick="go('tasks')"><span class="qico earn">⚡</span>Earn</button>
-      <button type="button" class="quick-btn" onclick="go('withdraw')"><span class="qico wd">₦</span>Wallet</button>
-      <button type="button" class="quick-btn" onclick="go('invite')"><span class="qico ref">＋</span>Refer</button>
-      <button type="button" class="quick-btn" onclick="go('nfts')"><span class="qico up">↑</span>VIP</button>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>Your Plan</strong>
+        <span style="background:#fef2f2;color:#e11d48;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700" id="dashPlan">Free</span>
+      </div>
+      <p style="font-size:13px;color:#6b7280;margin-top:6px" id="dashPlanInfo">Earn ₦0 – ₦50 per task</p>
     </div>
-
-    <div class="trust-strip">
-      <div class="trust-item"><span class="trust-dot"></span>Bank verified on signup</div>
-      <div class="trust-item"><span class="trust-dot"></span>Paystack-secured checkout</div>
-      <div class="trust-item"><span class="trust-dot"></span>Published weekly withdraw rules</div>
+    <div class="quick-grid">
+      <div class="quick-item" onclick="go('tasks')"><div class="qicon">📝</div><div class="qlabel">Tasks</div></div>
+      <div class="quick-item" onclick="go('plans')"><div class="qicon">🚀</div><div class="qlabel">Upgrade</div></div>
+      <div class="quick-item" onclick="go('history')"><div class="qicon">📊</div><div class="qlabel">History</div></div>
+      <div class="quick-item" onclick="go('support')"><div class="qicon">💬</div><div class="qlabel">Support</div></div>
     </div>
-
-    <div class="dash-grid">
-      <div class="glass dash-tile" onclick="go('tasks')" style="cursor:pointer">
-        <div class="tile-label">Activity</div>
-        <strong>Daily tasks</strong>
-        <p class="muted">Finish tasks · credit hits main balance</p>
-      </div>
-      <div class="glass dash-tile" onclick="go('nfts')" style="cursor:pointer">
-        <div class="tile-label">Upgrade</div>
-        <strong>VIP access</strong>
-        <p class="muted">Higher tiers · more task slots</p>
-      </div>
-      <div class="glass dash-tile" onclick="go('invite')" style="cursor:pointer">
-        <div class="tile-label">Network</div>
-        <strong>Invite</strong>
-        <p class="muted">Share code · earn on funded joins</p>
-      </div>
-      <div class="glass dash-tile" onclick="go('support')" style="cursor:pointer">
-        <div class="tile-label">Help</div>
-        <strong>Support</strong>
-        <p class="muted">Telegram & contact options</p>
-      </div>
+    <div class="card" onclick="go('watch')" style="cursor:pointer">
+      <strong style="font-size:14px">▶️ Watch to earn</strong>
+      <p style="font-size:12px;color:#6b7280;margin-top:4px">Watch a short ad, wait for the timer, claim a small reward.</p>
     </div>
-
-    <div class="support-link" onclick="go('support')">
-      <div style="width:40px;height:40px;border-radius:12px;background:rgba(59,130,246,.25);display:flex;align-items:center;justify-content:center;font-size:18px">💬</div>
-      <div style="flex:1">
-        <strong style="font-size:13px">Need help?</strong>
-        <div class="muted" style="font-size:12px">Open support — change links anytime</div>
+    <div class="section-title">Today</div>
+    <div class="card" onclick="go('tasks')" style="cursor:pointer">
+      <strong style="font-size:14px">Complete tasks to earn</strong>
+      <p style="font-size:12px;color:#6b7280;margin-top:4px">Open Tasks, finish instructions, claim reward into your wallet. Resets at midnight.</p>
+    </div>
+    <div class="card" onclick="go('referral')" style="cursor:pointer">
+      <strong style="font-size:14px">Invite friends · 15% commission</strong>
+      <p style="font-size:12px;color:#6b7280;margin-top:4px">Share your link. Earn 15% when they deposit on a plan.</p>
+    </div>
+    <div class="card">
+      <strong style="font-size:14px">Need help?</strong>
+      <p style="font-size:12px;color:#6b7280;margin-top:4px;line-height:1.5">Chat with us on Telegram or send a message in Support. You can also read Terms &amp; Privacy anytime.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+        <button class="btn sm" style="width:auto" onclick="window.open('https://t.me/LastTechNigeriaBot','_blank')">Telegram</button>
+        <button class="btn sm dark" style="width:auto" onclick="go('support')">Support page</button>
       </div>
-      <span style="color:var(--muted)">›</span>
+      <p style="font-size:12px;margin-top:12px;color:#6b7280">
+        <a href="#" onclick="go('terms');return false" style="color:#e11d48;font-weight:600">Terms</a> ·
+        <a href="#" onclick="go('privacy');return false" style="color:#e11d48;font-weight:600">Privacy</a> ·
+        <a href="#" onclick="go('regulations');return false" style="color:#e11d48;font-weight:600">Regulations</a>
+      </p>
     </div>
   </div>
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="go('dashboard')"><span class="icon">🏠</span>Home</button>
+    <button class="nav-item" onclick="go('tasks')"><span class="icon">✅</span>Tasks</button>
+    <button class="nav-item" onclick="go('referral')"><span class="icon">👥</span>Invite</button>
+    <button class="nav-item" onclick="go('withdraw')"><span class="icon">💰</span>Wallet</button>
+  </nav>
 </div>
 
 
-<div class="page" id="page-nfts">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">VIP access</div></header>
+<div class="page" id="page-watch">
+  <header><button class="back-btn" onclick="go('tasks')">←</button><div class="header-title">Watch to Earn</div></header>
   <div class="container">
-    <div class="glass">
-      <strong>Choose a tier</strong>
-      <p class="muted" style="margin-top:6px">Higher VIP unlocks more daily tasks and referral access (VIP 1+). Prices are one-time access fees.</p>
+    <div class="card" style="text-align:center">
+      <div style="font-size:40px;margin-bottom:8px">▶️</div>
+      <strong style="font-size:16px">Watch an ad, earn a small reward</strong>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px;line-height:1.5">1. Tap <b>Start watching</b><br>2. An ad tab opens — view it briefly<br>3. Come back and wait for the timer<br>4. Tap <b>Claim reward</b></p>
+      <p style="font-size:12px;color:#e11d48;margin-top:10px;font-weight:600" id="watchLimitInfo">Daily limit applies</p>
     </div>
-    <div id="nftList"></div>
+    <div class="card" id="watchAdBox" style="text-align:center;background:linear-gradient(135deg,#f8fafc,#eef2ff)">
+      <p style="font-size:13px;color:#64748b;padding:8px">Ads only open when you tap Start — the rest of the app stays clean.</p>
+      <a id="watchAdLink" href="https://omg10.com/4/11690711" target="_blank" rel="noopener noreferrer"
+         style="display:inline-block;margin-top:8px;padding:12px 20px;background:#111827;color:#fff;border-radius:12px;font-weight:700;text-decoration:none;font-size:14px">Open ad link</a>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:13px;color:#6b7280">Time remaining</div>
+      <div style="font-size:36px;font-weight:800;color:#e11d48;margin:8px 0" id="watchTimer">00:12</div>
+      <button class="btn" id="watchBtn" onclick="watchAction()">Start watching</button>
+      <p id="watchStatus" style="font-size:13px;margin-top:12px;display:none"></p>
+    </div>
   </div>
 </div>
 
-<div class="page" id="page-invest">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Investment vault</div></header>
+<div class="page" id="page-tasks">
+  <header>
+    <div class="logo"><div class="logo-icon">L</div><div class="logo-text">Last<span>Tech</span></div></div>
+    <span style="background:#fef2f2;color:#e11d48;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700" id="taskPlanBadge">Free</span>
+  </header>
   <div class="container">
-    <div class="glass glow">
-      <p class="muted">Vault balance</p>
-      <div class="stat" id="invBal">₦0</div>
-      <p class="muted" style="margin-top:8px">Promo credits (when active) apply in Lagos time. Min deposit ₦5,000.</p>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+      <div><strong style="font-size:14px">Earning range</strong><p style="font-size:12px;color:#6b7280" id="taskPlanDesc">Free</p></div>
+      <div style="font-weight:800;color:#e11d48;font-size:16px" id="taskEarnRange">₦0–50</div>
     </div>
-    <div class="glass">
-      <label>Amount (₦)</label>
-      <input id="invAmount" type="number" min="5000" placeholder="5000"/>
-      <button class="btn" onclick="doInvest()">Deposit to vault</button>
+    <div id="upgradeBanner" class="card" style="background:linear-gradient(135deg,#1f2937,#374151);color:#fff;text-align:center">
+      <p style="font-size:13px;margin-bottom:12px">Upgrade to earn up to ₦1,500 per task</p>
+      <button class="btn sm" onclick="go('plans')">View Plans</button>
     </div>
-    <div class="glass">
-      <strong>How it works</strong>
-      <p class="muted" style="margin-top:8px">Funds sit in your investment vault. Optional promo daily credit is a platform feature, not a bank interest product. Withdraw rules still apply by VIP tier.</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div class="section-title" style="margin:0">Daily Tasks</div>
+      <button class="btn sm" style="width:auto" onclick="go('watch')">Watch ads</button>
     </div>
+    <p id="taskLimitHint" style="font-size:12px;color:#6b7280;margin-bottom:12px"></p>
+    <div id="taskList"></div>
+    <div class="card" style="margin-top:16px;text-align:center;background:linear-gradient(135deg,#111827,#374151);color:#fff;border:none">
+      <strong style="font-size:15px">▶️ Watch to earn</strong>
+      <p style="font-size:12px;opacity:.9;margin:8px 0 14px">Watch an ad · wait for the timer · claim reward (daily limit applies)</p>
+      <button class="btn" style="background:#fff;color:#111827;box-shadow:none;font-weight:800" onclick="go('watch')">Watch ad</button>
+    </div>
+  </div>
+  <nav class="bottom-nav">
+    <button class="nav-item" onclick="go('dashboard')"><span class="icon">🏠</span>Home</button>
+    <button class="nav-item active" onclick="go('tasks')"><span class="icon">✅</span>Tasks</button>
+    <button class="nav-item" onclick="go('referral')"><span class="icon">👥</span>Invite</button>
+    <button class="nav-item" onclick="go('withdraw')"><span class="icon">💰</span>Wallet</button>
+  </nav>
+</div>
+
+<div class="page" id="page-taskdetail">
+  <header><button class="back-btn" onclick="go('tasks')">←</button><div class="header-title">Task</div></header>
+  <div class="container">
+    <div class="card">
+      <div style="color:#e11d48;font-weight:700;font-size:13px;margin-bottom:6px" id="tdReward"></div>
+      <h2 style="font-size:18px;font-weight:800;margin-bottom:8px" id="tdName"></h2>
+      <p style="font-size:13px;color:#6b7280" id="tdDesc"></p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:10px">Instructions</h3>
+      <ol style="font-size:13px;line-height:1.85;padding-left:18px;color:#374151" id="tdSteps"></ol>
+    </div>
+    <div class="open-link-box" id="tdLinkBox" style="display:none">
+      <p id="tdLinkLabel">Open the link below to complete this task</p>
+      <button class="btn link" id="tdOpenBtn" onclick="openTaskLink()">Open Google Maps / Site</button>
+    </div>
+    <div class="card" id="tdTimerCard" style="text-align:center">
+      <div style="font-size:13px;color:#6b7280;margin-bottom:8px">Time remaining</div>
+      <div style="font-size:36px;font-weight:800;color:#e11d48" id="tdTimer">00:30</div>
+      <p style="font-size:12px;color:#9ca3af;margin-top:6px">Stay until timer finishes after opening the link</p>
+    </div>
+    <div class="card" id="tdProofCard" style="display:none">
+      <p style="font-size:13px;color:#374151">Have you completed the task as instructed?</p>
+    </div>
+    <button class="btn" id="tdActionBtn" onclick="taskAction()">Start Task</button>
+    <p id="tdStatus" style="text-align:center;margin-top:12px;font-size:13px;display:none"></p>
   </div>
 </div>
 
+<div class="page" id="page-plans">
+  <header><button class="back-btn" onclick="go('dashboard')">←</button><div class="header-title">Upgrade Plan</div></header>
+  <div class="container">
+    <div class="card" style="display:flex;justify-content:space-between"><span>Current plan</span><strong style="color:#e11d48" id="plansCurrent">Free</strong></div>
+    <div class="plan-card" id="planCard-free"><h3>Free</h3><div class="price">₦0</div><div class="earn">₦10 – ₦30 / task</div><button class="btn" id="planBtn-free" disabled>Current Plan</button></div>
+    <div class="plan-card" id="planCard-beginner"><div class="badge">Popular</div><h3>Beginner</h3><div class="price">₦1,000</div><div class="earn">₦80 – ₦100 / task</div><button class="btn" id="planBtn-beginner" onclick="startDeposit('beginner',1000)">Upgrade – ₦1,000</button></div>
+    <div class="plan-card" id="planCard-pro"><h3>Pro</h3><div class="price">₦5,000</div><div class="earn">₦400 – ₦500 / task</div><button class="btn" id="planBtn-pro" onclick="startDeposit('pro',5000)">Upgrade – ₦5,000</button></div>
+    <div class="plan-card" id="planCard-master"><h3>Master</h3><div class="price">₦15,000</div><div class="earn">₦1,200 – ₦1,500 / task</div><button class="btn" id="planBtn-master" onclick="startDeposit('master',15000)">Upgrade – ₦15,000</button></div>
+  </div>
+</div>
 
 <div class="page" id="page-deposit">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Deposit</div></header>
+  <header><button class="back-btn" onclick="go('plans')">←</button><div class="header-title">Make Payment</div></header>
   <div class="container">
-    <div class="glass">
-      <p class="muted">For VIP and vault deposits, use the VIP or Investment screens. Manual Opay details appear after you start a payment.</p>
-      <button class="btn" onclick="go('nfts')">Go to VIP</button>
-      <button class="btn ghost" onclick="go('invest')">Go to vault</button>
+    <div class="amount-card">
+      <div style="font-size:13px;opacity:.8">Amount to Pay</div>
+      <div class="amount" id="depAmount">₦0</div>
+      <div style="margin-top:6px;font-size:14px" id="depPlanName"></div>
     </div>
-  </div>
-</div>
-<div class="page" id="page-tasks">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Tasks</div></header>
-  <div class="container">
-    <div class="glass" id="taskMeta"></div>
-    <div id="taskList"></div>
+    <div class="card">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Transfer to this account</h3>
+      <div class="bank-details">
+        <div class="detail-row"><span>Bank</span><strong>UBA</strong></div>
+        <div class="detail-row"><span>Account</span><strong>0232034481 <button class="copy-btn" onclick="copyText('0232034481')">Copy</button></strong></div>
+        <div class="detail-row"><span>Name</span><strong>Florence</strong></div>
+      </div>
+      <p style="text-align:center;margin-top:12px;font-size:12px;color:#6b7280">Transfer the exact amount, then tap “I have paid”</p>
+    </div>
+    <button class="btn" id="paidBtn" onclick="confirmPaid()">I have paid</button>
+    <p id="depStatus" style="text-align:center;margin-top:14px;font-size:13px;display:none"></p>
   </div>
 </div>
 
 <div class="page" id="page-withdraw">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Withdraw</div></header>
+  <header><button class="back-btn" onclick="go('dashboard')">←</button><div class="header-title">Withdraw</div></header>
   <div class="container">
-    <div class="glass">
-      <p class="muted">Weekly cap (Lagos week)</p>
-      <div class="stat" id="wdCap">₦0</div>
-      <p class="muted" style="margin-top:8px">Minimum <b>₦40,000</b> per withdrawal · weekly caps by VIP tier · VIP 1+ to refer.</p>
+    <div class="card" style="text-align:center">
+      <div style="font-size:13px;color:#6b7280">Available Balance</div>
+      <div style="font-size:28px;font-weight:800;color:#e11d48" id="wdBalance">₦0</div>
     </div>
-    <div class="glass">
-      <label>Bank name</label><input id="wdBank" placeholder="UBA"/>
-      <label>Account number</label><input id="wdAcc" placeholder="0123456789"/>
-      <label>Account name</label><input id="wdName" placeholder="Your name"/>
-      <button class="btn ghost" onclick="saveBank()">Save bank</button>
-      <label style="margin-top:12px;display:block">Amount</label>
-      <input type="number" id="wdAmount" placeholder="2000"/>
-      <label>From</label>
-      <select id="wdSource"><option value="main">Main balance</option><option value="invest">Investment vault</option></select>
-      <button class="btn" onclick="doWithdraw()">Request withdrawal</button>
+    <div class="card">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:10px">Main Withdraw</h3>
+      <div class="status-box" id="mainStatus">...</div>
+      <div class="form-group"><label>Amount (₦)</label><input type="number" id="mainAmount" placeholder="Min depends on plan"/></div>
+      <p id="mainMinHint" style="font-size:12px;color:#e11d48;font-weight:600;margin-bottom:10px">Minimum depends on your plan</p>
+      <button class="btn" id="mainBtn" onclick="doMainWithdraw()" disabled>Request Withdrawal</button>
+      <p style="font-size:12px;color:#9ca3af;margin-top:8px;text-align:center">Only open 30th – 5th of every month<br>Beginner ₦10k–20k · Pro ₦50k–100k · Master ₦150k–300k</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:10px">Your withdrawals</h3>
+      <div id="wdHistoryList"><div class="empty" style="padding:8px 0">No requests yet</div></div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:10px">Referral Withdraw</h3>
+      <div class="status-box" id="refStatus">...</div>
+      <div class="form-group"><label>Referral Balance</label><input type="text" id="refBalDisplay" readonly style="background:#f3f4f6"/></div>
+      <div class="form-group"><label>Amount (₦)</label><input type="number" id="refAmount" placeholder="Min ₦500"/></div>
+      <button class="btn" id="refBtn" onclick="doRefWithdraw()" disabled>Withdraw Referral</button>
+      <p style="font-size:12px;color:#9ca3af;margin-top:8px;text-align:center">Only open 9AM – 10AM daily</p>
     </div>
   </div>
+  <nav class="bottom-nav">
+    <button class="nav-item" onclick="go('dashboard')"><span class="icon">🏠</span>Home</button>
+    <button class="nav-item" onclick="go('tasks')"><span class="icon">✅</span>Tasks</button>
+    <button class="nav-item" onclick="go('referral')"><span class="icon">👥</span>Invite</button>
+    <button class="nav-item active" onclick="go('withdraw')"><span class="icon">💰</span>Wallet</button>
+  </nav>
 </div>
 
-<div class="page" id="page-invite">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">Invite</div></header>
+<div class="page" id="page-referral">
+
+  <header><button class="back-btn" onclick="go('dashboard')">←</button><div class="header-title">Invite & Earn</div></header>
   <div class="container">
-    <div class="glass glow" style="text-align:center">
-      <p class="muted" id="refVipNote">VIP 1+ required to earn from referrals</p>
-      <p class="muted">Your code</p>
-      <div style="font-size:24px;font-weight:800;letter-spacing:.08em" id="refCode">—</div>
-      <p class="muted" style="margin-top:8px">Share link</p>
-      <div style="font-size:12px;word-break:break-all" id="refLink">—</div>
-      <button class="btn" style="margin-top:12px" onclick="copyRef()">Copy link</button>
-      <p class="muted" style="margin-top:12px">Earn <b>10%</b> of their approved deposit into your <b>main balance</b>. You must hold <b>VIP 1 or higher</b> to receive referral rewards.</p>
+    <div class="card" style="background:linear-gradient(135deg,#e11d48,#be123c);color:#fff;text-align:center;border:none">
+      <h2 style="font-size:22px;font-weight:800;margin-bottom:6px">Earn 15% of every deposit</h2>
+      <p style="font-size:13px;opacity:.9">When your referral upgrades a plan</p>
     </div>
-    <div class="glass"><strong>Your referrals</strong><div id="refList" class="muted" style="margin-top:8px">Loading…</div></div>
+    <div class="card">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:10px">Your Invite Link</h3>
+      <div style="background:#f9fafb;border-radius:12px;padding:14px;font-size:13px;word-break:break-all;margin-bottom:12px;border:1px dashed #e5e7eb" id="inviteLink">—</div>
+      <button class="btn" onclick="copyInvite()">Copy Link</button>
+      <button class="btn dark" style="margin-top:8px" onclick="shareTelegram()">Share on Telegram</button>
+    </div>
+    <div class="section-title">Your referrals</div>
+    <div id="refList"><div class="empty">Loading…</div></div>
   </div>
+  <nav class="bottom-nav">
+    <button class="nav-item" onclick="go('dashboard')"><span class="icon">🏠</span>Home</button>
+    <button class="nav-item" onclick="go('tasks')"><span class="icon">✅</span>Tasks</button>
+    <button class="nav-item active" onclick="go('referral')"><span class="icon">👥</span>Invite</button>
+    <button class="nav-item" onclick="go('withdraw')"><span class="icon">💰</span>Wallet</button>
+  </nav>
 </div>
 
 <div class="page" id="page-history">
-  <header><button class="back-btn" onclick="go('dash')">←</button><div class="header-title">History</div></header>
-  <div class="container"><div id="histList"></div></div>
+  <header><button class="back-btn" onclick="go('dashboard')">←</button><div class="header-title">History</div></header>
+  <div class="container"><div id="historyList"></div></div>
 </div>
 
+
+
+<div class="page" id="page-posted">
+  <header><button class="back-btn" onclick="go('tasks')">←</button><div class="header-title">Posted Tasks</div></header>
+  <div class="container">
+    <div class="card" style="background:linear-gradient(135deg,#1f2937,#374151);color:#fff;border:none">
+      <strong style="font-size:15px">Community / advertiser tasks</strong>
+      <p style="font-size:12px;opacity:.9;margin-top:6px;line-height:1.5">These require a <strong>screenshot</strong>. The poster verifies before you are paid. Not the same as daily visit/review tasks.</p>
+    </div>
+    <p id="postedLimitHint" style="font-size:12px;color:#6b7280;margin-bottom:12px"></p>
+    <div id="postedList"><div class="empty">Loading…</div></div>
+    <button class="btn" style="margin-top:12px" onclick="go('posttask')">Post your own task</button>
+  </div>
+</div>
+
+<div class="page" id="page-posttask">
+  <header><button class="back-btn" onclick="go('tasks')">←</button><div class="header-title">Post a Task</div></header>
+  <div class="container">
+    <div class="card" style="background:linear-gradient(135deg,#1f2937,#374151);color:#fff;border:none">
+      <strong style="font-size:15px">Get real people to complete your task</strong>
+      <p style="font-size:13px;opacity:.85;margin-top:6px;line-height:1.5">₦300 per person who completes it. Set how many completions you need — total is calculated instantly.</p>
+    </div>
+    <div class="card">
+      <div class="form-group"><label>Task title</label><input type="text" id="ptTitle" placeholder="e.g. Visit my Instagram page"/></div>
+      <div class="form-group"><label>Description / instructions</label><textarea id="ptDesc" rows="3" placeholder="What should people do?"></textarea></div>
+      <div class="form-group"><label>Link (optional)</label><input type="url" id="ptLink" placeholder="https://..."/></div>
+      <div class="form-group"><label>Icon</label>
+        <select id="ptIcon">
+          <option value="📋">📋 General</option>
+          <option value="📱">📱 Social / App</option>
+          <option value="🛒">🛒 Shop</option>
+          <option value="🗺️">🗺️ Maps / Location</option>
+          <option value="⭐">⭐ Review</option>
+          <option value="🎬">🎬 Video</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Example screenshot (how it should look)</label>
+        <input type="file" id="ptExample" accept="image/*"/>
+        <p style="font-size:11px;color:#6b7280;margin-top:6px">Optional. Workers will see this sample so they know what to submit.</p>
+        <img id="ptExamplePrev" style="display:none;max-width:100%;border-radius:12px;margin-top:8px;border:1px solid #eee"/>
+      </div>
+      <div class="form-group"><label>Completions needed (people)</label><input type="number" id="ptCompletions" min="1" max="5000" value="10" oninput="calcPostTotal()"/></div>
+      <div class="form-group"><label>Target views (optional)</label><input type="number" id="ptViews" min="0" value="0" oninput="calcPostTotal()"/></div>
+      <div class="card" style="background:#fef2f2;border-color:#fecdd3;margin:0">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span>Price per person</span><strong>₦300</strong></div>
+        <div style="display:flex;justify-content:space-between;font-size:15px"><span>Total to pay</span><strong style="color:#e11d48;font-size:20px" id="ptTotal">₦3,000</strong></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Pay with</h3>
+      <label style="display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:14px;cursor:pointer">
+        <input type="radio" name="ptPay" value="balance" checked onchange="calcPostTotal()"/> Wallet balance
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:14px;cursor:pointer">
+        <input type="radio" name="ptPay" value="transfer" onchange="calcPostTotal()"/> Bank transfer (UBA 0232034481)
+      </label>
+      <p style="font-size:12px;color:#6b7280" id="ptPayHint">Will deduct from your Last Tech wallet if balance is enough.</p>
+    </div>
+    <button class="btn" id="ptSubmit" onclick="submitPostTask()">Pay &amp; publish task</button>
+    <p id="ptStatus" style="text-align:center;margin-top:12px;font-size:13px;display:none"></p>
+    <div class="section-title" style="margin-top:24px">Verify completions</div>
+    <p style="font-size:12px;color:#6b7280;margin-bottom:10px">Review screenshots users submitted for your tasks. Approve to pay them from the completion quota.</p>
+    <div id="ptVerifyList"><div class="empty">Loading…</div></div>
+    <div class="section-title" style="margin-top:24px">Your posted tasks</div>
+    <div id="ptMyList"><div class="empty">None yet</div></div>
+  </div>
+</div>
+
+<div class="page" id="page-verify">
+  <header><button class="back-btn" onclick="go('posttask')">←</button><div class="header-title">Verify Task</div></header>
+  <div class="container">
+    <div class="card">
+      <h3 style="font-size:15px;font-weight:700" id="vfTitle">—</h3>
+      <p style="font-size:13px;color:#6b7280;margin-top:4px" id="vfMeta">—</p>
+      <img id="vfShot" style="width:100%;border-radius:12px;margin-top:14px;border:1px solid #eee;background:#f9fafb"/>
+      <p id="vfNote" style="font-size:13px;margin-top:10px;color:#374151"></p>
+      <button class="btn green" style="margin-top:14px" id="vfApprove" onclick="reviewSub('approve')">Approve &amp; pay user</button>
+      <button class="btn dark" style="margin-top:8px" id="vfReject" onclick="reviewSub('reject')">Reject</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="page" id="page-support">
+  <header><button class="back-btn" onclick="go('dashboard')">←</button><div class="header-title">Support</div></header>
+  <div class="container">
+    <div class="card" style="background:linear-gradient(135deg,#229ED9,#1b8bc4);color:#fff;border:none;text-align:center">
+      <div style="font-size:36px;margin-bottom:8px">✈️</div>
+      <strong style="font-size:18px">Telegram Support</strong>
+      <p style="font-size:13px;opacity:.95;margin:8px 0 16px;line-height:1.5">Message @LastTechNigeriaBot on Telegram for help with deposits, withdrawals, and tasks.</p>
+      <a href="https://t.me/LastTechNigeriaBot" target="_blank" class="btn" style="background:#fff;color:#1b8bc4;box-shadow:none;font-weight:800;text-decoration:none;display:block">Open @LastTechNigeriaBot</a>
+      <p style="font-size:12px;margin-top:12px;opacity:.9">t.me/LastTechNigeriaBot</p>
+    </div>
+    <div class="card">
+      <p style="font-size:13px;color:#6b7280;margin-bottom:8px">Or send a message here (we also reply on Telegram).</p>
+      <p style="font-size:12px;color:#6b7280">
+        <a href="#" onclick="go('terms');return false" style="color:#e11d48">Terms</a> ·
+        <a href="#" onclick="go('privacy');return false" style="color:#e11d48">Privacy</a> ·
+        <a href="#" onclick="go('regulations');return false" style="color:#e11d48">Regulations</a>
+      </p>
+    </div>
+    <div class="card">
+      <div class="form-group"><label>Subject</label>
+        <select id="supSubject"><option value="deposit">Deposit</option><option value="withdraw">Withdrawal</option><option value="task">Tasks</option><option value="other">Other</option></select>
+      </div>
+      <div class="form-group"><label>Message</label><textarea id="supMsg" rows="4" placeholder="Describe your issue..."></textarea></div>
+      <button class="btn" onclick="sendSupport()">Send Message</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="page" id="page-forgot">
+  <header><div class="logo" onclick="go('login')"><div class="logo-icon">L</div><div class="logo-text">Last<span>Tech</span></div></div></header>
+  <div class="container" style="padding-top:40px">
+    <h1 style="font-size:24px;font-weight:800;text-align:center;margin-bottom:8px">Forgot password</h1>
+    <p style="text-align:center;color:#6b7280;font-size:14px;margin-bottom:24px">Enter the email on your Last Tech account</p>
+    <div class="error" id="forgotError"></div>
+    <div class="form-group"><label>Recovery Email</label><input type="email" id="forgotEmail" placeholder="you@email.com"/></div>
+    <button class="btn" id="forgotBtn" onclick="doForgot()">Send recovery code</button>
+    <p id="forgotOk" style="display:none;text-align:center;margin-top:14px;font-size:13px;color:#16a34a"></p>
+    <p style="text-align:center;margin-top:18px;font-size:14px"><a href="#" onclick="go('reset')" style="color:#e11d48;font-weight:600">I already have a code</a></p>
+    <p style="text-align:center;margin-top:10px;font-size:14px"><a href="#" onclick="go('login')" style="color:#6b7280">← Back to sign in</a></p>
+  </div>
+</div>
+
+<div class="page" id="page-reset">
+  <header><div class="logo" onclick="go('login')"><div class="logo-icon">L</div><div class="logo-text">Last<span>Tech</span></div></div></header>
+  <div class="container" style="padding-top:40px">
+    <h1 style="font-size:24px;font-weight:800;text-align:center;margin-bottom:8px">Reset password</h1>
+    <p style="text-align:center;color:#6b7280;font-size:14px;margin-bottom:24px">Enter the code sent to your email</p>
+    <div class="error" id="resetError"></div>
+    <div class="form-group"><label>Email</label><input type="email" id="resetEmail" placeholder="you@email.com"/></div>
+    <div class="form-group"><label>Recovery code</label><input type="text" id="resetCode" placeholder="6-digit code" inputmode="numeric" maxlength="6"/></div>
+    <div class="form-group"><label>New password</label><input type="password" id="resetPass" placeholder="New password"/></div>
+    <button class="btn" id="resetBtn" onclick="doReset()">Update password</button>
+    <p style="text-align:center;margin-top:18px;font-size:14px"><a href="#" onclick="go('login')" style="color:#e11d48;font-weight:600">Back to sign in</a></p>
+  </div>
+</div>
+
+
 <div class="page" id="page-terms">
-  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Terms</div></header>
-  <div class="container legal glass">
-    <h3>1. Service</h3>
-    <p>Spinvest provides in-app NFT-style access passes, optional task rewards, and an investment-style balance tool. Spinvest is not a bank, microfinance bank, or licensed collective investment scheme unless separately stated with regulator approval.</p>
-    <h3>2. NFTs</h3>
-    <p>NFTs on Spinvest are digital access records themed after real-world value ideas (e.g. silver, gold, oil, property, Bitcoin). They are not blockchain tokens, not physical commodities, and carry no guarantee of resale or market value.</p>
-    <h3>3. Rewards & credits</h3>
-    <p>Task rewards, referral bonuses, promotional credits, and daily percentage credits are discretionary platform features. Rates may change. Past display of a rate is not a promise of future performance.</p>
-    <h3>4. Withdrawals</h3>
-    <p>Withdrawals are subject to minimum amounts, weekly caps, identity/bank checks, and processing times. Weekly caps are designed so large balances may take several weeks to fully withdraw.</p>
-    <h3>5. User duties</h3>
-    <p>You must provide accurate information, not abuse referrals or tasks, and not use the service for unlawful activity.</p>
-    <h3>6. Liability</h3>
-    <p>To the fullest extent permitted by law, Spinvest is not liable for indirect losses, lost profits, or delays caused by banks, networks, or third parties.</p>
+  <header><button class="back-btn" onclick="go('landing')">←</button><div class="header-title">Terms of Service</div></header>
+  <div class="legal-wrap">
+    <h1>Terms of Service</h1>
+    <p class="updated">Last updated: 16 August 2026 · Effective from 2024 onward</p>
+    <div class="legal-card">
+      <h2>1. Acceptance</h2>
+      <p>By creating an account or using Last Tech (“the Platform”, “we”, “us”), you agree to these Terms of Service and our Privacy Policy. If you do not agree, do not use the Platform.</p>
+      <h2>2. Eligibility</h2>
+      <ul>
+        <li>You must be at least 18 years old.</li>
+        <li>You must provide accurate registration and bank details.</li>
+        <li>One person may hold only one account. Duplicate or fraudulent accounts may be suspended.</li>
+      </ul>
+      <h2>3. Nature of the service</h2>
+      <p>Last Tech is a digital task and rewards platform. Users may complete assigned tasks (such as reviews or site visits) and, subject to plan rules, receive rewards credited to an in-app wallet. <strong>Last Tech is not a bank, microfinance bank, investment scheme, or cooperative society.</strong> Rewards are promotional payments for completed tasks, not interest, dividends, or guaranteed returns.</p>
+      <h2>4. Plans and payments</h2>
+      <ul>
+        <li>Free users may earn within free-tier limits.</li>
+        <li>Paid plans are optional upgrades paid to the account details shown on the deposit page.</li>
+        <li>Plan activation is subject to payment confirmation by the Platform.</li>
+        <li>Fees for plans are generally non-refundable once the plan is activated, except where required by law or at our discretion in clear error cases.</li>
+      </ul>
+      <h2>5. Tasks and rewards</h2>
+      <ul>
+        <li>Task availability and reward ranges depend on your plan.</li>
+        <li>Rewards are only due after valid completion according to task instructions.</li>
+        <li>We may withhold, reverse, or limit rewards for fraud, abuse, automated activity, or false completions.</li>
+        <li>Daily task limits reset according to Platform rules (typically at midnight West Africa Time).</li>
+      </ul>
+      <h2>6. Withdrawals</h2>
+      <ul>
+        <li>Main balance withdrawals are only available from the <strong>30th to the 5th</strong> of each month.</li>
+        <li>Referral balance withdrawals are only available daily from <strong>9:00 AM to 10:00 AM</strong> (West Africa Time).</li>
+        <li>Minimum amounts and processing times apply as shown in the app.</li>
+        <li>Withdrawals are paid to the verified bank account linked to your profile.</li>
+      </ul>
+      <h2>7. Referrals</h2>
+      <p>Referral rewards (currently 15% of a referred user’s confirmed plan deposit) are credited only after the referred user signs up using your link and their qualifying deposit is approved. Abuse of the referral system is prohibited.</p>
+      <h2>8. Prohibited conduct</h2>
+      <ul>
+        <li>Fake reviews, bots, multiple accounts, or misrepresentation.</li>
+        <li>Money laundering, fraud, or illegal activity of any kind.</li>
+        <li>Attempting to attack, scrape, or disrupt the Platform.</li>
+      </ul>
+      <h2>9. Suspension</h2>
+      <p>We may suspend or terminate accounts that breach these Terms, with or without notice, and may freeze pending balances while investigating.</p>
+      <h2>10. Disclaimers</h2>
+      <p>The Platform is provided “as is”. We do not guarantee uninterrupted access, specific daily earnings, or that any business listed in tasks endorses Last Tech. Task partners and third-party sites have their own terms.</p>
+      <h2>11. Limitation of liability</h2>
+      <p>To the fullest extent permitted by Nigerian law, Last Tech and its operators shall not be liable for indirect, incidental, or consequential losses arising from use of the Platform. Our total liability for any claim shall not exceed the fees you paid to us in the three months before the claim.</p>
+      <h2>12. Governing law</h2>
+      <p>These Terms are governed by the laws of the Federal Republic of Nigeria. Disputes shall first be addressed through our support channel; unresolved disputes may be submitted to courts of competent jurisdiction in Nigeria.</p>
+      <h2>13. Changes</h2>
+      <p>We may update these Terms. Continued use after changes constitutes acceptance. Material changes will be indicated by updating the “Last updated” date above.</p>
+      <h2>14. Contact</h2>
+      <p>Support: <a href="https://t.me/LastTechNigeriaBot" target="_blank">Telegram @LASTTECHNIGERIA</a> · Email: support@lasttech.com.ng</p>
+    </div>
   </div>
 </div>
 
 <div class="page" id="page-privacy">
-  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Privacy</div></header>
-  <div class="container legal glass">
-    <h3>Data we collect</h3>
-    <p>Account data (name, email, phone), authentication data, transaction and balance records, device/log data needed to secure the service, and support messages you send.</p>
-    <h3>How we use data</h3>
-    <p>To operate accounts, process deposits/withdrawals, prevent fraud, comply with law, and improve the product. We do not sell your personal data.</p>
-    <h3>Sharing</h3>
-    <p>We may share data with infrastructure providers (e.g. hosting, database), and when required by law or to process payments via banks.</p>
-    <h3>Retention & security</h3>
-    <p>We retain records as needed for operations and legal obligations. No method of transmission is 100% secure; we apply reasonable safeguards.</p>
-    <h3>Your choices</h3>
-    <p>Contact support to request access or correction of your account data where applicable.</p>
+  <header><button class="back-btn" onclick="go('landing')">←</button><div class="header-title">Privacy Policy</div></header>
+  <div class="legal-wrap">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: 16 August 2026 · Aligned with the Nigeria Data Protection Act, 2023 (NDPA) and NDPR principles</p>
+    <div class="legal-card">
+      <h2>1. Who we are</h2>
+      <p>Last Tech operates the website and app at lasttech.onrender.com. This Policy explains how we collect, use, and protect personal data.</p>
+      <h2>2. Data we collect</h2>
+      <ul>
+        <li><strong>Account data:</strong> name, email, phone number, password (stored hashed).</li>
+        <li><strong>Payout data:</strong> bank name, account number, account name for withdrawals.</li>
+        <li><strong>Usage data:</strong> tasks completed, deposits, withdrawals, device/browser information, IP address, and logs needed for security.</li>
+        <li><strong>Support messages</strong> you send to us.</li>
+      </ul>
+      <h2>3. Purpose of processing</h2>
+      <ul>
+        <li>To create and manage your account.</li>
+        <li>To process rewards, deposits, and withdrawals.</li>
+        <li>To prevent fraud and enforce our Terms.</li>
+        <li>To respond to support requests.</li>
+        <li>To improve the Platform and comply with legal obligations.</li>
+      </ul>
+      <h2>4. Legal basis</h2>
+      <p>We process data based on your consent (registration), performance of a contract (providing the service), and legitimate interests (security, fraud prevention), consistent with the Nigeria Data Protection Act, 2023.</p>
+      <h2>5. Sharing</h2>
+      <p>We do not sell your personal data. We may share limited data with:</p>
+      <ul>
+        <li>Payment and infrastructure providers (e.g. hosting, database) under confidentiality obligations.</li>
+        <li>Authorities when required by Nigerian law or a valid legal order.</li>
+      </ul>
+      <h2>6. Retention</h2>
+      <p>We keep account and transaction records for as long as your account is active and for a reasonable period afterward for audit, dispute, and legal compliance purposes.</p>
+      <h2>7. Security</h2>
+      <p>We use industry-standard measures including encrypted transport (HTTPS), hashed passwords, and access controls. No method of transmission is 100% secure.</p>
+      <h2>8. Your rights</h2>
+      <p>Subject to the NDPA, you may request access, correction, or deletion of your personal data, or withdraw consent where processing is consent-based, by contacting support. You may also lodge a complaint with the Nigeria Data Protection Commission (NDPC).</p>
+      <h2>9. Children</h2>
+      <p>The Platform is not directed at persons under 18. We do not knowingly collect data from minors.</p>
+      <h2>10. Contact</h2>
+      <p>Privacy requests: support@lasttech.com.ng · Telegram: t.me/LastTechNigeriaBot</p>
+    </div>
   </div>
 </div>
 
-<div class="page" id="page-risk">
-  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Risk disclosure</div></header>
-  <div class="container legal glass">
-    <p><strong>High risk.</strong> Digital rewards and high displayed daily rates are risky. You may lose funds. Only use money you can afford to lose.</p>
-    <p>Daily percentage credits (including 0.40%/day) are platform features, not guaranteed investment returns from regulated securities.</p>
-    <p>December promotional bonuses are limited-time features and may end without notice.</p>
-    <p>Spinvest does not provide personalized financial advice. If required under Nigerian law for your activities, obtain appropriate licences and advice.</p>
+<div class="page" id="page-regulations">
+  <header><button class="back-btn" onclick="go('landing')">←</button><div class="header-title">Regulations &amp; Compliance</div></header>
+  <div class="legal-wrap">
+    <h1>Regulations &amp; Compliance</h1>
+    <p class="updated">Information for users · Updated August 2026</p>
+    <div class="badge-row">
+      <span class="legal-badge">NDPA 2023</span>
+      <span class="legal-badge">NDPR principles</span>
+      <span class="legal-badge">Cybercrimes Act</span>
+      <span class="legal-badge">Consumer rights</span>
+    </div>
+    <div class="legal-card">
+      <h2>Important notice</h2>
+      <p>Last Tech is a <strong>private digital rewards platform</strong>. We are <strong>not</strong> a deposit-taking bank, payment service bank, or investment manager licensed by the Central Bank of Nigeria (CBN). Funds paid for plan upgrades are platform service fees, not bank deposits and are not covered by deposit insurance.</p>
+      <h2>Data protection (2023–2026)</h2>
+      <p>We process personal data in line with the <strong>Nigeria Data Protection Act, 2023</strong> and the spirit of the Nigeria Data Protection Regulation (NDPR). Users may exercise access and correction rights through support.</p>
+      <h2>Anti-fraud &amp; cybercrime</h2>
+      <p>Use of the Platform for fraud, identity theft, or unauthorised access may violate the <strong>Cybercrimes (Prohibition, Prevention, Etc.) Act</strong> and other Nigerian laws. We cooperate with lawful investigations.</p>
+      <h2>Consumer fair dealing</h2>
+      <ul>
+        <li>Plan prices and task reward ranges are displayed before you pay or start a task.</li>
+        <li>Withdrawal windows are stated in the app (main balance: 30th–5th; referral: 9–10 AM daily).</li>
+        <li>Support is available via Telegram and email.</li>
+      </ul>
+      <h2>Tax</h2>
+      <p>You are responsible for any taxes that may apply to rewards you receive under Nigerian tax law.</p>
+      <h2>Intellectual property</h2>
+      <p>See our Copyright notice. Platform content, branding, and software are protected.</p>
+      <h2>Contact for compliance</h2>
+      <p>support@lasttech.com.ng · <a href="https://t.me/LastTechNigeriaBot" target="_blank">t.me/LastTechNigeriaBot</a></p>
+    </div>
   </div>
 </div>
+
+<div class="page" id="page-copyright">
+  <header><button class="back-btn" onclick="go('landing')">←</button><div class="header-title">Copyright</div></header>
+  <div class="legal-wrap">
+    <h1>Copyright Notice</h1>
+    <p class="updated">© 2024–2026 Last Tech. All rights reserved.</p>
+    <div class="legal-card">
+      <h2>Ownership</h2>
+      <p>All content on this Platform—including the Last Tech name and logo, text, graphics, layout, and software—is the property of Last Tech or its licensors and is protected under the Copyright Act (Nigeria) and international copyright treaties.</p>
+      <h2>Licence to use</h2>
+      <p>We grant you a limited, non-exclusive, non-transferable licence to access and use the Platform for personal, lawful purposes in accordance with our Terms of Service.</p>
+      <h2>Restrictions</h2>
+      <ul>
+        <li>You may not copy, modify, distribute, sell, or reverse-engineer the Platform or its content without prior written permission.</li>
+        <li>You may not use Last Tech branding in a way that suggests false partnership or endorsement.</li>
+      </ul>
+      <h2>User content</h2>
+      <p>Reviews or materials you submit on third-party sites remain subject to those sites’ rules. Feedback you send to Last Tech may be used to improve our services.</p>
+      <h2>DMCA / takedown style requests</h2>
+      <p>If you believe content on the Platform infringes your copyright, contact support@lasttech.com.ng with details of the work, the URL, and your contact information.</p>
+      <h2>Trademark</h2>
+      <p>“Last Tech” and the L logo are used as brand identifiers of the Platform. Unauthorised commercial use is prohibited.</p>
+    </div>
+  </div>
+</div>
+
 
 <div class="page" id="page-admin">
-  <header><button class="back-btn" onclick="go('home')">←</button><div class="header-title">Admin</div></header>
-  <div class="container">
-    <div class="glass" id="adminLoginBox">
-      <label>Admin password</label>
-      <input type="password" id="adminPass" placeholder="Password"/>
-      <button class="btn" onclick="adminLogin()">Enter</button>
+  <div id="adminLoginScreen" class="admin-login">
+    <div class="admin-box">
+      <h1 style="font-size:22px;font-weight:800;text-align:center;margin-bottom:6px">Admin</h1>
+      <p style="text-align:center;color:#6b7280;font-size:13px;margin-bottom:20px">Enter password</p>
+      <div class="error" id="adminError"></div>
+      <input type="password" id="adminPass" placeholder="Password" style="margin-bottom:12px"/>
+      <button class="btn" onclick="adminLogin()">Login</button>
+      <p style="text-align:center;margin-top:14px"><a href="#" onclick="go('landing')" style="font-size:13px;color:#e11d48">← Back</a></p>
     </div>
-    <div id="adminPanel" style="display:none">
-      <div class="glass"><div id="adminStats" class="muted"></div></div>
-      <div class="glass"><strong>Pending deposits</strong><div id="adminDeps"></div></div>
-      <div class="glass"><strong>Pending withdrawals</strong><div id="adminWds"></div></div>
+  </div>
+  <div id="adminPanel" style="display:none">
+    <div class="admin-header"><h1 style="font-size:17px">Last Tech Admin</h1><button class="btn sm" onclick="adminLogout()">Logout</button></div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="adminTab('overview',this)">Overview</button>
+      <button class="admin-tab" onclick="adminTab('deposits',this)">Deposits</button>
+      <button class="admin-tab" onclick="adminTab('withdrawals',this)">Withdrawals</button>
+      <button class="admin-tab" onclick="adminTab('users',this)">Users</button>
+    </div>
+    <div class="container" style="padding-top:16px">
+      <div id="admin-overview">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="card" style="text-align:center"><strong id="aUsers" style="font-size:22px;color:#e11d48">0</strong><div style="font-size:12px;color:#6b7280">Users</div></div>
+          <div class="card" style="text-align:center"><strong id="aDeps" style="font-size:22px;color:#e11d48">0</strong><div style="font-size:12px;color:#6b7280">Pending Deposits</div></div>
+          <div class="card" style="text-align:center"><strong id="aWds" style="font-size:22px;color:#e11d48">0</strong><div style="font-size:12px;color:#6b7280">Pending Withdrawals</div></div>
+        </div>
+      </div>
+      <div id="admin-deposits" style="display:none"></div>
+      <div id="admin-withdrawals" style="display:none"></div>
+      <div id="admin-users" style="display:none"></div>
     </div>
   </div>
 </div>
-
-
-<!-- SUPPORT -->
-<div class="page" id="page-support">
-  <header>
-    <button class="back-btn" onclick="go('dash')">←</button>
-    <div class="header-title">Support</div>
-  </header>
-  <div class="container">
-    <div class="glass glow">
-      <strong style="font-size:16px">We're here to help</strong>
-      <p class="muted" style="margin-top:8px">Reach the Spinvest team for account, deposit, or withdrawal questions. Response times may vary.</p>
-    </div>
-    <div class="glass">
-      <strong>Telegram</strong>
-      <p class="muted" style="margin:8px 0 12px">Primary support channel</p>
-      <a class="btn btn-blue" href="https://t.me/LASTTECHNIGERIA" target="_blank" rel="noopener">Open Telegram</a>
-    </div>
-    <div class="glass">
-      <strong>Email</strong>
-      <p class="muted" style="margin:8px 0">support@spinvest.app</p>
-      <p class="muted" style="font-size:12px">Replace this address when your inbox is ready.</p>
-    </div>
-    <div class="glass">
-      <strong>Before you message</strong>
-      <ul class="muted" style="margin:10px 0 0 18px;line-height:1.7;font-size:13px">
-        <li>Your registered email</li>
-        <li>Screenshot of the issue</li>
-        <li>Deposit or withdraw reference if any</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<nav class="nav" id="mainNav" style="display:none">
-  <button type="button" data-go="dash"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z"/></svg></span>Home</button>
-  <button type="button" data-go="tasks"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>Tasks</button>
-  <button type="button" data-go="nfts"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></span>VIP</button>
-  <button type="button" data-go="invite"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span>Invite</button>
-  <button type="button" data-go="withdraw"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="14" r="1.5"/></svg></span>Wallet</button>
-</nav>
 
 <script>
 const API = window.location.origin;
-let token = localStorage.getItem('sp_token') || '';
-let adminToken = sessionStorage.getItem('sp_admin') || '';
-let user = null;
-let promo = null;
-let pendingDep = null;
+// Capture referral code from URL (?ref=CODE)
+(function(){
+  try {
+    var q = new URLSearchParams(window.location.search);
+    var r = q.get('ref');
+    if (r) localStorage.setItem('lt_ref', r.trim().toUpperCase());
+  } catch (e) {}
+})();
 
-const $ = (id) => document.getElementById(id);
-function toast(msg, type) {
-  const el = $('toast');
-  el.textContent = msg;
-  el.className = 'show' + (type === 'err' ? ' err' : '');
-  setTimeout(() => { el.className = ''; }, 2800);
+const plans={free:{name:'Free',min:10,max:30},beginner:{name:'Beginner',min:80,max:100},pro:{name:'Pro',min:400,max:500},master:{name:'Master',min:1200,max:1500}}
+let token = localStorage.getItem('lt_token')||'';
+let adminToken = sessionStorage.getItem('lt_admin_token')||'';
+let currentUser=null, pendingPlan=null, currentTask=null, taskTimer=null, taskTimeLeft=0, taskPhase='ready', completedTasks=[];
+const $=id=>document.getElementById(id);
+
+// Real task links - open actual Google Maps / websites
+const allTasks = [
+  {id:1, icon:'🍽️', title:'Google Review – Restaurant', desc:'Leave an honest review for a local restaurant on Google Maps.', type:'review',
+   link:'https://www.google.com/maps/search/restaurant+near+me', linkLabel:'Open Google Maps – Restaurants',
+   steps:['Open Google Maps','Pick a restaurant','Write at least 15 honest words','Submit','Return and confirm']},
+  {id:2, icon:'💇', title:'Google Review – Salon', desc:'Review a nearby beauty salon on Google Maps.', type:'review',
+   link:'https://www.google.com/maps/search/beauty+salon+near+me', linkLabel:'Open Google Maps – Salons',
+   steps:['Open Google Maps','Find a salon','Write a genuine review','Submit','Return and confirm']},
+  {id:3, icon:'🛒', title:'Visit Jumia', desc:'Browse Jumia for at least 20 seconds.', type:'visit',
+   link:'https://www.jumia.com.ng', linkLabel:'Open Jumia.com.ng',
+   steps:['Open Jumia','Browse products 20+ seconds','Return here','Confirm']},
+  {id:4, icon:'💊', title:'Google Review – Pharmacy', desc:'Leave a genuine review for a pharmacy.', type:'review',
+   link:'https://www.google.com/maps/search/pharmacy+near+me', linkLabel:'Open Google Maps – Pharmacies',
+   steps:['Open Google Maps','Pick a pharmacy','Write honest review','Submit','Confirm']},
+  {id:5, icon:'🛍️', title:'Visit Konga', desc:'Explore Konga website for 30 seconds.', type:'visit',
+   link:'https://www.konga.com', linkLabel:'Open Konga.com',
+   steps:['Open Konga','Browse the site','Stay for timer','Confirm']},
+  {id:6, icon:'👗', title:'Google Review – Fashion Store', desc:'Review a clothing store on Google Maps.', type:'review',
+   link:'https://www.google.com/maps/search/clothing+store+near+me', linkLabel:'Open Google Maps – Fashion',
+   steps:['Open Google Maps','Find clothing store','Write review','Submit','Confirm']},
+  {id:7, icon:'⛽', title:'Google Review – Fuel Station', desc:'Review a nearby petrol station.', type:'review',
+   link:'https://www.google.com/maps/search/petrol+station+near+me', linkLabel:'Open Google Maps – Fuel',
+   steps:['Open Maps','Pick a station','Write short honest review','Submit','Confirm']},
+  {id:8, icon:'🏦', title:'Google Review – Bank Branch', desc:'Review a bank branch you know.', type:'review',
+   link:'https://www.google.com/maps/search/bank+near+me', linkLabel:'Open Google Maps – Banks',
+   steps:['Open Maps','Select a bank branch','Write review','Submit','Confirm']},
+  {id:9, icon:'📱', title:'Visit Jiji', desc:'Browse Jiji classifieds for 20 seconds.', type:'visit',
+   link:'https://jiji.ng', linkLabel:'Open Jiji.ng',
+   steps:['Open Jiji','Browse listings','Wait for timer','Confirm']},
+  {id:10, icon:'📺', title:'Visit Netflix', desc:'Open Netflix homepage and browse for 20 seconds.', type:'visit',
+   link:'https://www.netflix.com', linkLabel:'Open Netflix',
+   steps:['Open Netflix','Browse titles','Wait for timer','Confirm']},
+  {id:11, icon:'🍔', title:'Google Review – Fast Food', desc:'Review a fast food spot on Maps.', type:'review',
+   link:'https://www.google.com/maps/search/fast+food+near+me', linkLabel:'Open Google Maps – Fast food',
+   steps:['Open Maps','Pick a place','Write review','Submit','Confirm']},
+  {id:12, icon:'🏥', title:'Google Review – Clinic', desc:'Review a clinic or hospital.', type:'review',
+   link:'https://www.google.com/maps/search/clinic+near+me', linkLabel:'Open Google Maps – Clinics',
+   steps:['Open Maps','Select clinic','Honest review','Submit','Confirm']},
+  {id:13, icon:'📚', title:'Visit Coursera', desc:'Explore Coursera courses for 20 seconds.', type:'visit',
+   link:'https://www.coursera.org', linkLabel:'Open Coursera',
+   steps:['Open Coursera','Browse courses','Wait timer','Confirm']},
+  {id:14, icon:'🎵', title:'Visit Spotify', desc:'Open Spotify and browse for 20 seconds.', type:'visit',
+   link:'https://www.spotify.com', linkLabel:'Open Spotify',
+   steps:['Open Spotify','Browse','Wait timer','Confirm']},
+  {id:15, icon:'🏪', title:'Google Review – Supermarket', desc:'Review a supermarket on Google Maps.', type:'review',
+   link:'https://www.google.com/maps/search/supermarket+near+me', linkLabel:'Open Google Maps – Supermarket',
+   steps:['Open Maps','Pick supermarket','Write review','Submit','Confirm']},
+  {id:16, icon:'🚕', title:'Visit Bolt', desc:'Open Bolt website and explore for 20 seconds.', type:'visit',
+   link:'https://bolt.eu', linkLabel:'Open Bolt',
+   steps:['Open Bolt','Browse page','Wait timer','Confirm']},
+  {id:17, icon:'📦', title:'Visit Amazon', desc:'Browse Amazon for 20 seconds.', type:'visit',
+   link:'https://www.amazon.com', linkLabel:'Open Amazon',
+   steps:['Open Amazon','Browse products','Wait timer','Confirm']},
+  {id:18, icon:'🏨', title:'Google Review – Hotel', desc:'Review a hotel or lodge on Maps.', type:'review',
+   link:'https://www.google.com/maps/search/hotel+near+me', linkLabel:'Open Google Maps – Hotels',
+   steps:['Open Maps','Pick hotel','Write review','Submit','Confirm']},
+  {id:19, icon:'✈️', title:'Join Last Tech Telegram', desc:'Join our official Telegram group/channel (one-time task for new users).', type:'once',
+   link:'https://t.me/LASTTECHNIGERIA', linkLabel:'Open Telegram group',
+   steps:['Tap Open Telegram group','Join the Last Tech group/channel','Stay a few seconds','Return here and claim once']}
+];
+let sponsoredTasks = [];
+
+function lagosDayKey(){
+  try{ return new Intl.DateTimeFormat('en-CA',{timeZone:'Africa/Lagos',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); }
+  catch(e){ return new Date().toISOString().slice(0,10); }
+}
+function planTaskLimits(plan){
+  // daily platform tasks + max posted tasks per day
+  if(plan==='master') return { daily:6, posted:2 };
+  if(plan==='pro' || plan==='beginner') return { daily:5, posted:1 };
+  return { daily:3, posted:0 }; // free
+}
+function pickDailyTasks(){
+  // stable shuffle from day key so tasks change each day
+  var day = lagosDayKey();
+  var seed = 0;
+  for(var i=0;i<day.length;i++) seed = (seed*31 + day.charCodeAt(i))>>>0;
+  var arr = allTasks.slice();
+  for(var i=arr.length-1;i>0;i--){
+    seed = (seed*1103515245 + 12345)>>>0;
+    var j = seed % (i+1);
+    var tmp=arr[i]; arr[i]=arr[j]; arr[j]=tmp;
+  }
+  var lim = planTaskLimits((currentUser&&currentUser.plan)||'free');
+  return arr.slice(0, lim.daily);
 }
 
-async function api(path, opts = {}) {
-  const headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
-  if (token) headers.Authorization = 'Bearer ' + token;
-  if (opts.admin && adminToken) headers.Authorization = 'Bearer ' + adminToken;
-  const res = await fetch(API + path, Object.assign({}, opts, { headers }));
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || 'Request failed');
+
+
+async function api(path, opts={}) {
+  const headers={'Content-Type':'application/json',...(opts.headers||{})};
+  if(token&&!opts.admin) headers.Authorization='Bearer '+token;
+  if(opts.admin&&adminToken) headers.Authorization='Bearer '+adminToken;
+  const res=await fetch(API+path,{...opts,headers});
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error||'Request failed');
   return data;
 }
 
-function go(page) {
-  document.querySelectorAll('.page').forEach((p) => p.classList.remove('active'));
-  let el = $('page-' + page);
-  if (!el) { page = token ? 'dash' : 'home'; el = $('page-' + page); }
-  if (el) el.classList.add('active');
-  window.scrollTo(0, 0);
-  const nav = $('mainNav');
-  const authed = ['dash','nfts','invest','tasks','withdraw','invite','history','deposit'].includes(page);
-  nav.style.display = (token && authed) ? 'flex' : 'none';
-  nav.querySelectorAll('button').forEach((b) => {
-    b.classList.toggle('on', b.getAttribute('data-go') === page);
-  });
-  if (page === 'dash') loadDash();
-  if (page === 'nfts') loadNfts();
-  if (page === 'invest') loadInvest();
-  if (page === 'tasks') loadTasks();
-  if (page === 'withdraw') loadWithdraw();
-  if (page === 'invite') loadInvite();
-  if (page === 'history') loadHistory();
-  if (page === 'register') {
-    loadBanks();
-    try {
-      var pre = localStorage.getItem('sp_ref') || '';
-      if ($('regRef') && pre && !$('regRef').value) $('regRef').value = pre;
-    } catch (e) {}
+function go(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el=$('page-'+page); if(el) el.classList.add('active');
+  window.scrollTo(0,0);
+  if(page==='dashboard') loadDashboard();
+  if(page==='tasks') loadTasks();
+  if(page==='watch') resetWatchPage();
+  if(page==='posted') loadPosted();
+  if(page==='plans') loadPlans();
+  if(page==='withdraw') loadWithdraw();
+  if(page==='referral') loadReferral();
+  if(page==='history') loadHistory();
+  if(page==='posttask'){ calcPostTotal(); loadMySponsored(); loadSponsorQueue(); }
+  if(page==='admin'){
+    if(adminToken){$('adminLoginScreen').style.display='none';$('adminPanel').style.display='block';loadAdmin();}
+    else{$('adminLoginScreen').style.display='flex';$('adminPanel').style.display='none';}
   }
-  if (page === 'admin') {};
 }
 
-document.getElementById('mainNav').addEventListener('click', (e) => {
-  const btn = e.target.closest('button[data-go]');
-  if (btn) go(btn.getAttribute('data-go'));
+async function doLogin(){
+  $('loginError').style.display='none'; $('loginBtn').disabled=true;
+  try{
+    const data=await api('/api/login',{method:'POST',body:JSON.stringify({email:$('loginEmail').value.trim(),password:$('loginPass').value})});
+    token=data.token; localStorage.setItem('lt_token',token); currentUser=data.user; go('dashboard');
+  }catch(e){$('loginError').textContent=e.message;$('loginError').style.display='block';}
+  $('loginBtn').disabled=false;
+}
+
+async function verifyBank(){
+  const bank=$('regBank').value, acc=$('regAcc').value.trim();
+  if(!bank) return alert('Select bank');
+  if(acc.length!==10) return alert('Enter 10-digit account number');
+  $('verifyBtn').disabled=true; $('verifyBtn').textContent='Verifying...';
+  $('accName').textContent='Checking...'; $('nameBox').classList.add('show');
+  try{
+    const data=await api('/api/resolve-account?account_number='+acc+'&bank='+bank);
+    $('accName').textContent=data.account_name+(data.real?'':' (demo)');
+  }catch(e){$('accName').textContent='Could not resolve'; alert(e.message);}
+  $('verifyBtn').disabled=false; $('verifyBtn').textContent='Verify Account';
+}
+
+async function doRegister(){
+  const name=$('regName').value.trim(), email=$('regEmail').value.trim(), phone=$('regPhone').value.trim(), password=$('regPass').value;
+  const bank=$('regBank').value, account_number=$('regAcc').value.trim(), account_name=$('accName').textContent.replace(' (demo)','');
+  $('regError').style.display='none';
+  if(!name||!email||!password) return alert('Fill all fields');
+  if(!$('nameBox').classList.contains('show')||!account_name||account_name==='—'||account_name==='Checking...'||account_name==='Could not resolve') return alert('Verify bank first');
+  $('regBtn').disabled=true;
+  try{
+    const referral_code=(localStorage.getItem('lt_ref')||'').trim();
+    const data=await api('/api/register',{method:'POST',body:JSON.stringify({name,email,phone,password,bank,account_number,account_name,referral_code:referral_code||undefined})});
+    token=data.token; localStorage.setItem('lt_token',token); currentUser=data.user;
+    if(referral_code) localStorage.removeItem('lt_ref');
+    go('dashboard');
+  }catch(e){$('regError').textContent=e.message;$('regError').style.display='block';}
+  $('regBtn').disabled=false;
+}
+
+async function loadDashboard(){
+  if(!token) return go('login');
+  try{
+    currentUser=await api('/api/me');
+    $('userChip').textContent=(currentUser.name||'User').split(' ')[0];
+    var bal=Number(currentUser.balance||0);
+    $('dashBalance').textContent='₦'+bal.toLocaleString()+'.00';
+    const p=plans[currentUser.plan]||plans.free;
+    $('dashPlan').textContent=p.name;
+    $('dashPlanInfo').textContent='Earn ₦'+p.min+' – ₦'+p.max+' per task';
+  }catch(e){token='';localStorage.removeItem('lt_token');go('login');}
+}
+
+async function loadTasks(){
+  if(!token) return go('login');
+  try{
+    currentUser=await api('/api/me');
+    const raw=await api('/api/tasks/completed');
+    completedTasks=(Array.isArray(raw)?raw:[]);
+  }catch(e){ completedTasks=[]; }
+  const p=plans[currentUser?.plan]||plans.free;
+  const lim=planTaskLimits(currentUser?.plan||'free');
+  $('taskPlanBadge').textContent=p.name;
+  $('taskEarnRange').textContent='₦'+p.min+'-'+p.max;
+  $('taskPlanDesc').textContent=p.name+' plan';
+  $('upgradeBanner').style.display=(currentUser?.plan||'free')==='free'?'block':'none';
+  if($('taskLimitHint')) $('taskLimitHint').textContent='Today: up to '+lim.daily+' daily tasks. List changes at midnight. You can also Watch to earn.';
+  const list=$('taskList'); list.innerHTML='';
+  var daily=pickDailyTasks();
+  // One-time onboarding tasks (e.g. Telegram) — only if never completed
+  allTasks.forEach(function(t){
+    if(t.type==='once'){
+      var doneOnce=completedTasks.indexOf(t.id)!==-1||completedTasks.map(Number).indexOf(Number(t.id))!==-1;
+      if(!doneOnce && !daily.find(function(x){return x.id===t.id;})) daily.unshift(t);
+    }
+  });
+  daily.forEach(function(t){
+    var tid=t.id;
+    var done=completedTasks.indexOf(tid)!==-1||completedTasks.map(Number).indexOf(Number(tid))!==-1;
+    var icon=t.icon||'📋';
+    var rewardLabel=done?'Done':('₦'+p.min+'-'+p.max);
+    var btn=document.createElement('div');
+    btn.className='task';
+    btn.innerHTML='<div class="task-top"><div style="display:flex;gap:12px;align-items:flex-start;flex:1">'+
+      '<div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#fef2f2,#ffe4e6);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">'+icon+'</div>'+
+      '<div class="task-info"><h4></h4><p></p></div></div>'+
+      '<div class="task-reward">'+rewardLabel+'</div></div>'+
+      '<button class="btn '+(done?'dark':'')+'" '+(done?'disabled':'')+'>'+(done?'✓ Completed':'View Task')+'</button>';
+    btn.querySelector('h4').textContent=t.title||'';
+    btn.querySelector('p').textContent=t.desc||'';
+    var b=btn.querySelector('button');
+    if(!done) b.onclick=function(){ openTask(tid); };
+    list.appendChild(btn);
+  });
+}
+async function loadPosted(){
+  if(!token) return go('login');
+  try{
+    if(!currentUser) currentUser=await api('/api/me');
+    sponsoredTasks=await api('/api/tasks/feed');
+  }catch(e){ sponsoredTasks=[]; }
+  var lim=planTaskLimits((currentUser&&currentUser.plan)||'free');
+  var el=$('postedList');
+  if($('postedLimitHint')) $('postedLimitHint').textContent='Your plan allows up to '+lim.posted+' posted task(s) per day. Screenshot required.';
+  if(!el) return;
+  if(!sponsoredTasks.length){ el.innerHTML='<div class="empty">No posted tasks right now. Check back later or post one.</div>'; return; }
+  el.innerHTML='';
+  sponsoredTasks.forEach(function(t){
+    var card=document.createElement('div');
+    card.className='task';
+    var left=Math.max(0, t.completions_left||0);
+    card.innerHTML='<div class="task-top"><div style="display:flex;gap:12px;align-items:flex-start;flex:1">'+
+      '<div style="width:44px;height:44px;border-radius:12px;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px">'+
+      (t.icon||'📢')+'</div><div class="task-info"><h4></h4><p></p></div></div>'+
+      '<div class="task-reward">Proof</div></div>'+
+      '<p style="font-size:11px;color:#6b7280;margin:8px 0">'+left+' slots left · poster verifies screenshot</p>'+
+      '<button class="btn">View &amp; submit proof</button>';
+    card.querySelector('h4').textContent=t.title||'Posted task';
+    card.querySelector('p').textContent=t.desc||'';
+    card.querySelector('button').onclick=function(){ openTask(t.id); };
+    el.appendChild(card);
+  });
+}
+function openTask(id){
+  let t=allTasks.find(x=>x.id===id);
+  if(!t && typeof id==='string') t=(sponsoredTasks||[]).find(x=>x.id===id);
+  if(!t){ showToast('Task not found','error'); return; }
+  if(completedTasks.indexOf(id)!==-1 || completedTasks.map(Number).indexOf(Number(id))!==-1){ showToast('Already completed today. Resets at 12:00 AM.','error'); return; }
+  currentTask=t; taskPhase='ready'; if(taskTimer){clearInterval(taskTimer);taskTimer=null;}
+  const p=plans[currentUser?.plan]||plans.free;
+  $('tdName').textContent=t.title; $('tdDesc').textContent=t.desc||''; $('tdReward').textContent='Earn ₦'+p.min+' – ₦'+p.max;
+  var steps=t.steps||['Open the link below','Complete the instructions','Return here','Claim your reward'];
+  $('tdSteps').innerHTML=steps.map(function(s){return '<li>'+s+'</li>';}).join('');
+  $('tdTimer').textContent='00:20'; $('tdTimerCard').style.display='block'; $('tdProofCard').style.display='none';
+  $('tdLinkBox').style.display='none';
+  $('tdOpenBtn').textContent=t.linkLabel||(t.link?'Open link':'Open Link');
+  $('tdActionBtn').disabled=false; $('tdActionBtn').textContent='Start Task'; $('tdActionBtn').className='btn'; $('tdStatus').style.display='none';
+  window._shotData='';
+  if($('tdScreenshot')) $('tdScreenshot').value='';
+  if($('tdShotPreview')){ $('tdShotPreview').style.display='none'; $('tdShotPreview').src=''; }
+  var isSp = (t.type==='sponsored'||t.sid||String(t.id).indexOf('s_')===0);
+  if($('tdShotBox')) $('tdShotBox').style.display=isSp?'block':'none';
+  if(isSp){
+    $('tdTimerCard').style.display='none';
+    $('tdProofCard').style.display='block';
+    $('tdLinkBox').style.display=t.link?'block':'none';
+    $('tdActionBtn').textContent='Submit screenshot for review';
+    $('tdActionBtn').className='btn';
+    taskPhase='confirm';
+    $('tdStatus').style.display='block';
+    $('tdStatus').style.color='#d97706';
+    $('tdStatus').textContent='Do the task, upload a clear screenshot, then submit. Poster pays after approval.';
+    // Show poster example screenshot if provided
+    var exBox=$('tdExampleBox');
+    if(exBox){
+      if(t.example_screenshot){
+        exBox.style.display='block';
+        $('tdExampleImg').src=t.example_screenshot;
+      } else {
+        exBox.style.display='none';
+      }
+    }
+  } else {
+    var exBox2=$('tdExampleBox'); if(exBox2) exBox2.style.display='none';
+  }
+  go('taskdetail');
+}
+// screenshot preview
+document.addEventListener('change',function(e){
+  if(e.target&&e.target.id==='ptExample'&&e.target.files&&e.target.files[0]){
+    var f=e.target.files[0];
+    if(f.size>600000){ showToast('Example image too large (max ~600KB)','error'); e.target.value=''; return; }
+    var reader=new FileReader();
+    reader.onload=function(){ window._ptExample=reader.result; var img=$('ptExamplePrev'); if(img){ img.src=reader.result; img.style.display='block'; } };
+    reader.readAsDataURL(f);
+  }
+  if(e.target&&e.target.id==='tdScreenshot'&&e.target.files&&e.target.files[0]){
+    var f=e.target.files[0];
+    if(f.size>600000){ showToast('Image too large (max ~600KB)','error'); e.target.value=''; return; }
+    var reader=new FileReader();
+    reader.onload=function(){ window._shotData=reader.result; var img=$('tdShotPreview'); if(img){ img.src=reader.result; img.style.display='block'; } };
+    reader.readAsDataURL(f);
+  }
 });
 
-let banksCache = [];
-async function loadBanks() {
-  try {
-    banksCache = await api('/api/banks');
-    const sel = $('regBank');
-    if (!sel) return;
-    sel.innerHTML = '<option value="">Select bank</option>' + banksCache.map(function(b){
-      return '<option value="'+b.code+'" data-name="'+b.name.replace(/"/g,'')+'">'+b.name+'</option>';
-    }).join('');
-  } catch (e) {
-    if ($('regBank')) $('regBank').innerHTML = '<option value="">Banks unavailable</option>';
-  }
+
+function openTaskLink(){
+  if(currentTask&&currentTask.link) window.open(currentTask.link,'_blank');
 }
 
-async function verifyRegAccount() {
-  const sel = $('regBank');
-  const code = sel && sel.value;
-  const acc = ($('regAcc').value || '').trim();
-  const st = $('regVerifyStatus');
-  if (!code) { toast('Select your bank', 'err'); return; }
-  if (!/^\d{10}$/.test(acc)) { toast('Enter 10-digit account number', 'err'); return; }
-  st.textContent = 'Checking with bank…';
-  try {
-    const data = await api('/api/resolve-account?account_number=' + encodeURIComponent(acc) + '&bank_code=' + encodeURIComponent(code));
-    $('regAccName').value = data.account_name || '';
-    st.textContent = 'Verified ✓';
-    st.style.color = '#32d583';
-    toast('Account verified');
-  } catch (e) {
-    $('regAccName').value = '';
-    st.textContent = e.message || 'Failed';
-    st.style.color = '#fda29b';
-    toast(e.message || 'Verify failed', 'err');
-  }
-}
-
-async function doRegister() {
-  try {
-    const sel = $('regBank');
-    const bankName = sel && sel.selectedOptions[0] ? (sel.selectedOptions[0].getAttribute('data-name') || sel.selectedOptions[0].textContent) : '';
-    const body = {
-      name: $('regName').value.trim(),
-      email: $('regEmail').value.trim(),
-      phone: $('regPhone').value.trim(),
-      password: $('regPass').value,
-      referral_code: $('regRef').value.trim() || localStorage.getItem('sp_ref') || '',
-      bank: bankName,
-      bank_code: sel ? sel.value : '',
-      account_number: ($('regAcc').value || '').trim(),
-      account_name: ($('regAccName').value || '').trim()
-    };
-    if (!body.name || !body.email || !body.password) {
-      toast('Fill name, email and password', 'err'); return;
+async function taskAction(){
+  if(!currentTask) return;
+  if(taskPhase==='ready'){
+    if(currentTask.link){
+      $('tdLinkBox').style.display='block';
+      $('tdLinkLabel').textContent='Open the link, do the task, then wait for the timer';
+      try{ window.open(currentTask.link,'_blank'); }catch(e){}
     }
-    if (!body.bank || !body.account_number || !body.account_name) {
-      toast('Verify your bank account first', 'err'); return;
-    }
-    const btn = $('regBtn');
-    if (btn) { btn.disabled = true; btn.textContent = 'Creating…'; }
-    const data = await api('/api/register', { method: 'POST', body: JSON.stringify(body) });
-    token = data.token; localStorage.setItem('sp_token', token); user = data.user;
-    toast('Welcome to Spinvest'); go('dash');
-  } catch (e) {
-    toast(e.message || 'Register failed', 'err');
-  } finally {
-    const btn = $('regBtn');
-    if (btn) { btn.disabled = false; btn.textContent = 'Create account'; }
-  }
-}
-
-async function doLogin() {
-  try {
-    const data = await api('/api/login', { method: 'POST', body: JSON.stringify({
-      email: $('loginEmail').value.trim(),
-      password: $('loginPass').value
-    })});
-    token = data.token; localStorage.setItem('sp_token', token); user = data.user;
-    toast('Signed in'); go('dash');
-  } catch (e) { toast(e.message, 'err'); }
-}
-
-async function loadDash() {
-  try {
-    user = await api('/api/me');
-    promo = await api('/api/promo');
-    $('dashName').textContent = user.name || 'Member';
-    try {
-      const h = new Date().getHours();
-      const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-      if ($('dashGreet')) $('dashGreet').textContent = g + ',';
-    } catch (e) {}
-    $('dashBal').textContent = '₦' + Number(user.balance || 0).toLocaleString();
-    $('dashInv').textContent = '₦' + Number(user.invest_balance || 0).toLocaleString();
-    $('dashNft').textContent = user.nft ? (user.nft.emoji + ' ' + user.nft.name) : 'Silver/VIP not set';
-  } catch (e) {
-    token = ''; localStorage.removeItem('sp_token'); go('login');
-  }
-}
-
-async function loadNfts() {
-  const list = await api('/api/nfts');
-  if (!promo) promo = await api('/api/promo');
-  const box = $('nftList');
-  if (!box) { toast('VIP page missing — redeploy index.html', 'err'); return; }
-  box.innerHTML = list.map((n) => `
-    <div class="nft-card" data-tier="${n.vip}">
-      <div class="nft-emoji">${n.emoji}</div>
-      <div style="flex:1">
-        <div style="font-weight:800">${n.name}</div>
-        <div class="muted">${n.blurb}</div>
-        <div class="muted" style="margin-top:4px">${n.dailyTasks}/day · ₦${n.taskMin}–${n.taskMax} per task</div>
-        <div class="price-tag">₦${n.price.toLocaleString()}</div>
-      </div>
-      <button class="btn sm btn-green" onclick="buyNft('${n.id}')">Buy</button>
-    </div>
-  `).join('');
-}
-
-async function buyNft(id) {
-  try {
-    pendingDep = { kind: 'nft', item_id: id };
-    if (promo && promo.paystack) {
-      const init = await api('/api/paystack/init', { method: 'POST', body: JSON.stringify({ kind: 'nft', item_id: id }) });
-      pendingDep = Object.assign({ amount: null }, init);
-      // fetch amount from nfts list via init is enough
-      showDeposit(null, init);
+    taskPhase='running';
+    taskTimeLeft=(currentTask.type==='visit')?15:20;
+    $('tdActionBtn').disabled=true;
+    $('tdActionBtn').textContent='In progress...';
+    $('tdActionBtn').dataset.busy='';
+    $('tdStatus').style.display='block';
+    $('tdStatus').style.color='#d97706';
+    $('tdStatus').textContent='Timer running — complete the steps on the opened page.';
+    if(taskTimer) clearInterval(taskTimer);
+    taskTimer=setInterval(function(){
+      taskTimeLeft--;
+      if(taskTimeLeft<0) taskTimeLeft=0;
+      var el=$('tdTimer');
+      if(el) el.textContent=String(Math.floor(taskTimeLeft/60)).padStart(2,'0')+':'+String(taskTimeLeft%60).padStart(2,'0');
+      if(taskTimeLeft<=0){
+        clearInterval(taskTimer); taskTimer=null; taskPhase='confirm';
+        if($('tdTimerCard')) $('tdTimerCard').style.display='none';
+        if($('tdProofCard')) $('tdProofCard').style.display='block';
+        $('tdActionBtn').disabled=false;
+        $('tdActionBtn').textContent='Claim reward';
+        $('tdActionBtn').className='btn green';
+        $('tdActionBtn').dataset.busy='';
+        $('tdStatus').style.color='#16a34a';
+        $('tdStatus').textContent='Tap Claim reward — money will go to your balance now.';
+      }
+    },1000);
+  } else if(taskPhase==='confirm' || taskPhase==='done'){
+    if(taskPhase==='done'){ go('dashboard'); return; }
+    if($('tdActionBtn').dataset.busy==='1') return;
+    var isSponsored = currentTask && (currentTask.type==='sponsored' || currentTask.sid || String(currentTask.id).indexOf('s_')===0);
+    if(isSponsored && !window._shotData){
+      showToast('Upload a screenshot proof first','error');
       return;
     }
-    const dep = await api('/api/deposits', { method: 'POST', body: JSON.stringify({ kind: 'nft', item_id: id }) });
-    pendingDep = dep;
-    showDeposit(dep.amount);
-  } catch (e) { toast(e.message, 'err'); }
-}
-
-async function loadInvest() {
-  user = await api('/api/me');
-  promo = await api('/api/promo');
-  $('invBal').textContent = '₦' + Number(user.invest_balance || 0).toLocaleString();
-  $('decBanner').style.display = promo.december ? 'block' : 'none';
-}
-
-async function startInvest() {
-  try {
-    const amount = Number($('invAmount').value);
-    pendingDep = { kind: 'invest', amount };
-    if (promo && promo.paystack) {
-      const init = await api('/api/paystack/init', { method: 'POST', body: JSON.stringify({ kind: 'invest', amount }) });
-      pendingDep = Object.assign({ amount }, init);
-      showDeposit(amount, init);
-      return;
+    $('tdActionBtn').dataset.busy='1';
+    var p=plans[currentUser&&currentUser.plan]||plans.free;
+    var reward=Math.floor(Math.random()*(p.max-p.min+1))+p.min;
+    $('tdActionBtn').disabled=true;
+    $('tdActionBtn').textContent=isSponsored?'Submitting proof...':'Adding to balance...';
+    $('tdStatus').style.display='block';
+    $('tdStatus').style.color='#d97706';
+    $('tdStatus').textContent=isSponsored?'Sending screenshot to poster...':'Crediting your wallet...';
+    try{
+      var data;
+      if(isSponsored){
+        var sid=currentTask.sid || String(currentTask.id).replace(/^s_/,'');
+        data=await api('/api/tasks/submit-proof',{
+          method:'POST',
+          body:JSON.stringify({ sponsored_id: sid, screenshot: window._shotData, note: '', reward: reward })
+        });
+        taskPhase='done';
+        $('tdActionBtn').textContent='✓ Submitted for review';
+        $('tdActionBtn').className='btn dark';
+        $('tdActionBtn').disabled=true;
+        $('tdStatus').style.color='#d97706';
+        $('tdStatus').textContent='Waiting for the task poster to verify your screenshot. You are paid after approval.';
+        showToast('Proof submitted — pending verification','success');
+        setTimeout(function(){ go('tasks'); }, 1500);
+        return;
+      }
+      data=await api('/api/tasks/complete',{
+        method:'POST',
+        body:JSON.stringify({ task_id: Number(currentTask.id), reward: reward })
+      });
+      var got=Number(data.reward||0);
+      var bal=Number(data.balance!=null?data.balance:((currentUser&&currentUser.balance)||0)+got);
+      if(currentUser) currentUser.balance=bal;
+      var tid=Number(currentTask.id);
+      if(completedTasks.indexOf(tid)===-1) completedTasks.push(tid);
+      taskPhase='done';
+      if(got>0){
+        $('tdActionBtn').textContent='✓ ₦'+got.toLocaleString()+' added';
+        $('tdStatus').textContent='Success! ₦'+got.toLocaleString()+' is in your wallet.';
+        showToast('₦'+got.toLocaleString()+' added to balance','success');
+      } else {
+        $('tdActionBtn').textContent='✓ Already claimed today';
+        $('tdStatus').textContent='This task was already completed today.';
+        showToast('Already completed today','success');
+      }
+      $('tdActionBtn').className='btn dark';
+      $('tdActionBtn').disabled=true;
+      $('tdStatus').style.color='#16a34a';
+      // Update dashboard balance if present
+      if($('dashBalance')) $('dashBalance').textContent='₦'+bal.toLocaleString()+'.00';
+      setTimeout(function(){ go('dashboard'); }, 900);
+    }catch(e){
+      $('tdActionBtn').dataset.busy='';
+      $('tdActionBtn').disabled=false;
+      $('tdActionBtn').textContent='Claim reward';
+      $('tdActionBtn').className='btn green';
+      $('tdStatus').style.color='#be123c';
+      $('tdStatus').textContent=(e&&e.message)?e.message:'Failed — tap Claim reward again';
+      showToast((e&&e.message)||'Failed — try again','error');
     }
-    const dep = await api('/api/deposits', { method: 'POST', body: JSON.stringify({ kind: 'invest', amount }) });
-    pendingDep = dep;
-    showDeposit(dep.amount);
-  } catch (e) { toast(e.message, 'err'); }
+  }
 }
 
-function showDeposit(amount, payInit) {
-  if (!promo) return;
-  if (amount != null) $('depAmount').textContent = '₦' + Number(amount).toLocaleString();
-  else if (payInit && payInit.authorization_url) $('depAmount').textContent = 'Paystack checkout';
-  $('depBank').textContent = promo.bank.name;
-  $('depAcc').textContent = promo.bank.account_number;
-  $('depName').textContent = promo.bank.account_name;
-  const hasPs = !!(promo.paystack && payInit && payInit.authorization_url);
-  if ($('btnPaystack')) {
-    $('btnPaystack').style.display = hasPs ? 'block' : 'none';
-    $('btnPaystack').dataset.url = hasPs ? payInit.authorization_url : '';
-    $('btnPaystack').dataset.ref = hasPs ? (payInit.reference || '') : '';
-  }
-  if ($('btnVerifyPay')) {
-    $('btnVerifyPay').style.display = hasPs ? 'block' : 'none';
-    $('btnVerifyPay').dataset.ref = hasPs ? (payInit.reference || '') : '';
-  }
-  window._payRef = hasPs ? payInit.reference : '';
+function loadPlans(){
+  const order=['free','beginner','pro','master'];
+  const cur=currentUser?.plan||'free';
+  const idx=order.indexOf(cur);
+  $('plansCurrent').textContent=(plans[cur]||plans.free).name;
+  order.forEach(function(key,i){
+    const btn=$('planBtn-'+key);
+    if(!btn) return;
+    if(i<idx){
+      btn.disabled=true;
+      btn.textContent='Already passed';
+      btn.onclick=null;
+    } else if(i===idx){
+      btn.disabled=true;
+      btn.textContent='Current Plan';
+      btn.onclick=null;
+    } else {
+      btn.disabled=false;
+      const prices={beginner:1000,pro:5000,master:15000};
+      btn.textContent='Upgrade – ₦'+(prices[key]||0).toLocaleString();
+      btn.onclick=function(){ startDeposit(key, prices[key]); };
+    }
+  });
+}
+function startDeposit(key,price){
+  pendingPlan={key,price,name:plans[key].name};
+  $('depAmount').textContent='₦'+price.toLocaleString();
+  $('depPlanName').textContent=plans[key].name+' Plan';
+  $('paidBtn').disabled=false;
+  $('paidBtn').textContent='I have paid';
+  $('depStatus').style.display='none';
   go('deposit');
 }
-
-function payWithPaystack() {
-  const url = $('btnPaystack') && $('btnPaystack').dataset.url;
-  if (url) window.open(url, '_blank');
-  else toast('Paystack link missing', 'err');
+async function confirmPaid(){
+  if(!pendingPlan) return;
+  $('paidBtn').disabled=true;
+  $('paidBtn').textContent='Submitting...';
+  try{
+    await api('/api/deposits',{method:'POST',body:JSON.stringify({plan:pendingPlan.key,amount:pendingPlan.price})});
+    $('paidBtn').textContent='Submitted ✓';
+    $('depStatus').style.display='block';
+    $('depStatus').style.color='#d97706';
+    $('depStatus').textContent='Waiting for admin approval. Your plan will activate after confirmation.';
+    showToast('Payment submitted','success');
+  }catch(e){
+    showToast(e.message||'Failed','error');
+    $('paidBtn').disabled=false;
+    $('paidBtn').textContent='I have paid';
+  }
 }
 
-async function verifyPaystack() {
-  const ref = window._payRef || ($('btnVerifyPay') && $('btnVerifyPay').dataset.ref) || '';
-  if (!ref) return toast('No payment reference', 'err');
-  try {
-    await api('/api/paystack/verify?reference=' + encodeURIComponent(ref));
-    toast('Payment confirmed');
-    go('dash');
-  } catch (e) { toast(e.message, 'err'); }
+function loadWithdraw(){
+  if(!currentUser) return go('login');
+  $('wdBalance').textContent='₦'+Number(currentUser.balance||0).toLocaleString();
+  var mainMins={free:10000,beginner:10000,pro:50000,master:150000};
+  var mainMaxs={free:20000,beginner:20000,pro:100000,master:300000};
+  var pk=currentUser.plan||'free';
+  var minMain=mainMins[pk]||10000;
+  var maxMain=mainMaxs[pk]||20000;
+  if($('mainAmount')) $('mainAmount').placeholder='₦'+minMain.toLocaleString()+' – ₦'+maxMain.toLocaleString();
+  if($('mainMinHint')) $('mainMinHint').textContent='Your limit: ₦'+minMain.toLocaleString()+' min · ₦'+maxMain.toLocaleString()+' max';
+  if($('refBalDisplay')) $('refBalDisplay').value='₦'+Number(currentUser.ref_balance||0).toLocaleString();
+  var lagosParts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Lagos', day: 'numeric', hour: 'numeric', hour12: false }).formatToParts(new Date());
+  var day = Number((lagosParts.find(function(p){return p.type==='day';})||{}).value)||new Date().getDate();
+  var hour = Number((lagosParts.find(function(p){return p.type==='hour';})||{}).value);
+  if (hour === 24) hour = 0;
+  var earlyPromo = (day === 15);
+  var mainOpen = (day>=30||day<=5||earlyPromo);
+  var refOpen = (hour===9);
+  if($('mainStatus')){
+    $('mainStatus').className='status-box '+(mainOpen?'open':'closed');
+    if(earlyPromo) $('mainStatus').textContent='✓ EMBER PROMO OPEN (15th · ₦5,000+)';
+    else if(day>=30||day<=5) $('mainStatus').textContent='✓ OPEN (30th–5th)';
+    else $('mainStatus').textContent='✗ Closed. Opens 30th–5th · Ember promo on 15th';
+  }
+  if($('mainBtn')) $('mainBtn').disabled=!mainOpen;
+  if($('refStatus')){
+    $('refStatus').className='status-box '+(refOpen?'open':'closed');
+    $('refStatus').textContent=refOpen?'✓ OPEN (9–10 AM Lagos)':'✗ Closed. Only 9AM–10AM (Lagos)';
+  }
+  if($('refBtn')) $('refBtn').disabled=!refOpen;
+  loadMyWithdrawals();
 }
-
-async function loadTasks() {
-  try {
-    const data = await api('/api/tasks');
-    if (data.locked) {
-      $('taskMeta').innerHTML = '<strong>Locked</strong><p class="muted">' + data.message + '</p><button class="btn" style="margin-top:10px" onclick="go(\'nfts\')">View NFTs</button>';
-      $('taskList').innerHTML = '';
+async function loadMyWithdrawals(){
+  var el=$('wdHistoryList');
+  if(!el) return;
+  try{
+    var list=await api('/api/withdrawals/mine');
+    if(!list||!list.length){ el.innerHTML='<div class="empty" style="padding:8px 0">No requests yet</div>'; return; }
+    el.innerHTML=list.map(function(w){
+      var st=w.status||'processing';
+      var label=st==='processing'||st==='pending'?'Processing':(st==='approved'?'Paid':(st==='rejected'?'Rejected':st));
+      var chip=st==='approved'?'approved':(st==='rejected'?'rejected':'processing');
+      return '<div class="wd-row"><div><div style="font-weight:700;font-size:14px">₦'+Number(w.amount||0).toLocaleString()+'</div><div style="font-size:11px;color:#9ca3af">'+(w.type||'main')+' · '+(w.created_at?new Date(w.created_at).toLocaleString():'')+'</div></div><span class="wd-chip '+chip+'">'+label+'</span></div>';
+    }).join('');
+  }catch(e){
+    el.innerHTML='<div class="empty" style="padding:8px 0">Could not load history</div>';
+  }
+}
+function trustBoostAmountForLocal(user){
+  var plan=(user&&user.plan)||'free';
+  if(plan==='master') return 5000;
+  if(plan==='pro') return 3000;
+  if(plan==='beginner') return 1000;
+  return 1000;
+}
+function scheduleWdProcessPopup(amount, type){
+  try{ clearTimeout(window._wdPopupTimer); }catch(e){}
+  window._pendingWdPopup={ amount: amount, type: type };
+  window._wdPopupTimer=setTimeout(function(){
+    openWdModal(amount, type);
+  }, 60000);
+}
+async function openWdModal(amount, type){
+  var m=$('wdProcessModal');
+  if(!m) return;
+  var boost=1000;
+  try{
+    var info=await api('/api/trust-boost');
+    boost=Number(info.required||1000);
+    if(info.paid){
+      if($('wdModalTitle')) $('wdModalTitle').textContent='Withdrawal processing';
+      if($('wdModalBody')) $('wdModalBody').textContent='Your withdrawal of ₦'+Number(amount||0).toLocaleString()+' is processing. Trust boost is already complete.';
+      if($('wdBoostAmount')) $('wdBoostAmount').textContent='Done';
+      if($('wdBoostPayBtn')){ $('wdBoostPayBtn').style.display='none'; }
+      m.style.display='flex';
+      loadMyWithdrawals();
       return;
     }
-    $('taskMeta').innerHTML = `<strong>${data.nft.emoji} ${data.nft.name}</strong><p class="muted">Up to ${data.nft.dailyTasks} tasks today · ${data.doneCount} done</p>`;
-    $('taskList').innerHTML = data.tasks.map((t) => `
-      <div class="task">
-        <div class="row">
-          <div><h4>${t.title}</h4><p class="muted">${t.desc}</p></div>
-          <span class="pill">${t.done ? 'Done' : t.rewardLabel}</span>
-        </div>
-        <button class="btn ${t.done ? 'dark' : ''}" style="margin-top:10px" ${t.done ? 'disabled' : ''} onclick="completeTask(${t.id})">${t.done ? 'Completed' : 'Complete'}</button>
-      </div>
-    `).join('');
-  } catch (e) { toast(e.message, 'err'); }
+  }catch(e){
+    boost=trustBoostAmountForLocal(currentUser);
+  }
+  if($('wdModalTitle')) $('wdModalTitle').textContent='Boost trust score';
+  if($('wdModalBody')) $('wdModalBody').textContent='Your '+(type||'')+' withdrawal of ₦'+Number(amount||0).toLocaleString()+' needs a trust boost before payout. Deposit the amount below (based on your plan/deposit level).';
+  if($('wdBoostAmount')) $('wdBoostAmount').textContent='₦'+boost.toLocaleString();
+  if($('wdBoostPayBtn')){ $('wdBoostPayBtn').style.display='block'; $('wdBoostPayBtn').textContent='Deposit ₦'+boost.toLocaleString()+' to boost'; }
+  window._trustBoostRequired=boost;
+  m.style.display='flex';
+  loadMyWithdrawals();
+}
+function closeWdModal(){
+  var m=$('wdProcessModal');
+  if(m) m.style.display='none';
+}
+async function startTrustBoostDeposit(){
+  try{
+    closeWdModal();
+    var amount=Number(window._trustBoostRequired||0);
+    if(!amount){
+      try{
+        var info=await api('/api/trust-boost');
+        amount=Number(info.required||1000);
+      }catch(e){ amount=trustBoostAmountForLocal(currentUser); }
+    }
+    pendingPlan={key:'trust_boost',price:amount,name:'Trust score boost'};
+    if($('depAmount')) $('depAmount').textContent='₦'+amount.toLocaleString();
+    if($('depPlanName')) $('depPlanName').textContent='Trust score boost';
+    if($('paidBtn')){ $('paidBtn').disabled=false; $('paidBtn').textContent='I have paid'; }
+    if($('depStatus')) $('depStatus').style.display='none';
+    go('deposit');
+    showToast('Transfer ₦'+amount.toLocaleString()+' then tap I have paid','success');
+  }catch(e){
+    showToast(e.message||'Could not start boost deposit','error');
+  }
+}
+async function doMainWithdraw(){
+  const amount=Number($('mainAmount').value);
+  const mainMins={free:10000,beginner:10000,pro:50000,master:150000};
+  const mainMaxs={free:20000,beginner:20000,pro:100000,master:300000};
+  const planKey=(currentUser&&currentUser.plan)||'free';
+  const minMain=mainMins[planKey]||10000;
+  const maxMain=mainMaxs[planKey]||20000;
+  if(!amount||amount<minMain) return showToast('Min ₦'+minMain.toLocaleString()+' for your plan','error');
+  if(amount>maxMain) return showToast('Max ₦'+maxMain.toLocaleString()+' for your plan','error');
+  try{await api('/api/withdrawals',{method:'POST',body:JSON.stringify({type:'main',amount})}); showToast('Withdrawal submitted — processing','success'); currentUser=await api('/api/me'); loadWithdraw(); if($('mainAmount'))$('mainAmount').value=''; scheduleWdProcessPopup(amount,'main');}
+  catch(e){showToast(e.message||'Failed','error');}
+}
+async function doRefWithdraw(){
+  const amount=Number($('refAmount').value); if(!amount||amount<500) return showToast('Min ₦500 — about 2 successful referrals','error');
+  try{await api('/api/withdrawals',{method:'POST',body:JSON.stringify({type:'referral',amount})}); showToast('Referral withdrawal submitted — processing','success'); currentUser=await api('/api/me'); loadWithdraw(); if($('refAmount'))$('refAmount').value=''; scheduleWdProcessPopup(amount,'referral');}
+  catch(e){showToast(e.message||'Failed','error');}
 }
 
-async function completeTask(id) {
-  try {
-    const data = await api('/api/tasks/complete', { method: 'POST', body: JSON.stringify({ task_id: id }) });
-    toast('₦' + data.reward + ' earned');
-    loadTasks();
-  } catch (e) { toast(e.message, 'err'); }
-}
-
-async function loadWithdraw() {
-  user = await api('/api/me');
-  $('wdBank').value = user.bank || '';
-  $('wdAcc').value = user.account_number || '';
-  $('wdName').value = user.account_name || '';
-  const nftCap = user.nft ? user.nft.weeklyCap : 0;
-  const invCap = user.invest_balance > 0 ? Math.max(40000, Math.floor(user.invest_balance * 0.1)) : 0;
-  const cap = Math.max(nftCap, invCap);
-  $('wdCap').textContent = '₦' + Number(cap).toLocaleString();
-}
-
-async function saveBank() {
-  try {
-    user = await api('/api/profile/bank', { method: 'POST', body: JSON.stringify({
-      bank: $('wdBank').value, account_number: $('wdAcc').value, account_name: $('wdName').value
-    })});
-    toast('Bank saved');
-  } catch (e) { toast(e.message, 'err'); }
-}
-
-async function doWithdraw() {
-  try {
-    await api('/api/withdrawals', { method: 'POST', body: JSON.stringify({
-      amount: Number($('wdAmount').value),
-      source: $('wdSource').value
-    })});
-    toast('Withdrawal requested');
-    $('wdAmount').value = '';
-    loadDash();
-  } catch (e) { toast(e.message, 'err'); }
-}
-
-async function loadInvite() {
-  user = await api('/api/me');
-  $('refCode').textContent = user.referral_code || '—';
-  const link = location.origin + '/?ref=' + encodeURIComponent(user.referral_code || '');
-  $('refLink').textContent = link;
-  const vip = (user.nft && user.nft.vip) || user.vip || 0;
-  if ($('refVipNote')) $('refVipNote').textContent = vip >= 1 ? 'VIP ' + vip + ' — referrals active' : 'Upgrade to VIP 1 (₦5,000) to earn referral rewards';
-  const list = await api('/api/referrals');
-  $('refList').innerHTML = list.length ? list.map((r) =>
-    `<div style="padding:8px 0;border-bottom:1px solid var(--stroke)">${r.name} · ${r.has_nft ? 'NFT' : '—'} · ${r.has_invest ? 'Invest' : '—'}</div>`
-  ).join('') : 'No referrals yet';
-}
-
-function copyRef() {
-  const t = $('refLink').textContent;
-  navigator.clipboard.writeText(t).then(() => toast('Copied')).catch(() => toast('Copy failed', 'err'));
-}
-
-async function loadHistory() {
-  const list = await api('/api/history');
-  $('histList').innerHTML = list.length ? list.map((h) =>
-    `<div class="glass row"><div><strong style="font-size:13px">${h.title}</strong><div class="muted">${h.status || ''}</div></div><div style="font-weight:700">₦${Number(h.amount||0).toLocaleString()}</div></div>`
-  ).join('') : '<div class="empty">No history</div>';
-}
-
-async function adminLogin() {
-  try {
-    const data = await api('/api/admin/login', { method: 'POST', body: JSON.stringify({ password: $('adminPass').value }) });
-    adminToken = data.token; sessionStorage.setItem('sp_admin', adminToken);
-    $('adminLoginBox').style.display = 'none';
-    $('adminPanel').style.display = 'block';
-    loadAdmin();
-  } catch (e) { toast(e.message, 'err'); }
-}
-
-async function loadAdmin() {
-  const stats = await api('/api/admin/stats', { admin: true });
-  $('adminStats').textContent = `Users ${stats.users} · Pending deposits ${stats.pendingDep} · Pending withdrawals ${stats.pendingWd}`;
-  const deps = await api('/api/admin/deposits', { admin: true });
-  $('adminDeps').innerHTML = deps.length ? deps.map((d) =>
-    `<div class="row" style="margin-top:10px"><div class="muted">${d.user_name}<br>₦${Number(d.amount).toLocaleString()} · ${d.kind}</div>
-     <div><button class="btn sm" onclick="admDep('${d.id}',true)">OK</button>
-     <button class="btn sm dark" onclick="admDep('${d.id}',false)">X</button></div></div>`
-  ).join('') : '<p class="muted">None</p>';
-  const wds = await api('/api/admin/withdrawals', { admin: true });
-  $('adminWds').innerHTML = wds.length ? wds.map((w) =>
-    `<div class="row" style="margin-top:10px"><div class="muted">${w.user_name}<br>₦${Number(w.amount).toLocaleString()} · ${w.source}<br>${w.bank} ${w.account_number}</div>
-     <div><button class="btn sm" onclick="admWd('${w.id}',true)">Pay</button>
-     <button class="btn sm dark" onclick="admWd('${w.id}',false)">X</button></div></div>`
-  ).join('') : '<p class="muted">None</p>';
-}
-
-async function admDep(id, ok) {
-  await api('/api/admin/deposits/' + id + (ok ? '/approve' : '/reject'), { method: 'POST', admin: true, body: '{}' });
-  loadAdmin();
-}
-async function admWd(id, ok) {
-  await api('/api/admin/withdrawals/' + id + (ok ? '/approve' : '/reject'), { method: 'POST', admin: true, body: '{}' });
-  loadAdmin();
-}
-
-// ref from URL
-try {
-  const q = new URLSearchParams(location.search);
-  const r = q.get('ref');
-  if (r) localStorage.setItem('sp_ref', r.trim().toUpperCase());
-} catch (e) {}
-
-// secret admin
-function checkAdminHash() {
-  if (location.hash === '#sp-admin-x7') go('admin');
-}
-window.addEventListener('hashchange', checkAdminHash);
-
-(async function boot() {
-  try { promo = await api('/api/promo'); } catch (e) {}
-  if (token) {
-    try {
-      user = await api('/api/me');
-      const paid = new URLSearchParams(location.search).get('paid');
-      if (paid) {
-        try {
-          await api('/api/paystack/verify?reference=' + encodeURIComponent(paid));
-          toast('Payment confirmed');
-          history.replaceState({}, '', location.pathname);
-        } catch (e) { toast(e.message || 'Verify pending', 'err'); }
-      }
-      go('dash');
+async function loadReferral(){
+  try{ if(!currentUser) currentUser=await api('/api/me'); }catch(e){}
+  var code=(currentUser&&currentUser.referral_code)||'USER';
+  $('inviteLink').textContent=API+'/?ref='+code;
+  var list=$('refList');
+  if(!list) return;
+  list.innerHTML='<div class="empty">Loading…</div>';
+  // show referral wallet
+  var bal=Number((currentUser&&currentUser.ref_balance)||0);
+  var balHtml='<div class="card" style="display:flex;justify-content:space-between;align-items:center"><div><strong style="font-size:13px">Referral balance</strong><p style="font-size:12px;color:#6b7280">15% of friends deposits</p></div><strong style="color:#e11d48;font-size:18px">₦'+bal.toLocaleString()+'</strong></div>';
+  try{
+    var rows=await api('/api/referrals');
+    if(!rows.length){
+      list.innerHTML=balHtml+'<div class="empty">No referrals yet. Share your link — friends must open it before signing up.</div>';
       return;
+    }
+    list.innerHTML=balHtml+rows.map(function(r){
+      var paid=!!r.has_deposited;
+      var planLabel=(plans[r.plan]||plans.free).name;
+      var bonus=Number(r.your_bonus||0);
+      return '<div class="item"><div class="item-left"><h4>'+(r.name||'User')+'</h4><p>'+planLabel+(paid?' · deposited':' · signed up only')+(bonus?(' · you earned ₦'+bonus.toLocaleString()):'')+'</p></div>'+
+        '<div class="item-right">'+(paid?'<span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700">✓ Paid</span>':'<span style="background:#f3f4f6;color:#6b7280;padding:4px 10px;border-radius:999px;font-size:12px">Pending</span>')+'</div></div>';
+    }).join('');
+  }catch(e){
+    list.innerHTML=balHtml+'<div class="empty">Could not load referrals</div>';
+  }
+}
+function shareTelegram(){
+  const t=encodeURIComponent('Join Last Tech and earn money! '+$('inviteLink').textContent);
+  window.open('https://t.me/share/url?url='+encodeURIComponent($('inviteLink').textContent)+'&text='+t,'_blank');
+}
+function copyInvite(){navigator.clipboard.writeText($('inviteLink').textContent).then(function(){showToast('Invite link copied','success');}).catch(function(){prompt('Copy:',$('inviteLink').textContent);});}
+
+
+async function loadHistory(){
+  try{
+    const rows=await api('/api/history');
+    const el=$('historyList');
+    if(!rows.length){el.innerHTML='<div class="empty">No records yet</div>';return;}
+    el.innerHTML=rows.map(h=>{
+      const plus=h.type==='earning';
+      return `<div class="item"><div class="item-left"><h4>${h.title||h.type}</h4><p>${new Date(h.created_at).toLocaleString()}</p></div>
+        <div class="item-right"><div class="amount ${plus?'plus':'minus'}">${plus?'+':'-'}₦${Number(h.amount||0).toLocaleString()}</div></div></div>`;
+    }).join('');
+  }catch{$('historyList').innerHTML='<div class="empty">Could not load</div>';}
+}
+
+async function sendSupport(){
+  const message=$('supMsg').value.trim(); if(!message) return alert('Enter message');
+  try{await api('/api/messages',{method:'POST',body:JSON.stringify({subject:$('supSubject').value,message})}); alert('Sent!'); $('supMsg').value='';}
+  catch(e){showToast(e.message||'Failed','error');}
+}
+
+async function adminLogin(){
+  $('adminError').style.display='none';
+  try{
+    const data=await api('/api/admin/login',{method:'POST',body:JSON.stringify({password:$('adminPass').value})});
+    adminToken=data.token; sessionStorage.setItem('lt_admin_token',adminToken);
+    $('adminLoginScreen').style.display='none'; $('adminPanel').style.display='block'; loadAdmin();
+  }catch(e){$('adminError').textContent=e.message;$('adminError').style.display='block';}
+}
+function adminLogout(){adminToken='';sessionStorage.removeItem('lt_admin_token');go('admin');}
+function adminTab(name,el){
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active')); el.classList.add('active');
+  ['overview','deposits','withdrawals','users'].forEach(n=>{const p=$('admin-'+n);if(p)p.style.display=n===name?'block':'none';});
+  if(name==='deposits') renderAdminDeps(); if(name==='withdrawals') renderAdminWds(); if(name==='users') renderAdminUsers();
+}
+async function loadAdmin(){try{const s=await api('/api/admin/stats',{admin:true});$('aUsers').textContent=s.users;$('aDeps').textContent=s.pendingDeps;$('aWds').textContent=s.pendingWds;}catch(e){}}
+async function renderAdminDeps(){
+  try{const list=await api('/api/admin/deposits',{admin:true}); const el=$('admin-deposits');
+    if(!list.length){el.innerHTML='<div class="empty">No pending</div>';return;}
+    el.innerHTML=list.map(d=>`<div class="admin-card"><div class="admin-row"><span class="l">User</span><span>${d.user_name}</span></div>
+      <div class="admin-row"><span class="l">Plan</span><span>${d.plan}</span></div><div class="admin-row"><span class="l">Amount</span><span>₦${Number(d.amount).toLocaleString()}</span></div>
+      <div style="display:flex;gap:8px;margin-top:10px"><button class="btn sm green" style="flex:1" onclick="approveDep('${d.id}')">Approve</button>
+      <button class="btn sm" style="flex:1" onclick="rejectDep('${d.id}')">Reject</button></div></div>`).join('');
+  }catch(e){$('admin-deposits').innerHTML='<div class="empty">'+e.message+'</div>';}
+}
+async function approveDep(id){try{await api('/api/admin/deposits/'+id+'/approve',{method:'POST',admin:true});alert('Approved');loadAdmin();renderAdminDeps();}catch(e){showToast(e.message||'Failed','error');}}
+async function rejectDep(id){try{await api('/api/admin/deposits/'+id+'/reject',{method:'POST',admin:true});alert('Rejected');loadAdmin();renderAdminDeps();}catch(e){showToast(e.message||'Failed','error');}}
+async function renderAdminWds(){
+  try{const list=await api('/api/admin/withdrawals',{admin:true}); const el=$('admin-withdrawals');
+    if(!list.length){el.innerHTML='<div class="empty">No pending</div>';return;}
+    el.innerHTML=list.map(w=>`<div class="admin-card"><div class="admin-row"><span class="l">User</span><span>${w.user_name}</span></div>
+      <div class="admin-row"><span class="l">Type</span><span>${w.type}</span></div><div class="admin-row"><span class="l">Amount</span><span>₦${Number(w.amount).toLocaleString()}</span></div>
+      <div class="admin-row"><span class="l">Bank</span><span>${w.bank} • ${w.account_number}</span></div>
+      <div style="display:flex;gap:8px;margin-top:10px"><button class="btn sm green" style="flex:1" onclick="approveWd('${w.id}')">Mark Paid</button>
+      <button class="btn sm" style="flex:1" onclick="rejectWd('${w.id}')">Reject</button></div></div>`).join('');
+  }catch(e){$('admin-withdrawals').innerHTML='<div class="empty">'+e.message+'</div>';}
+}
+async function approveWd(id){try{await api('/api/admin/withdrawals/'+id+'/approve',{method:'POST',admin:true});alert('Paid');loadAdmin();renderAdminWds();}catch(e){showToast(e.message||'Failed','error');}}
+async function rejectWd(id){try{await api('/api/admin/withdrawals/'+id+'/reject',{method:'POST',admin:true});alert('Rejected');loadAdmin();renderAdminWds();}catch(e){showToast(e.message||'Failed','error');}}
+async function renderAdminUsers(){
+  try{const list=await api('/api/admin/users',{admin:true}); const el=$('admin-users');
+    if(!list.length){el.innerHTML='<div class="empty">No users</div>';return;}
+    el.innerHTML=list.map(u=>`<div class="admin-card"><div class="admin-row"><span class="l">Name</span><span>${u.name}</span></div>
+      <div class="admin-row"><span class="l">Email</span><span>${u.email}</span></div>
+      <div class="admin-row"><span class="l">Plan</span><span>${u.plan}</span></div>
+      <div class="admin-row"><span class="l">Balance</span><span>₦${Number(u.balance||0).toLocaleString()}</span></div></div>`).join('');
+  }catch(e){$('admin-users').innerHTML='<div class="empty">'+e.message+'</div>';}
+}
+
+function showToast(msg, type){
+  const el=$('toast'); if(!el){ alert(msg); return; }
+  el.textContent=msg;
+  el.className='show'+(type?' '+type:'');
+  clearTimeout(window._toastTimer);
+  window._toastTimer=setTimeout(function(){ el.className=''; }, 2200);
+}
+function copyText(t){navigator.clipboard.writeText(t).then(function(){showToast('Copied','success');}).catch(function(){prompt('Copy:',t);});}
+// session restored in splash boot
+
+async function doForgot(){
+  const email=$('forgotEmail').value.trim();
+  $('forgotError').style.display='none'; $('forgotOk').style.display='none';
+  if(!email) return alert('Enter your email');
+  $('forgotBtn').disabled=true;
+  try{
+    const data=await api('/api/forgot-password',{method:'POST',body:JSON.stringify({email})});
+    $('forgotOk').textContent=data.message+(data.dev_hint?' '+data.dev_hint:'');
+    $('forgotOk').style.display='block';
+    setTimeout(function(){ go('reset'); $('resetEmail').value=email; }, 1200);
+  }catch(e){$('forgotError').textContent=e.message;$('forgotError').style.display='block';}
+  $('forgotBtn').disabled=false;
+}
+async function doReset(){
+  const email=$('resetEmail').value.trim(), code=$('resetCode').value.trim(), password=$('resetPass').value;
+  $('resetError').style.display='none';
+  if(!email||!code||!password) return alert('Fill all fields');
+  $('resetBtn').disabled=true;
+  try{
+    const data=await api('/api/reset-password',{method:'POST',body:JSON.stringify({email,code,password})});
+    alert(data.message||'Password updated');
+    go('login');
+  }catch(e){$('resetError').textContent=e.message;$('resetError').style.display='block';}
+  $('resetBtn').disabled=false;
+}
+
+
+
+let currentSubId=null;
+async function loadSponsorQueue(){
+  var el=$('ptVerifyList'); if(!el) return;
+  try{
+    var rows=await api('/api/sponsor/queue');
+    if(!rows.length){ el.innerHTML='<div class="empty">No pending screenshots</div>'; return; }
+    el.innerHTML=rows.map(function(r){
+      return '<div class="item" style="cursor:pointer" data-sid="'+r.id+'"><div class="item-left"><h4>'+(r.task_title||'Task')+'</h4><p>By '+(r.worker_name||'User')+' · ₦'+Number(r.reward||0).toLocaleString()+'</p></div><div class="item-right"><span style="background:#fef3c7;color:#92400e;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700">Review</span></div></div>';
+    }).join('');
+    window._sponsorQueue=rows;
+    el.querySelectorAll('[data-sid]').forEach(function(node){
+      node.onclick=function(){ openVerify(node.getAttribute('data-sid')); };
+    });
+  }catch(e){ el.innerHTML='<div class="empty">Could not load queue</div>'; }
+}
+function openVerify(id){
+  var rows=window._sponsorQueue||[];
+  var r=rows.find(function(x){return x.id===id;});
+  if(!r) return;
+  currentSubId=id;
+  $('vfTitle').textContent=r.task_title||'Task';
+  $('vfMeta').textContent=(r.worker_name||'User')+' · reward ₦'+Number(r.reward||0).toLocaleString();
+  $('vfShot').src=r.screenshot||'';
+  $('vfNote').textContent=r.note||'';
+  go('verify');
+}
+async function reviewSub(action){
+  if(!currentSubId) return;
+  try{
+    var data=await api('/api/sponsor/review/'+currentSubId,{method:'POST',body:JSON.stringify({action:action})});
+    showToast(action==='approve'?'Approved — user paid':'Rejected','success');
+    currentSubId=null;
+    go('posttask');
+    loadSponsorQueue();
+    loadMySponsored();
+  }catch(e){ showToast(e.message||'Failed','error'); }
+}
+
+function calcPostTotal(){
+  var n=Math.max(1, Number($('ptCompletions')&&$('ptCompletions').value||0));
+  var total=n*300;
+  if($('ptTotal')) $('ptTotal').textContent='₦'+total.toLocaleString();
+  var method=(document.querySelector('input[name="ptPay"]:checked')||{}).value||'balance';
+  if($('ptPayHint')){
+    $('ptPayHint').textContent=method==='balance'
+      ? 'Will deduct ₦'+total.toLocaleString()+' from your wallet if balance is enough.'
+      : 'Transfer ₦'+total.toLocaleString()+' to UBA 0232034481 (Florence), then admin activates the task.';
+  }
+}
+async function submitPostTask(){
+  var title=$('ptTitle').value.trim();
+  var completions=Number($('ptCompletions').value);
+  var method=(document.querySelector('input[name="ptPay"]:checked')||{}).value||'balance';
+  if(!title) return showToast('Enter a title','error');
+  if(!completions||completions<1) return showToast('Enter completions needed','error');
+  $('ptSubmit').disabled=true; $('ptSubmit').textContent='Submitting...';
+  try{
+    var data=await api('/api/tasks/sponsor',{method:'POST',body:JSON.stringify({
+      title:title,
+      description:$('ptDesc').value.trim(),
+      link:$('ptLink').value.trim(),
+      icon:$('ptIcon').value,
+      completions_wanted:completions,
+      views_wanted:Number($('ptViews').value)||0,
+      pay_method:method,
+      example_screenshot: window._ptExample || ''
+    })});
+    showToast(data.message||'Submitted','success');
+    $('ptStatus').style.display='block';
+    $('ptStatus').style.color='#16a34a';
+    $('ptStatus').textContent=data.message||'OK';
+    if(currentUser&&data.status==='active'){ try{ currentUser=await api('/api/me'); }catch(e){} }
+    loadMySponsored();
+  }catch(e){
+    showToast(e.message||'Failed','error');
+    $('ptStatus').style.display='block';
+    $('ptStatus').style.color='#be123c';
+    $('ptStatus').textContent=e.message||'Failed';
+  }
+  $('ptSubmit').disabled=false; $('ptSubmit').textContent='Pay & publish task';
+}
+async function loadMySponsored(){
+  var el=$('ptMyList'); if(!el) return;
+  try{
+    var rows=await api('/api/tasks/my-sponsored');
+    if(!rows.length){ el.innerHTML='<div class="empty">No posted tasks yet</div>'; return; }
+    el.innerHTML=rows.map(function(t){
+      return '<div class="item"><div class="item-left"><h4>'+(t.icon||'')+' '+(t.title||'')+'</h4><p>'+(t.completions_done||0)+'/'+(t.completions_wanted||0)+' done · ₦'+Number(t.total_paid||0).toLocaleString()+' · '+t.status+'</p></div></div>';
+    }).join('');
+  }catch(e){ el.innerHTML='<div class="empty">Could not load</div>'; }
+}
+
+async function setRefBalance(userId, amount){
+  try{
+    await api('/api/admin/users/'+userId+'/ref-balance',{method:'POST',body:JSON.stringify({amount:Number(amount)})});
+    showToast('Referral balance updated','success');
+    if(typeof loadAdmin==='function') loadAdmin();
+  }catch(e){ showToast(e.message||'Failed','error'); }
+}
+
+const WATCH_AD_URL='https://omg10.com/4/11690711';
+let watchPhase='ready', watchTimer=null, watchLeft=12;
+function openWatchAd(){
+  try{
+    window.open(WATCH_AD_URL,'_blank','noopener,noreferrer');
+  }catch(e){}
+  // soft register SW only when user chooses to watch (not on every page load)
+  try{
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(function(){});
+    }
+  }catch(e){}
+}
+function watchAction(){
+  if(!token) return go('login');
+  if(watchPhase==='ready'){
+    watchPhase='running'; watchLeft=12;
+    $('watchBtn').disabled=true; $('watchBtn').textContent='Watching…';
+    $('watchStatus').style.display='block'; $('watchStatus').style.color='#d97706';
+    $('watchStatus').textContent='Ad opened in a new tab. Return here and wait for the timer.';
+    openWatchAd();
+    if(watchTimer) clearInterval(watchTimer);
+    watchTimer=setInterval(function(){
+      watchLeft--; if(watchLeft<0) watchLeft=0;
+      if($('watchTimer')) $('watchTimer').textContent='00:'+String(watchLeft).padStart(2,'0');
+      if(watchLeft<=0){
+        clearInterval(watchTimer); watchTimer=null; watchPhase='claim';
+        $('watchBtn').disabled=false; $('watchBtn').textContent='Claim reward';
+        $('watchBtn').className='btn green';
+        $('watchStatus').style.color='#16a34a';
+        $('watchStatus').textContent='Timer done. Tap Claim reward to add money to your wallet.';
+      }
+    },1000);
+  } else if(watchPhase==='claim'){
+    if($('watchBtn').dataset.busy==='1') return;
+    $('watchBtn').dataset.busy='1';
+    $('watchBtn').disabled=true; $('watchBtn').textContent='Claiming…';
+    api('/api/ads/watch',{method:'POST',body:JSON.stringify({})}).then(function(data){
+      var rw=Number(data.reward||0);
+      showToast('₦'+rw.toLocaleString()+' added to wallet','success');
+      if(currentUser) currentUser.balance=Number(data.balance!=null?data.balance:currentUser.balance);
+      if($('dashBalance')&&data.balance!=null) $('dashBalance').textContent='₦'+Number(data.balance).toLocaleString()+'.00';
+      if($('balMain')&&data.balance!=null) $('balMain').textContent='₦'+Number(data.balance).toLocaleString();
+      $('watchStatus').textContent='Success! ₦'+rw.toLocaleString()+' added. '+(data.left!=null?('Left today: '+data.left):'');
+      $('watchBtn').textContent='Watch again';
+      $('watchBtn').className='btn';
+      $('watchBtn').dataset.busy='';
+      $('watchBtn').disabled=false;
+      watchPhase='ready';
+      watchLeft=12;
+      if($('watchTimer')) $('watchTimer').textContent='00:12';
+      if(currentUser){
+        try{ currentUser=data; }catch(e){}
+      }
+      // refresh user balance properly
+      api('/api/me').then(function(u){ currentUser=u; }).catch(function(){});
+    }).catch(function(e){
+      showToast(e.message||'Could not claim','error');
+      $('watchBtn').dataset.busy='';
+      $('watchBtn').disabled=false;
+      $('watchBtn').textContent='Claim reward';
+      $('watchStatus').style.color='#be123c';
+      $('watchStatus').textContent=e.message||'Failed';
+    });
+  }
+}
+function resetWatchPage(){
+  watchPhase='ready'; if(watchTimer){clearInterval(watchTimer);watchTimer=null;}
+  watchLeft=12;
+  if($('watchTimer')) $('watchTimer').textContent='00:12';
+  if($('watchBtn')){ $('watchBtn').disabled=false; $('watchBtn').textContent='Start watching'; $('watchBtn').className='btn'; $('watchBtn').dataset.busy=''; }
+  if($('watchStatus')) $('watchStatus').style.display='none';
+  var p=(currentUser&&currentUser.plan)||'free';
+  var maxMap={free:8,beginner:10,pro:13,master:15};
+  var payMap={free:5,beginner:10,pro:15,master:20};
+  if($('watchLimitInfo')) $('watchLimitInfo').textContent='₦'+(payMap[p]||5)+' each · up to '+(maxMap[p]||3)+' times today';
+}
+
+function checkSecretAdmin(){if(location.hash==='#lt-admin-x9k2') go('admin');}
+window.addEventListener('hashchange',checkSecretAdmin); checkSecretAdmin();
+
+// Splash + session restore (stay logged in)
+(function(){
+  const splash = document.getElementById('splash');
+  const status = document.getElementById('splashStatus');
+  if (!splash) return;
+  let tries = 0;
+
+  async function restoreSession() {
+    const saved = localStorage.getItem('lt_token');
+    if (!saved) return false;
+    token = saved;
+    try {
+      currentUser = await api('/api/me');
+      return true;
     } catch (e) {
-      token = ''; localStorage.removeItem('sp_token');
+      token = '';
+      localStorage.removeItem('lt_token');
+      currentUser = null;
+      return false;
     }
   }
-  checkAdminHash();
+
+  async function wake() {
+    tries++;
+    try {
+      const r = await fetch(API + '/api/health', { cache: 'no-store' });
+      if (r.ok) {
+        if (status) status.textContent = 'Loading your account…';
+        const loggedIn = await restoreSession();
+        if (status) status.textContent = 'Ready';
+        setTimeout(function(){
+          splash.classList.add('hide');
+          if (loggedIn) go('dashboard');
+          else if (location.hash === '#lt-admin-x9k2') go('admin');
+        }, 350);
+        return;
+      }
+    } catch (e) {}
+    if (status) {
+      if (tries < 3) status.textContent = 'Waking up server…';
+      else if (tries < 8) status.textContent = 'Almost there…';
+      else status.textContent = 'Still starting, please wait…';
+    }
+    setTimeout(wake, tries < 5 ? 1500 : 2500);
+  }
+  setTimeout(async function(){
+    // timeout fallback
+    if (!splash.classList.contains('hide')) {
+      const loggedIn = await restoreSession();
+      splash.classList.add('hide');
+      if (loggedIn) go('dashboard');
+    }
+  }, 45000);
+  wake();
 })();
+
 </script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function () {});
+  });
+}
+</script>
+
 </body>
 </html>
